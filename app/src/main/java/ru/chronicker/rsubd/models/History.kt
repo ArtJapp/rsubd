@@ -1,9 +1,12 @@
 package ru.chronicker.rsubd.models
 
-import ru.chronicker.rsubd.database.base.*
+import ru.chronicker.rsubd.database.base.Entity
+import ru.chronicker.rsubd.database.base.FieldType
+import ru.chronicker.rsubd.database.base.ForeignKeyField
+import ru.chronicker.rsubd.database.base.IntField
 
-class Diagnosis : Entity(
-    name = "Diagnosis",
+class History : Entity(
+    name = "History",
     fields = mutableListOf(
         IntField(
             name = "ID",
@@ -11,25 +14,22 @@ class Diagnosis : Entity(
             autoIncrement = true
         ),
         ForeignKeyField(
-            name = "DISEASE_ID",
+            name = "DOCTOR_ID",
             type = FieldType.INTEGER,
-            foreignTable = "Disease",
+            foreignTable = "Doctor",
             foreignKey = "id"
         ),
         ForeignKeyField(
-            name = "STATE_ID",
+            name = "PATIENT_ID",
             type = FieldType.INTEGER,
-            foreignTable = "State",
+            foreignTable = "Patient",
             foreignKey = "id"
         ),
         ForeignKeyField(
-            name = "TREATMENT",
+            name = "DIAGNOSIS_ID",
             type = FieldType.INTEGER,
-            foreignTable = "Treatment",
+            foreignTable = "Diagnosis",
             foreignKey = "id"
-        ),
-        IntField(
-            name = "IS_DISPANSERIZED"
         )
     )
 )

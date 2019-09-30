@@ -2,34 +2,28 @@ package ru.chronicker.rsubd.models
 
 import ru.chronicker.rsubd.database.base.*
 
-class Diagnosis : Entity(
-    name = "Diagnosis",
+class Patient : Entity(
+    name = "Patient",
     fields = mutableListOf(
         IntField(
             name = "ID",
             primaryKey = true,
             autoIncrement = true
         ),
-        ForeignKeyField(
-            name = "DISEASE_ID",
-            type = FieldType.INTEGER,
-            foreignTable = "Disease",
-            foreignKey = "id"
-        ),
-        ForeignKeyField(
-            name = "STATE_ID",
-            type = FieldType.INTEGER,
-            foreignTable = "State",
-            foreignKey = "id"
-        ),
-        ForeignKeyField(
-            name = "TREATMENT",
-            type = FieldType.INTEGER,
-            foreignTable = "Treatment",
-            foreignKey = "id"
-        ),
         IntField(
-            name = "IS_DISPANSERIZED"
+            name = "BIRTH_DATE"
+        ),
+        ForeignKeyField(
+            name = "PERSON_ID",
+            type = FieldType.INTEGER,
+            foreignTable = "Person",
+            foreignKey = "id"
+        ),
+        ForeignKeyField(
+            name = "STATUS_ID",
+            type = FieldType.INTEGER,
+            foreignTable = "SocialStatus",
+            foreignKey = "id"
         )
     )
 )
