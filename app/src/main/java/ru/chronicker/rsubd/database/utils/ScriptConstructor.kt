@@ -1,23 +1,58 @@
 package ru.chronicker.rsubd.database.utils
 
+import ru.chronicker.rsubd.EMPTY_STRING
 import ru.chronicker.rsubd.Scripts.CREATE
 import ru.chronicker.rsubd.Scripts.DROP
 import ru.chronicker.rsubd.database.base.Entity
+import ru.chronicker.rsubd.database.base.Field
+import ru.chronicker.rsubd.database.base.ForeignKeyField
+import ru.chronicker.rsubd.database.base.addIf
 
 class ScriptConstructor {
 
     companion object {
 
         fun formCreate(entity: Entity): String {
-            entity.fields.joinToString(separator = ", ") {
-                it.formForCreate()
-            }.also {
-                return CREATE.format(entity.name, it)
+            with(entity.fields) {
+                return sortFields(this)
+                    .joinToString(separator = ", ") {
+                        it.formForCreate()
+                    }
+                    .let {
+                        CREATE.format(
+                            entity.name,
+                            it + constructForeignInstructions(this)
+                        )
+                    }
             }
         }
 
         fun formDrop(entityName: String): String {
             return DROP.format(entityName)
+        }
+
+        private fun sortFields(fields: List<Field>): List<Field> {
+            return fields.sortedWith(Comparator<Field> { firstField, secondField ->
+                if (firstField is ForeignKeyField) {
+                    return@Comparator 1
+                }
+                if (secondField is ForeignKeyField) {
+                    return@Comparator -1
+                }
+                return@Comparator 0
+            })
+        }
+
+        private fun constructForeignInstructions(fields: List<Field>): String {
+            return fields.filterIsInstance<ForeignKeyField>()
+                .joinToString(separator = ", ") {
+                    it.getForeignKeyInstruction()
+                }.let {  instructions ->
+                    // дополняем запятой в начале строки, если она непуста
+                    ", ".takeIf { instructions.isNotBlank() }
+                        ?.plus(instructions)
+                        ?: EMPTY_STRING
+                }
         }
     }
 }

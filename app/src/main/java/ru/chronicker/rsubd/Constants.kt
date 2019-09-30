@@ -14,6 +14,7 @@ const val SPACE = " "
 object Scripts {
     const val PRIMARY_KEY = "PRIMARY KEY"
     const val AUTOINCREMENT = "AUTOINCREMENT"
-    const val CREATE = "CREATE TABLE %s(%s)"
-    const val DROP = "DROP TABLE IF EXISTS %s"
+    const val CREATE = "CREATE TABLE %s(%s);"
+    const val DROP = "DROP TABLE IF EXISTS %s;"
+    const val FOREIGN_KEY_INSTRUCTION = "FOREIGN KEY(%s) REFERENCES %s(%s)"
 }
