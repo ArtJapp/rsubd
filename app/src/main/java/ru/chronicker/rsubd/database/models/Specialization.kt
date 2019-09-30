@@ -1,12 +1,15 @@
-package ru.chronicker.rsubd.models
+package ru.chronicker.rsubd.database.models
 
 import ru.chronicker.rsubd.database.base.Entity
 import ru.chronicker.rsubd.database.base.Field
 import ru.chronicker.rsubd.database.base.FieldType
 import ru.chronicker.rsubd.database.base.IntField
 
-class State : Entity(
-    name = "State",
+/**
+ * Маппинг-модель специализации врача
+ */
+class Specialization : Entity(
+    name = "Specialization",
     fields = mutableListOf(
         IntField(
             name = "ID",

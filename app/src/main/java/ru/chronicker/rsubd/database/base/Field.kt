@@ -6,6 +6,9 @@ import ru.chronicker.rsubd.Scripts.AUTOINCREMENT
 import ru.chronicker.rsubd.Scripts.FOREIGN_KEY_INSTRUCTION
 import ru.chronicker.rsubd.Scripts.PRIMARY_KEY
 
+/**
+ * Перечисление доступных типов данных
+ */
 enum class FieldType(val title: String) {
     NULL("NULL"),
     INTEGER("INTEGER"),
@@ -14,25 +17,38 @@ enum class FieldType(val title: String) {
     BLOB("BLOB")
 }
 
+/**
+ * Общая модель поля, включает в себя название, тип
+ * и флаг, является ли главным ключом
+ */
 open class Field(
     val name: String,
     val type: FieldType,
     val primaryKey: Boolean = false
 ) {
+
+    /**
+     * Преобразование содержимого поля в строку для запроса
+     * на создание сущности
+     */
     open fun formForCreate(): String {
         return "$name ${type.title}"
             .addWithSpaceIf(primaryKey, PRIMARY_KEY)
     }
 }
 
+/**
+ * Модель поля с целочисленным значением.
+ * Может использоваться для хранения ID, дат и булеанов.
+ */
 class IntField(
     name: String,
     primaryKey: Boolean = false,
     val autoIncrement: Boolean = false
 ) : Field(
-    name,
-    FieldType.INTEGER,
-    primaryKey
+    name = name,
+    type = FieldType.INTEGER,
+    primaryKey = primaryKey
 ) {
 
     override fun formForCreate(): String {
@@ -41,6 +57,10 @@ class IntField(
     }
 }
 
+/**
+ * Модель поля с внешним ключом.
+ * Включает в себя название таблицы и поля, на которые нужно сослаться
+ */
 class ForeignKeyField(
     name: String,
     type: FieldType,
@@ -48,6 +68,10 @@ class ForeignKeyField(
     val foreignKey: String
 ): Field(name, type) {
 
+    /**
+     * Преобразование содержимого поля в инструкцию
+     * для создания внешнего ключа
+     */
     fun getForeignKeyInstruction(): String {
         return FOREIGN_KEY_INSTRUCTION.format(name, foreignTable, foreignKey)
     }

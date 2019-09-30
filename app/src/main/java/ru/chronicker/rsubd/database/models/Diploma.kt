@@ -1,4 +1,4 @@
-package ru.chronicker.rsubd.models
+package ru.chronicker.rsubd.database.models
 
 import ru.chronicker.rsubd.database.base.Entity
 import ru.chronicker.rsubd.database.base.FieldType

@@ -1,12 +1,15 @@
-package ru.chronicker.rsubd.models
+package ru.chronicker.rsubd.database.models
 
 import ru.chronicker.rsubd.database.base.Entity
 import ru.chronicker.rsubd.database.base.Field
 import ru.chronicker.rsubd.database.base.FieldType
 import ru.chronicker.rsubd.database.base.IntField
 
-class Specialization : Entity(
-    name = "Specialization",
+/**
+ * Общая маппинг-модель человека
+ */
+class Person : Entity(
+    name = "Person",
     fields = mutableListOf(
         IntField(
             name = "ID",
@@ -14,7 +17,15 @@ class Specialization : Entity(
             autoIncrement = true
         ),
         Field(
-            name = "NAME",
+            name = "FIRST_NAME",
+            type = FieldType.TEXT
+        ),
+        Field(
+            name = "SECOND_NAME",
+            type = FieldType.TEXT
+        ),
+        Field(
+            name = "LAST_NAME",
             type = FieldType.TEXT
         )
     )

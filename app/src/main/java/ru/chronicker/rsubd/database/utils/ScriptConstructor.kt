@@ -6,12 +6,17 @@ import ru.chronicker.rsubd.Scripts.DROP
 import ru.chronicker.rsubd.database.base.Entity
 import ru.chronicker.rsubd.database.base.Field
 import ru.chronicker.rsubd.database.base.ForeignKeyField
-import ru.chronicker.rsubd.database.base.addIf
 
+/**
+ * Конструктор скриптов
+ */
 class ScriptConstructor {
 
     companion object {
 
+        /**
+         * Генерация скрипта на создание сущности
+         */
         fun formCreate(entity: Entity): String {
             with(entity.fields) {
                 return sortFields(this)
@@ -27,6 +32,9 @@ class ScriptConstructor {
             }
         }
 
+        /**
+         * Генерация скрипта на удаление сущности
+         */
         fun formDrop(entityName: String): String {
             return DROP.format(entityName)
         }

@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper
 import ru.chronicker.rsubd.DBConstants.DB_NAME
 import ru.chronicker.rsubd.DBConstants.DB_VERSION
 import ru.chronicker.rsubd.database.utils.ScriptConstructor
-import ru.chronicker.rsubd.models.Disease
+import ru.chronicker.rsubd.database.models.Disease
 
 class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
 

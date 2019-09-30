@@ -6,6 +6,9 @@ import ru.chronicker.rsubd.EMPTY_INT
 import ru.chronicker.rsubd.EMPTY_REAL
 import ru.chronicker.rsubd.EMPTY_STRING
 
+/**
+ * Общая модель сущности в базе данных
+ */
 abstract class Entity(
     val name: String,
     val fields: MutableList<Field>

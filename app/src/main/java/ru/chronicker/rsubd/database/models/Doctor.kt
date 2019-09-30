@@ -1,12 +1,15 @@
-package ru.chronicker.rsubd.models
+package ru.chronicker.rsubd.database.models
 
 import ru.chronicker.rsubd.database.base.Entity
 import ru.chronicker.rsubd.database.base.FieldType
 import ru.chronicker.rsubd.database.base.ForeignKeyField
 import ru.chronicker.rsubd.database.base.IntField
 
-class History : Entity(
-    name = "History",
+/**
+ * Маппинг-модель врача
+ */
+class Doctor : Entity(
+    name = "Doctor",
     fields = mutableListOf(
         IntField(
             name = "ID",
@@ -14,21 +17,15 @@ class History : Entity(
             autoIncrement = true
         ),
         ForeignKeyField(
-            name = "DOCTOR_ID",
+            name = "PERSON_ID",
             type = FieldType.INTEGER,
-            foreignTable = "Doctor",
+            foreignTable = "Person",
             foreignKey = "id"
         ),
         ForeignKeyField(
-            name = "PATIENT_ID",
+            name = "QUALIFICATION_ID",
             type = FieldType.INTEGER,
-            foreignTable = "Patient",
-            foreignKey = "id"
-        ),
-        ForeignKeyField(
-            name = "DIAGNOSIS_ID",
-            type = FieldType.INTEGER,
-            foreignTable = "Diagnosis",
+            foreignTable = "Qualification",
             foreignKey = "id"
         )
     )

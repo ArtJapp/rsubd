@@ -1,8 +1,12 @@
 package ru.chronicker.rsubd.test
 
 import ru.chronicker.rsubd.database.utils.ScriptConstructor
-import ru.chronicker.rsubd.models.*
+import ru.chronicker.rsubd.database.models.*
 
+/**
+ * Генерация скрипта для создания всех таблиц базы данных
+ * Необходимо соблюдать именно такой порядок
+ */
 fun createConstructionTest() {
     println(ScriptConstructor.formCreate(Disease()))
     println(ScriptConstructor.formCreate(State()))
