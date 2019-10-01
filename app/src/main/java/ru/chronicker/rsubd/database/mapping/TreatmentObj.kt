@@ -1,4 +1,4 @@
-package ru.chronicker.rsubd.database.models
+package ru.chronicker.rsubd.database.mapping
 
 import ru.chronicker.rsubd.database.base.Entity
 import ru.chronicker.rsubd.database.base.Field
@@ -9,7 +9,7 @@ import ru.chronicker.rsubd.database.base.IntField
  * Маппинг-модель лечения пациента, включает в себя название лечения
  * даты начала и окончания и необходимость госпитализации
  */
-class Treatment : Entity(
+class TreatmentObj : Entity(
     name = "Treatment",
     fields = mutableListOf(
         IntField(

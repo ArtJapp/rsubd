@@ -1,11 +1,11 @@
-package ru.chronicker.rsubd.database.models
+package ru.chronicker.rsubd.database.mapping
 
 import ru.chronicker.rsubd.database.base.*
 
 /**
  * Маппинг-модель пациента
  */
-class Patient : Entity(
+class PatientObj : Entity(
     name = "Patient",
     fields = mutableListOf(
         IntField(

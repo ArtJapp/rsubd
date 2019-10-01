@@ -1,4 +1,4 @@
-package ru.chronicker.rsubd.database.models
+package ru.chronicker.rsubd.database.mapping
 
 import ru.chronicker.rsubd.database.base.Entity
 import ru.chronicker.rsubd.database.base.Field
@@ -6,10 +6,10 @@ import ru.chronicker.rsubd.database.base.FieldType
 import ru.chronicker.rsubd.database.base.IntField
 
 /**
- * Маппинг-модель социального статуса пациента
+ * Маппинг-модель состояния пациента
  */
-class SocialStatus : Entity(
-    name = "SocialStatus",
+class StateObj : Entity(
+    name = "State",
     fields = mutableListOf(
         IntField(
             name = "ID",

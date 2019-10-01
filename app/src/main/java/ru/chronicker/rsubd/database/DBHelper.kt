@@ -6,12 +6,12 @@ import android.database.sqlite.SQLiteOpenHelper
 import ru.chronicker.rsubd.DBConstants.DB_NAME
 import ru.chronicker.rsubd.DBConstants.DB_VERSION
 import ru.chronicker.rsubd.database.utils.ScriptConstructor
-import ru.chronicker.rsubd.database.models.Disease
+import ru.chronicker.rsubd.database.mapping.DiseaseObj
 
 class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
 
     private val entities = listOf(
-        Disease()
+        DiseaseObj()
     )
 
     override fun onCreate(db: SQLiteDatabase?) {

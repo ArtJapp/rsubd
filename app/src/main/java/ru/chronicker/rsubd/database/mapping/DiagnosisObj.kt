@@ -1,8 +1,8 @@
-package ru.chronicker.rsubd.database.models
+package ru.chronicker.rsubd.database.mapping
 
 import ru.chronicker.rsubd.database.base.*
 
-class Diagnosis : Entity(
+class DiagnosisObj : Entity(
     name = "Diagnosis",
     fields = mutableListOf(
         IntField(
