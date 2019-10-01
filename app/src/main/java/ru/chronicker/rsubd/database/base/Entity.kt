@@ -5,6 +5,7 @@ import ru.chronicker.rsubd.EMPTY_BLOB
 import ru.chronicker.rsubd.EMPTY_INT
 import ru.chronicker.rsubd.EMPTY_REAL
 import ru.chronicker.rsubd.EMPTY_STRING
+import ru.chronicker.rsubd.domain.Model
 
 /**
  * Общая модель сущности в базе данных
@@ -26,6 +27,11 @@ abstract class Entity(
             }
         }
     }
+
+    /**
+     * Генерирует модель, заполненную данными маппинг-модели
+     */
+    abstract fun convertToModel(): Model
 
     private fun putEmptyInt(fieldName: String) {
         values[fieldName] = EMPTY_INT

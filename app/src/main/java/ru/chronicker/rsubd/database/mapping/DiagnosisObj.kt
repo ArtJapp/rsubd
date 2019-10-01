@@ -1,6 +1,7 @@
 package ru.chronicker.rsubd.database.mapping
 
 import ru.chronicker.rsubd.database.base.*
+import ru.chronicker.rsubd.domain.Model
 
 class DiagnosisObj : Entity(
     name = "Diagnosis",
@@ -32,4 +33,8 @@ class DiagnosisObj : Entity(
             name = "IS_DISPANSERIZED"
         )
     )
-)
+) {
+    override fun convertToModel(): Model {
+
+    }
+}
