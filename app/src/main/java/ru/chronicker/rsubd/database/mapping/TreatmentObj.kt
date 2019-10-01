@@ -4,6 +4,9 @@ import ru.chronicker.rsubd.database.base.Entity
 import ru.chronicker.rsubd.database.base.Field
 import ru.chronicker.rsubd.database.base.FieldType
 import ru.chronicker.rsubd.database.base.IntField
+import ru.chronicker.rsubd.domain.Model
+import ru.chronicker.rsubd.domain.Treatment
+import java.util.*
 
 /**
  * Маппинг-модель лечения пациента, включает в себя название лечения
@@ -31,4 +34,17 @@ class TreatmentObj : Entity(
             name = "AMBULANCE_REQUIRED"
         )
     )
-)
+) {
+//    override fun convertToModel(): Treatment =
+//        Treatment(
+//            id = values["ID"] as Int,
+//            name = values["NAME"] as String,
+//            treatmentStart = Date().apply {
+//                this.time = values["TREATMENT_START"] as Long
+//            },
+//            treatmentEnd = Date().apply {
+//                this.time = values["TREATMENT_END"] as Long
+//            },
+//            ambulanceRequired = (values["AMBULANCE_REQUIRED"] as Int) != 0
+//        )
+}

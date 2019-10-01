@@ -27,9 +27,9 @@ class DiseaseObj : Entity(
     )
 ) {
 
-    override fun convertToModel(): Disease =
+    /*override fun convertToModel(): Disease =
         Disease(
             id = values[ID] as Int,
             name = values[NAME] as String
-        )
+        )*/
 }

@@ -4,6 +4,7 @@ import ru.chronicker.rsubd.database.base.Entity
 import ru.chronicker.rsubd.database.base.Field
 import ru.chronicker.rsubd.database.base.FieldType
 import ru.chronicker.rsubd.database.base.IntField
+import ru.chronicker.rsubd.domain.Specialization
 
 /**
  * Маппинг-модель специализации врача
@@ -21,4 +22,11 @@ class SpecializationObj : Entity(
             type = FieldType.TEXT
         )
     )
-)
+) {
+
+//    override fun convertToModel(): Specialization =
+//        Specialization(
+//            id = values["ID"] as Int,
+//            name = values["NAME"] as String
+//        )
+}

@@ -1,6 +1,5 @@
 package ru.chronicker.rsubd.database.base
 
-import android.util.Log
 import ru.chronicker.rsubd.EMPTY_BLOB
 import ru.chronicker.rsubd.EMPTY_INT
 import ru.chronicker.rsubd.EMPTY_REAL
@@ -23,15 +22,10 @@ abstract class Entity(
                 FieldType.TEXT -> putEmptyString(field.name)
                 FieldType.REAL -> putEmptyReal(field.name)
                 FieldType.BLOB -> putEmptyBlob(field.name)
-                else -> Log.d(name, "null field?")
+                else -> print("$name contains null field?")
             }
         }
     }
-
-    /**
-     * Генерирует модель, заполненную данными маппинг-модели
-     */
-    abstract fun convertToModel(): Model
 
     private fun putEmptyInt(fieldName: String) {
         values[fieldName] = EMPTY_INT

@@ -1,6 +1,7 @@
 package ru.chronicker.rsubd.database.mapping
 
 import ru.chronicker.rsubd.database.base.*
+import ru.chronicker.rsubd.domain.Diagnosis
 import ru.chronicker.rsubd.domain.Model
 
 class DiagnosisObj : Entity(
@@ -34,7 +35,9 @@ class DiagnosisObj : Entity(
         )
     )
 ) {
-    override fun convertToModel(): Model {
-
-    }
+//    override fun convertToModel(): Diagnosis =
+//        Diagnosis(
+//            id = values["ID"] as Int,
+//            treatment = values["NAME"] as String
+//        )
 }
