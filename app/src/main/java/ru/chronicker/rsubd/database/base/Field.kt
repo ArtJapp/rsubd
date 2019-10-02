@@ -24,7 +24,8 @@ enum class FieldType(val title: String) {
 open class Field(
     val name: String,
     val type: FieldType,
-    val primaryKey: Boolean = false
+    val primaryKey: Boolean = false,
+    val title: String = EMPTY_STRING
 ) {
 
     /**
@@ -44,11 +45,13 @@ open class Field(
 class IntField(
     name: String,
     primaryKey: Boolean = false,
+    title: String = EMPTY_STRING,
     val autoIncrement: Boolean = false
 ) : Field(
     name = name,
     type = FieldType.INTEGER,
-    primaryKey = primaryKey
+    primaryKey = primaryKey,
+    title = title
 ) {
 
     override fun formForCreate(): String {
@@ -64,9 +67,14 @@ class IntField(
 class ForeignKeyField(
     name: String,
     type: FieldType,
+    title: String = EMPTY_STRING,
     val foreignTable: String,
     val foreignKey: String
-): Field(name, type) {
+): Field(
+    name = name,
+    type = type,
+    title = title
+) {
 
     /**
      * Преобразование содержимого поля в инструкцию
