@@ -18,15 +18,11 @@
     </style>
 
     <style name="Text.Light.11.PrimaryColor">
-        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <style name="Text.Light.11.SecondaryColor">
-        <item name="android:textColor">?android:textColorSecondary</item>
-    </style>
-
-    <style name="Text.Light.11.TertiaryColor">
-        <item name="android:textColor">?android:textColorTertiary</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
     <style name="Text.Light.12">
@@ -34,15 +30,11 @@
     </style>
 
     <style name="Text.Light.12.PrimaryColor">
-        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <style name="Text.Light.12.SecondaryColor">
-        <item name="android:textColor">?android:textColorSecondary</item>
-    </style>
-
-    <style name="Text.Light.12.TertiaryColor">
-        <item name="android:textColor">?android:textColorTertiary</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
     <style name="Text.Light.14">
@@ -50,15 +42,11 @@
     </style>
 
     <style name="Text.Light.14.PrimaryColor">
-        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <style name="Text.Light.14.SecondaryColor">
-        <item name="android:textColor">?android:textColorSecondary</item>
-    </style>
-
-    <style name="Text.Light.14.TertiaryColor">
-        <item name="android:textColor">?android:textColorTertiary</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
     <style name="Text.Light.16">
@@ -66,15 +54,11 @@
     </style>
 
     <style name="Text.Light.16.PrimaryColor">
-        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <style name="Text.Light.16.SecondaryColor">
-        <item name="android:textColor">?android:textColorSecondary</item>
-    </style>
-
-    <style name="Text.Light.16.TertiaryColor">
-        <item name="android:textColor">?android:textColorTertiary</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
     <style name="Text.Light.18">
@@ -82,15 +66,11 @@
     </style>
 
     <style name="Text.Light.18.PrimaryColor">
-        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <style name="Text.Light.18.SecondaryColor">
-        <item name="android:textColor">?android:textColorSecondary</item>
-    </style>
-
-    <style name="Text.Light.18.TertiaryColor">
-        <item name="android:textColor">?android:textColorTertiary</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
     <style name="Text.Light.20">
@@ -98,15 +78,11 @@
     </style>
 
     <style name="Text.Light.20.PrimaryColor">
-        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <style name="Text.Light.20.SecondaryColor">
-        <item name="android:textColor">?android:textColorSecondary</item>
-    </style>
-
-    <style name="Text.Light.20.TertiaryColor">
-        <item name="android:textColor">?android:textColorTertiary</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
     <style name="Text.Light.24">
@@ -114,15 +90,11 @@
     </style>
 
     <style name="Text.Light.24.PrimaryColor">
-        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <style name="Text.Light.24.SecondaryColor">
-        <item name="android:textColor">?android:textColorSecondary</item>
-    </style>
-
-    <style name="Text.Light.24.TertiaryColor">
-        <item name="android:textColor">?android:textColorTertiary</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
     <style name="Text.Light.24.TextDarkHalfTransparent">
@@ -166,15 +138,11 @@
     </style>
 
     <style name="Text.Regular.11.PrimaryColor">
-        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <style name="Text.Regular.11.SecondaryColor">
-        <item name="android:textColor">?android:textColorSecondary</item>
-    </style>
-
-    <style name="Text.Regular.11.TertiaryColor">
-        <item name="android:textColor">?android:textColorTertiary</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
     <style name="Text.Regular.12">
@@ -182,15 +150,11 @@
     </style>
 
     <style name="Text.Regular.12.PrimaryColor">
-        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <style name="Text.Regular.12.SecondaryColor">
-        <item name="android:textColor">?android:textColorSecondary</item>
-    </style>
-
-    <style name="Text.Regular.12.TertiaryColor">
-        <item name="android:textColor">?android:textColorTertiary</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
     <style name="Text.Regular.12.WhiteHalfTransparent">
@@ -230,15 +194,11 @@
     </style>
 
     <style name="Text.Regular.14.PrimaryColor">
-        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <style name="Text.Regular.14.SecondaryColor">
-        <item name="android:textColor">?android:textColorSecondary</item>
-    </style>
-
-    <style name="Text.Regular.14.TertiaryColor">
-        <item name="android:textColor">?android:textColorTertiary</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
     <style name="Text.Regular.14.Primary">
@@ -270,15 +230,11 @@
     </style>
 
     <style name="Text.Regular.16.PrimaryColor">
-        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <style name="Text.Regular.16.SecondaryColor">
-        <item name="android:textColor">?android:textColorSecondary</item>
-    </style>
-
-    <style name="Text.Regular.16.TertiaryColor">
-        <item name="android:textColor">?android:textColorTertiary</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
     <style name="Text.Regular.16.White">
@@ -306,15 +262,11 @@
     </style>
 
     <style name="Text.Regular.18.PrimaryColor">
-        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <style name="Text.Regular.18.SecondaryColor">
-        <item name="android:textColor">?android:textColorSecondary</item>
-    </style>
-
-    <style name="Text.Regular.18.TertiaryColor">
-        <item name="android:textColor">?android:textColorTertiary</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
     <style name="Text.Regular.20">
@@ -334,15 +286,11 @@
     </style>
 
     <style name="Text.Regular.20.PrimaryColor">
-        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <style name="Text.Regular.20.SecondaryColor">
-        <item name="android:textColor">?android:textColorSecondary</item>
-    </style>
-
-    <style name="Text.Regular.20.TertiaryColor">
-        <item name="android:textColor">?android:textColorTertiary</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
     <style name="Text.Regular.24">
@@ -350,15 +298,11 @@
     </style>
 
     <style name="Text.Regular.24.PrimaryColor">
-        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <style name="Text.Regular.24.SecondaryColor">
-        <item name="android:textColor">?android:textColorSecondary</item>
-    </style>
-
-    <style name="Text.Regular.24.TertiaryColor">
-        <item name="android:textColor">?android:textColorTertiary</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
     <style name="Text.Regular.24.White">
@@ -378,7 +322,7 @@
     </style>
 
     <style name="Text.Regular.26.PrimaryColor">
-        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <style name="Text.Regular.34">
@@ -414,11 +358,11 @@
     </style>
 
     <style name="Text.Medium.11.PrimaryColor">
-        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <style name="Text.Medium.11.SecondaryColor">
-        <item name="android:textColor">?android:textColorSecondary</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
     <style name="Text.Medium.12">
@@ -426,11 +370,11 @@
     </style>
 
     <style name="Text.Medium.12.PrimaryColor">
-        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <style name="Text.Medium.12.SecondaryColor">
-        <item name="android:textColor">?android:textColorSecondary</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
 
@@ -439,11 +383,11 @@
     </style>
 
     <style name="Text.Medium.14.PrimaryColor">
-        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <style name="Text.Medium.14.SecondaryColor">
-        <item name="android:textColor">?android:textColorSecondary</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
     <style name="Text.Medium.16">
@@ -451,15 +395,11 @@
     </style>
 
     <style name="Text.Medium.16.PrimaryColor">
-        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <style name="Text.Medium.16.SecondaryColor">
-        <item name="android:textColor">?android:textColorSecondary</item>
-    </style>
-
-    <style name="Text.Medium.16.TertiaryColor">
-        <item name="android:textColor">?android:textColorTertiary</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
     <style name="Text.Medium.18">
@@ -467,15 +407,11 @@
     </style>
 
     <style name="Text.Medium.18.PrimaryColor">
-        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <style name="Text.Medium.18.SecondaryColor">
-        <item name="android:textColor">?android:textColorSecondary</item>
-    </style>
-
-    <style name="Text.Medium.18.TertiaryColor">
-        <item name="android:textColor">?android:textColorTertiary</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
     <style name="Text.Medium.20">
@@ -483,15 +419,11 @@
     </style>
 
     <style name="Text.Medium.20.PrimaryColor">
-        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <style name="Text.Medium.20.SecondaryColor">
-        <item name="android:textColor">?android:textColorSecondary</item>
-    </style>
-
-    <style name="Text.Medium.20.TertiaryColor">
-        <item name="android:textColor">?android:textColorTertiary</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
     <style name="Text.Medium.24">
@@ -499,15 +431,11 @@
     </style>
 
     <style name="Text.Medium.24.PrimaryColor">
-        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <style name="Text.Medium.24.SecondaryColor">
-        <item name="android:textColor">?android:textColorSecondary</item>
-    </style>
-
-    <style name="Text.Medium.24.TertiaryColor">
-        <item name="android:textColor">?android:textColorTertiary</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
     <style name="Text.Bold">
@@ -519,15 +447,11 @@
     </style>
 
     <style name="Text.Bold.11.PrimaryColor">
-        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <style name="Text.Bold.11.SecondaryColor">
-        <item name="android:textColor">?android:textColorSecondary</item>
-    </style>
-
-    <style name="Text.Bold.11.TertiaryColor">
-        <item name="android:textColor">?android:textColorTertiary</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
     <style name="Text.Bold.12">
@@ -535,15 +459,11 @@
     </style>
 
     <style name="Text.Bold.12.PrimaryColor">
-        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <style name="Text.Bold.12.SecondaryColor">
-        <item name="android:textColor">?android:textColorSecondary</item>
-    </style>
-
-    <style name="Text.Bold.12.TertiaryColor">
-        <item name="android:textColor">?android:textColorTertiary</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
     <style name="Text.Bold.14">
@@ -551,15 +471,11 @@
     </style>
 
     <style name="Text.Bold.14.PrimaryColor">
-        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <style name="Text.Bold.14.SecondaryColor">
-        <item name="android:textColor">?android:textColorSecondary</item>
-    </style>
-
-    <style name="Text.Bold.14.TertiaryColor">
-        <item name="android:textColor">?android:textColorTertiary</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
     <style name="Text.Bold.16">
@@ -567,15 +483,11 @@
     </style>
 
     <style name="Text.Bold.16.PrimaryColor">
-        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <style name="Text.Bold.16.SecondaryColor">
-        <item name="android:textColor">?android:textColorSecondary</item>
-    </style>
-
-    <style name="Text.Bold.16.TertiaryColor">
-        <item name="android:textColor">?android:textColorTertiary</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
     <style name="Text.Bold.18">
@@ -583,15 +495,11 @@
     </style>
 
     <style name="Text.Bold.18.PrimaryColor">
-        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <style name="Text.Bold.18.SecondaryColor">
-        <item name="android:textColor">?android:textColorSecondary</item>
-    </style>
-
-    <style name="Text.Bold.18.TertiaryColor">
-        <item name="android:textColor">?android:textColorTertiary</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
     <style name="Text.Bold.20">
@@ -599,15 +507,11 @@
     </style>
 
     <style name="Text.Bold.20.PrimaryColor">
-        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <style name="Text.Bold.20.SecondaryColor">
-        <item name="android:textColor">?android:textColorSecondary</item>
-    </style>
-
-    <style name="Text.Bold.20.TertiaryColor">
-        <item name="android:textColor">?android:textColorTertiary</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
     <style name="Text.Bold.24">
@@ -615,15 +519,11 @@
     </style>
 
     <style name="Text.Bold.24.PrimaryColor">
-        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <style name="Text.Bold.24.SecondaryColor">
-        <item name="android:textColor">?android:textColorSecondary</item>
-    </style>
-
-    <style name="Text.Bold.24.TertiaryColor">
-        <item name="android:textColor">?android:textColorTertiary</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
     <style name="Text.Medium.24.DarkColor">
