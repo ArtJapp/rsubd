@@ -1,15 +1,19 @@
-package ru.chronicker.rsubd.ui.main
+package ru.chronicker.rsubd.ui.screens.main
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.content_main.*
 import ru.chronicker.rsubd.R
+import ru.chronicker.rsubd.ui.screens.main.adapters.ViewPagerAdapter
+
 
 class MainActivity : AppCompatActivity() {
+
+    private val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +24,7 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
+        initViews()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -35,6 +40,32 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun initViews() {
+        initNavigation()
+    }
+
+    private fun initNavigation() {
+        content.adapter = viewPagerAdapter
+        bottom_navigation.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.action_patients -> {
+                    0
+                }
+                R.id.action_doctors -> {
+                    1
+                }
+                else -> 0
+            }
+                .also {
+                    content.currentItem = it
+                }
+                .also {
+                    toolbar.title = viewPagerAdapter.getPageTitle(it)
+                }
+            true
         }
     }
 }

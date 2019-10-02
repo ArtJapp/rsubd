@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#616161</color>
 
+    <color name="colorRipple">#414141</color>
     <color name="colorSurface">#121212</color>
 
     <color name="fontColor">#E0E0E0</color>
