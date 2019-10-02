@@ -1,4 +1,4 @@
-package ru.chronicker.rsubd
+package ru.chronicker.rsubd.ui.main
 
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 
 import kotlinx.android.synthetic.main.activity_main.*
+import ru.chronicker.rsubd.R
 
 class MainActivity : AppCompatActivity() {
 

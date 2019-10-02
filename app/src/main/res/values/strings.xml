@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">RSUBD</string>
     <string name="action_settings">Settings</string>
+
+    <string name="menu_patients">Пациенты</string>
+    <string name="menu_doctors">Врачи</string>
 </resources>
