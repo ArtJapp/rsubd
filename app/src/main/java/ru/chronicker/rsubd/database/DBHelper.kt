@@ -7,6 +7,7 @@ import ru.chronicker.rsubd.DBConstants.DB_NAME
 import ru.chronicker.rsubd.DBConstants.DB_VERSION
 import ru.chronicker.rsubd.database.utils.ScriptConstructor
 import ru.chronicker.rsubd.database.mapping.DiseaseObj
+import java.sql.ResultSet
 
 class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
 
@@ -34,5 +35,12 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
                     database.execSQL(ScriptConstructor.formDrop(entityName))
                 }
         }
+    }
+
+    fun executeWithReturningResult(query: String) {
+        // TODO: поправить
+        val database = this.writableDatabase
+        database.execSQL(query)
+        return ResultSet
     }
 }

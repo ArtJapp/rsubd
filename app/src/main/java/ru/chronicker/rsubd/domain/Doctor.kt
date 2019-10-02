@@ -5,5 +5,6 @@ class Doctor(
     firstName: String,
     secondName: String,
     lastName: String,
-    val diploma: Diploma
+    val diploma: Diploma,
+    val qualification: Qualification
 ): Person(id, firstName, secondName, lastName)
