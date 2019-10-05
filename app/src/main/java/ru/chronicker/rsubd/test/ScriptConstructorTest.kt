@@ -1,5 +1,7 @@
 package ru.chronicker.rsubd.test
 
+import ru.chronicker.rsubd.database.base.FieldType
+import ru.chronicker.rsubd.database.base.Value
 import ru.chronicker.rsubd.database.utils.ScriptConstructor
 import ru.chronicker.rsubd.database.models.*
 
@@ -23,4 +25,12 @@ fun createConstructionTest() {
     println(ScriptConstructor.formCreate(Diploma()))
 
     println(ScriptConstructor.formCreate(History()))
+}
+
+fun insertConstructionTest() {
+    val params = listOf(
+        Value(1, FieldType.INTEGER),
+        Value("Вавка", FieldType.TEXT)
+    )
+    println(ScriptConstructor.formInsert(Disease(), params))
 }
