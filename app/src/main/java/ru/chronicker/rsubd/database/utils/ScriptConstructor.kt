@@ -3,6 +3,7 @@ package ru.chronicker.rsubd.database.utils
 import ru.chronicker.rsubd.EMPTY_STRING
 import ru.chronicker.rsubd.Scripts.CREATE
 import ru.chronicker.rsubd.Scripts.DROP
+import ru.chronicker.rsubd.Scripts.SELECT
 import ru.chronicker.rsubd.database.base.Entity
 import ru.chronicker.rsubd.database.base.Field
 import ru.chronicker.rsubd.database.base.ForeignKeyField
@@ -37,6 +38,20 @@ class ScriptConstructor {
          */
         fun formDrop(entityName: String): String {
             return DROP.format(entityName)
+        }
+
+        /**
+         * Генерация скрипта на чтение всех полей сущности
+         */
+        fun formSelect(entity: Entity): String {
+            return entity.fields
+                .joinToString(separator = ", ") { field -> field.name }
+                .let { params ->
+                    SELECT.format(
+                        params,
+                        "main." + entity.name
+                    )
+                }
         }
 
         private fun sortFields(fields: List<Field>): List<Field> {

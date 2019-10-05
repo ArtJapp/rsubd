@@ -7,8 +7,15 @@ import android.view.Menu
 import android.view.MenuItem
 
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.content_main.*
+import ru.chronicker.rsubd.database.DBHelper
+import ru.chronicker.rsubd.database.base.Field
+import ru.chronicker.rsubd.database.base.FieldType
+import ru.chronicker.rsubd.database.models.Disease
 
 class MainActivity : AppCompatActivity() {
+
+    private val dbHelper = DBHelper(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,6 +26,7 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
+        initViews()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -34,6 +42,32 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun initViews() {
+        dbHelper.select(Disease())
+            .map { result ->
+                result.fields
+                    .map { (field, value) ->
+                        Pair(field.name, getValue(value, field))
+                    }
+                    .let {(field, value) ->
+                        "$field: $value"
+                    }
+            }
+            .joinToString("\n")
+            .also {
+                text.text = it
+            }
+    }
+
+    private fun getValue(value: Any, field: Field): String {
+        return when(field.type) {
+            FieldType.TEXT -> value as String
+            FieldType.INTEGER -> (value as Int).toString()
+            FieldType.REAL -> (value as Float).toString()
+            else -> EMPTY_STRING
         }
     }
 }
