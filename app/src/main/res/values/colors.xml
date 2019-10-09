@@ -16,7 +16,8 @@
 
     <color name="textLight">#4D5363</color>
     <color name="textHelper">#4D5363</color>
-    <color name="controlNormal">#CBD7E5</color>
+    <color name="controlActivated">#CBD7E5</color>
+    <color name="controlNormal">#A3A3A3</color>
     <color name="textDark">@color/dark_green</color>
     <color name="textDarkHalfTransparent">#80001131</color>
     <color name="textWhiteHalfTransparent">#80ffffff</color>
