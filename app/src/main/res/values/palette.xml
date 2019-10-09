@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- tools для нейминга цветов -  https://www.color-blindness.com/color-name-hue/ -->
+
+    <color name="manatee">#889099</color>
+    <color name="midnight_blue">#1B2A60</color>
+    <color name="royal_blue">#2E6BE5</color>
+    <color name="deep_blue">#2B64E2</color>
+    <color name="blicked_blue">#386EE0</color>
+    <color name="deep_blue_10">#E6EFFF</color>
+    <color name="sapphire_blue">#1A47A3</color>
+    <color name="cerulean_blue">#2647AE</color>
+    <color name="light_blue">#1A2B64E2</color>
+    <color name="sky_blue">#EAEFFC</color>
+    <color name="dark_green">#2c2c35</color>
+    <color name="islamic_green">#07B10F</color>
+    <color name="mountain_meadow">#17BF7F</color>
+    <color name="venetian_red">#FE4455</color>
+    <color name="lavender">#EAEFFC</color>
+    <color name="orange_yellow">#FFB94A</color>
+
+    <color name="bright_blue">#2B64E2</color>
+    <color name="bright_blue_5">#0D0061FF</color>
+    <color name="bright_blue_10">#1A0061FF</color>
+    <color name="bright_blue_15">#260061FF</color>
+    <color name="bright_blue_20">#330061FF</color>
+    <color name="bright_blue_25">#400061ff</color>
+    <color name="free_speech_blue">#4f5fcf</color>
+    <color name="royal_blue_10">#262B64E2</color>
+
+    <color name="navy">#001131</color>
+    <color name="navy_20">#33001131</color>
+    <color name="navy_50">#7F001131</color>
+    <color name="raven">#707a8c</color>
+    <color name="raven_50">#7F707a8c</color>
+
+    <color name="white_0">#00ffffff</color>
+    <color name="white_10">#19ffffff</color>
+    <color name="white_15">#26ffffff</color>
+    <color name="white_20">#33ffffff</color>
+    <color name="white_40">#66FFFFFF</color>
+    <color name="white_50">#7Fffffff</color>
+    <color name="white_75">#BFFFFFFF</color>
+    <color name="darkish_blue">#2B64E2</color>
+    <color name="darkish_blue_5">#0C2B64E2</color>
+    <color name="darkish_blue_10">#192B64E2</color>
+    <color name="darkish_blue_20">#332B64E2</color>
+    <color name="darkish_blue_90">#e52B64E2</color>
+    <color name="darkish_blue_7">#122B64E2</color>
+    <color name="white_30">#4cffffff</color>
+    <color name="alice_blue">#F4F7FF</color>
+
+    <color name="pale_grey">#F4F7FE</color>
+    <color name="indigo">#5B5DC3</color>
+    <color name="indigo_90">#e5340c80</color>
+    <color name="slate">#4c586e</color>
+    <color name="white">#fff</color>
+
+    <color name="slate_90">#e54c586e</color>
+    <color name="persian_indigo_blue">#251475</color>
+    <color name="chambray">#435679</color>
+
+    <color name="steel">#737E93</color>
+    <color name="steel_30">#4C737E93</color>
+    <color name="charcoal_grey">#414554</color>
+
+    <color name="azul">#2b64e2</color>
+    <color name="light_grey">#eaeffc</color>
+    <color name="white_lilac">#F0F0F1</color>
+    <color name="grey_suit">#95959A</color>
+
+    <color name="black_90">#414149</color>
+    <color name="black_20">#33000000</color>
+    <color name="black_7">#11000000</color>
+    <color name="blue_20">#D5E0F9</color>
+    <color name="ghost">#D5D5D7</color>
+    <color name="blue_corn_flower">#5B87E8</color>
+    <color name="blue_light">#0061FF</color>
+    <color name="lavender_2">#CDDAF8</color>
+</resources>

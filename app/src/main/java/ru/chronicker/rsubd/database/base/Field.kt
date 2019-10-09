@@ -5,6 +5,7 @@ import ru.chronicker.rsubd.SPACE
 import ru.chronicker.rsubd.Scripts.AUTOINCREMENT
 import ru.chronicker.rsubd.Scripts.FOREIGN_KEY_INSTRUCTION
 import ru.chronicker.rsubd.Scripts.PRIMARY_KEY
+import java.io.Serializable
 
 /**
  * Перечисление доступных типов данных
@@ -24,8 +25,9 @@ enum class FieldType(val title: String) {
 open class Field(
     val name: String,
     val type: FieldType,
-    val primaryKey: Boolean = false
-) {
+    val primaryKey: Boolean = false,
+    val title: String = EMPTY_STRING
+) : Serializable {
 
     /**
      * Преобразование содержимого поля в строку для запроса
@@ -44,12 +46,14 @@ open class Field(
 class IntField(
     name: String,
     primaryKey: Boolean = false,
+    title: String = EMPTY_STRING,
     val autoIncrement: Boolean = false
 ) : Field(
     name = name,
     type = FieldType.INTEGER,
-    primaryKey = primaryKey
-) {
+    primaryKey = primaryKey,
+    title = title
+), Serializable {
 
     override fun formForCreate(): String {
         return super.formForCreate()
@@ -64,9 +68,14 @@ class IntField(
 class ForeignKeyField(
     name: String,
     type: FieldType,
+    title: String = EMPTY_STRING,
     val foreignTable: String,
     val foreignKey: String
-): Field(name, type) {
+) : Field(
+    name = name,
+    type = type,
+    title = title
+), Serializable {
 
     /**
      * Преобразование содержимого поля в инструкцию
@@ -81,5 +90,5 @@ fun String.addWithSpaceIf(condition: Boolean, value: String): String =
     this.addIf(condition, SPACE + value)
 
 fun String.addIf(condition: Boolean, value: String): String =
-        this.plus(value.takeIf { condition }
-            ?: EMPTY_STRING)
+    this.plus(value.takeIf { condition }
+        ?: EMPTY_STRING)

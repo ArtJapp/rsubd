@@ -5,6 +5,7 @@ import ru.chronicker.rsubd.EMPTY_BLOB
 import ru.chronicker.rsubd.EMPTY_INT
 import ru.chronicker.rsubd.EMPTY_REAL
 import ru.chronicker.rsubd.EMPTY_STRING
+import java.io.Serializable
 
 /**
  * Общая модель сущности в базе данных
@@ -12,8 +13,8 @@ import ru.chronicker.rsubd.EMPTY_STRING
 abstract class Entity(
     val name: String,
     val fields: MutableList<Field>
-) {
-    val values: MutableMap<String, Value> = mutableMapOf()
+): Serializable {
+    val values: MutableMap<String, Any> = mutableMapOf()
 
     init {
         fields.forEach { field ->
