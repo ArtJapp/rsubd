@@ -17,4 +17,6 @@ object Scripts {
     const val CREATE = "CREATE TABLE %s(%s);"
     const val DROP = "DROP TABLE IF EXISTS %s;"
     const val FOREIGN_KEY_INSTRUCTION = "FOREIGN KEY(%s) REFERENCES %s(%s)"
+    const val SELECT = "SELECT %s FROM %s;"
+    const val INSERT = "INSERT INTO %s VALUES(%s);"
 }

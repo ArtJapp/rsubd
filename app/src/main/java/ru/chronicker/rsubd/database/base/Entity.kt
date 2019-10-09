@@ -5,6 +5,7 @@ import ru.chronicker.rsubd.EMPTY_BLOB
 import ru.chronicker.rsubd.EMPTY_INT
 import ru.chronicker.rsubd.EMPTY_REAL
 import ru.chronicker.rsubd.EMPTY_STRING
+import java.io.Serializable
 
 /**
  * Общая модель сущности в базе данных
@@ -12,7 +13,7 @@ import ru.chronicker.rsubd.EMPTY_STRING
 abstract class Entity(
     val name: String,
     val fields: MutableList<Field>
-) {
+): Serializable {
     val values: MutableMap<String, Any> = mutableMapOf()
 
     init {
@@ -28,18 +29,18 @@ abstract class Entity(
     }
 
     private fun putEmptyInt(fieldName: String) {
-        values[fieldName] = EMPTY_INT
+        values[fieldName] = Value(EMPTY_INT, FieldType.INTEGER)
     }
 
     private fun putEmptyString(fieldName: String) {
-        values[fieldName] = EMPTY_STRING
+        values[fieldName] = Value(EMPTY_STRING, FieldType.TEXT)
     }
 
     private fun putEmptyReal(fieldName: String) {
-        values[fieldName] = EMPTY_REAL
+        values[fieldName] = Value(EMPTY_REAL, FieldType.REAL)
     }
 
     private fun putEmptyBlob(fieldName: String) {
-        values[fieldName] = EMPTY_BLOB
+        values[fieldName] = Value(EMPTY_BLOB, FieldType.BLOB)
     }
 }
