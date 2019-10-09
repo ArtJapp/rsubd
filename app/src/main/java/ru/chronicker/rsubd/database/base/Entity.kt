@@ -13,7 +13,7 @@ abstract class Entity(
     val name: String,
     val fields: MutableList<Field>
 ) {
-    val values: MutableMap<String, Any> = mutableMapOf()
+    val values: MutableMap<String, Value> = mutableMapOf()
 
     init {
         fields.forEach { field ->
@@ -28,18 +28,18 @@ abstract class Entity(
     }
 
     private fun putEmptyInt(fieldName: String) {
-        values[fieldName] = EMPTY_INT
+        values[fieldName] = Value(EMPTY_INT, FieldType.INTEGER)
     }
 
     private fun putEmptyString(fieldName: String) {
-        values[fieldName] = EMPTY_STRING
+        values[fieldName] = Value(EMPTY_STRING, FieldType.TEXT)
     }
 
     private fun putEmptyReal(fieldName: String) {
-        values[fieldName] = EMPTY_REAL
+        values[fieldName] = Value(EMPTY_REAL, FieldType.REAL)
     }
 
     private fun putEmptyBlob(fieldName: String) {
-        values[fieldName] = EMPTY_BLOB
+        values[fieldName] = Value(EMPTY_BLOB, FieldType.BLOB)
     }
 }

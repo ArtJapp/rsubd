@@ -11,11 +11,14 @@ import kotlinx.android.synthetic.main.content_main.*
 import ru.chronicker.rsubd.database.DBHelper
 import ru.chronicker.rsubd.database.base.Field
 import ru.chronicker.rsubd.database.base.FieldType
+import ru.chronicker.rsubd.database.base.IntValue
+import ru.chronicker.rsubd.database.base.TextValue
 import ru.chronicker.rsubd.database.models.Disease
 
 class MainActivity : AppCompatActivity() {
 
     private val dbHelper = DBHelper(this)
+    private var ids: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +49,37 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
+        loadData()
+        insertData.setOnClickListener {
+            insertMoreData()
+            loadData()
+        }
+    }
+
+    private fun getValue(value: Any, field: Field): String {
+        return when(field.type) {
+            FieldType.TEXT -> value as String
+            FieldType.INTEGER -> (value as Int).toString()
+            FieldType.REAL -> (value as Float).toString()
+            else -> EMPTY_STRING
+        }
+    }
+
+    private fun insertSomeData() {
+        dbHelper.insert(Disease(), listOf(IntValue(1), TextValue("Вавка")))
+        dbHelper.insert(Disease(), listOf(IntValue(2), TextValue("Ранка")))
+        dbHelper.insert(Disease(), listOf(IntValue(3), TextValue("Болячка")))
+    }
+
+    private fun insertMoreData() {
+        dbHelper.insert(Disease(), listOf(IntValue(ids), TextValue("Вавка")))
+    }
+
+    private fun loadData() {
         dbHelper.select(Disease())
+            .also {
+                ids = it.size + 1
+            }
             .map { result ->
                 result.fields
                     .map { (field, value) ->
@@ -60,14 +93,5 @@ class MainActivity : AppCompatActivity() {
             .also {
                 text.text = it
             }
-    }
-
-    private fun getValue(value: Any, field: Field): String {
-        return when(field.type) {
-            FieldType.TEXT -> value as String
-            FieldType.INTEGER -> (value as Int).toString()
-            FieldType.REAL -> (value as Float).toString()
-            else -> EMPTY_STRING
-        }
     }
 }
