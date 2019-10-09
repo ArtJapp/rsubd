@@ -48,6 +48,14 @@ abstract class BaseViewHolder<T: ItemModel>(itemView: View): RecyclerView.ViewHo
     }
 }
 
+abstract class BindableViewHolder(itemView: View): BaseViewHolder<AloneItemModel>(itemView) {
+
+    override fun bind(data: AloneItemModel) {
+        id = data.id
+        itemView.title_tv.text = data.title
+    }
+}
+
 abstract class DoubleBindableViewHolder(itemView: View): BaseViewHolder<DoubleItemModel>(itemView) {
 
     override fun bind(data: DoubleItemModel) {
