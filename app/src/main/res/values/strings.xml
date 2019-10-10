@@ -4,5 +4,6 @@
 
     <string name="menu_patients">Пациенты</string>
     <string name="menu_doctors">Врачи</string>
+    <string name="menu_diseases">Болезни</string>
     <string name="patients_header">Пациенты</string>
 </resources>
