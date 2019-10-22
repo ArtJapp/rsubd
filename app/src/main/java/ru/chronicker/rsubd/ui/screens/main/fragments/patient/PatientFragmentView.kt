@@ -1,13 +1,13 @@
 package ru.chronicker.rsubd.ui.screens.main.fragments.patient
 
 import android.content.Intent
+import ru.chronicker.rsubd.Constants.ENTITY
 import ru.chronicker.rsubd.EMPTY_INT
 import ru.chronicker.rsubd.EMPTY_STRING
 import ru.chronicker.rsubd.database.models.Disease
 import ru.chronicker.rsubd.database.models.Patient
 import ru.chronicker.rsubd.ui.base.BaseFragment
 import ru.chronicker.rsubd.ui.base.DoubleItemModel
-import ru.chronicker.rsubd.ui.screens.form.ENTITY
 import ru.chronicker.rsubd.ui.screens.form.FormActivityView
 
 class PatientFragmentView : BaseFragment<Patient, DoubleItemModel>() {

@@ -8,11 +8,10 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import ru.chronicker.rsubd.R
+import ru.chronicker.rsubd.ui.screens.form.DiseaseRoute
 import ru.chronicker.rsubd.ui.screens.main.adapters.ViewPagerAdapter
 
 class MainActivity : AppCompatActivity() {
-
-    private var ids: Int = 0
 
     private val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
 
@@ -52,12 +51,9 @@ class MainActivity : AppCompatActivity() {
         content.adapter = viewPagerAdapter
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.action_patients -> {
-                    0
-                }
-                R.id.action_doctors -> {
-                    1
-                }
+                R.id.action_patients -> 0
+                R.id.action_doctors -> 1
+                R.id.action_diseases -> 2
                 else -> 0
             }
                 .also {
@@ -68,5 +64,9 @@ class MainActivity : AppCompatActivity() {
                 }
             true
         }
+    }
+
+    private fun startForm(id: Int) {
+        DiseaseRoute(this, id).startIntent()
     }
 }

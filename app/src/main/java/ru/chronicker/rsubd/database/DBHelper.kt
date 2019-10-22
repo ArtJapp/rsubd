@@ -12,8 +12,7 @@ import ru.chronicker.rsubd.database.base.Entity
 import ru.chronicker.rsubd.database.base.Field
 import ru.chronicker.rsubd.database.base.FieldType
 import ru.chronicker.rsubd.database.base.Value
-import ru.chronicker.rsubd.database.models.Disease
-import ru.chronicker.rsubd.database.utils.QueryResponse
+import ru.chronicker.rsubd.database.models.*
 import ru.chronicker.rsubd.database.utils.ScriptConstructor
 import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formInsert
 import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formSelect
@@ -24,7 +23,19 @@ private val UNKNOWN_ERROR = "Unknown Error"
 class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
 
     private val entities = listOf(
-        Disease()
+        Disease(),
+        Patient(),
+        State(),
+        Treatment(),
+        Diagnosis(),
+        Person(),
+        SocialStatus(),
+        Patient(),
+        Specialization(),
+        Qualification(),
+        Doctor(),
+        Diploma(),
+        History()
     )
 
     override fun onCreate(db: SQLiteDatabase?) {

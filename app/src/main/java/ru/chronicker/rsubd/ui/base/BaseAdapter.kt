@@ -7,13 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_double.view.*
 import ru.chronicker.rsubd.EMPTY_INT
 
-abstract class BaseAdapter<T: ItemModel> : RecyclerView.Adapter<BaseViewHolder<T>>() {
+abstract class BaseAdapter<T : ItemModel> : RecyclerView.Adapter<BaseViewHolder<T>>() {
 
     abstract val componentLayoutId: Int
 
     private val values: MutableList<T> = mutableListOf()
 
-    abstract fun createHolder(itemView: View): BaseViewHolder<T>
+    abstract fun createHolder(itemView: View, viewType: Int = 0): BaseViewHolder<T>
 
     fun setItems(values: List<T>) {
         this.values.clear()
@@ -24,7 +24,10 @@ abstract class BaseAdapter<T: ItemModel> : RecyclerView.Adapter<BaseViewHolder<T
     override fun getItemCount(): Int = values.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<T> {
-        return createHolder(LayoutInflater.from(parent.context).inflate(componentLayoutId, parent, false))
+        return createHolder(
+            LayoutInflater.from(parent.context).inflate(componentLayoutId, parent, false),
+            viewType
+        )
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<T>, position: Int) {
@@ -32,7 +35,7 @@ abstract class BaseAdapter<T: ItemModel> : RecyclerView.Adapter<BaseViewHolder<T
     }
 }
 
-abstract class BaseViewHolder<T: ItemModel>(itemView: View): RecyclerView.ViewHolder(itemView) {
+abstract class BaseViewHolder<T : ItemModel>(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private var onClickListener: ((Int) -> Unit)? = null
     protected var id: Int = EMPTY_INT
@@ -48,7 +51,7 @@ abstract class BaseViewHolder<T: ItemModel>(itemView: View): RecyclerView.ViewHo
     }
 }
 
-abstract class BindableViewHolder(itemView: View): BaseViewHolder<AloneItemModel>(itemView) {
+abstract class BindableViewHolder(itemView: View) : BaseViewHolder<AloneItemModel>(itemView) {
 
     override fun bind(data: AloneItemModel) {
         id = data.id
@@ -56,7 +59,8 @@ abstract class BindableViewHolder(itemView: View): BaseViewHolder<AloneItemModel
     }
 }
 
-abstract class DoubleBindableViewHolder(itemView: View): BaseViewHolder<DoubleItemModel>(itemView) {
+abstract class DoubleBindableViewHolder(itemView: View) :
+    BaseViewHolder<DoubleItemModel>(itemView) {
 
     override fun bind(data: DoubleItemModel) {
         id = data.id

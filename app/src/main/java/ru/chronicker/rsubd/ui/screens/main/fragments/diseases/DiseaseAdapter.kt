@@ -13,7 +13,7 @@ class DiseaseAdapter(
 
     override val componentLayoutId: Int = R.layout.item_alone
 
-    override fun createHolder(itemView: View): BaseViewHolder<AloneItemModel> {
+    override fun createHolder(itemView: View, viewType: Int): BaseViewHolder<AloneItemModel> {
         return DiseaseViewHolder(itemView).apply {
             this.setOnClickListener(onClickListener)
         }
