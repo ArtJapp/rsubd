@@ -4,12 +4,12 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_form.*
 import kotlinx.android.synthetic.main.content_form.*
+import ru.chronicker.rsubd.Constants.ENTITY
 import ru.chronicker.rsubd.R
+import ru.chronicker.rsubd.database.DBHelper
 import ru.chronicker.rsubd.database.base.Entity
 import ru.chronicker.rsubd.database.base.Field
 import ru.chronicker.rsubd.ui.screens.form.adapters.FormFieldsAdapter
-
-const val ENTITY = "ENTITY"
 
 class FormActivityView : AppCompatActivity() {
 

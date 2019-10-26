@@ -20,3 +20,9 @@ object Scripts {
     const val SELECT = "SELECT %s FROM %s;"
     const val INSERT = "INSERT INTO %s VALUES(%s);"
 }
+
+object Constants {
+    const val ID = "ID"
+    const val ENTITY = "ENTITY"
+    const val VALUES = "VALUES"
+}

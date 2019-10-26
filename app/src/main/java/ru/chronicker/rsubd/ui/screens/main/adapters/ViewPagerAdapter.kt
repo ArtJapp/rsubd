@@ -9,9 +9,9 @@ import ru.chronicker.rsubd.ui.base.ItemModel
 import ru.chronicker.rsubd.ui.screens.main.fragments.diseases.DiseaseFragmentView
 import ru.chronicker.rsubd.ui.screens.main.fragments.patient.PatientFragmentView
 
-class ViewPagerAdapter internal constructor(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+private const val COUNT = 3
 
-    private val COUNT = 2
+class ViewPagerAdapter internal constructor(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
     override fun getItem(position: Int): BaseFragment<Entity, ItemModel>? {
         return getFragment(position)
@@ -31,6 +31,7 @@ class ViewPagerAdapter internal constructor(fm: FragmentManager) : FragmentPager
         return when (position) {
             0 -> DiseaseFragmentView() as BaseFragment<Entity, ItemModel>
             1 -> DiseaseFragmentView() as BaseFragment<Entity, ItemModel>
+            2 -> DiseaseFragmentView() as BaseFragment<Entity, ItemModel>
             else -> null
         }
     }

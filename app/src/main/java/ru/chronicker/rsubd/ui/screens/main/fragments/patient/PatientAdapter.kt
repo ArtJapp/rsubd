@@ -13,7 +13,7 @@ class PatientAdapter(
 
     override val componentLayoutId: Int = R.layout.item_double
 
-    override fun createHolder(itemView: View): BaseViewHolder<DoubleItemModel> {
+    override fun createHolder(itemView: View, viewType: Int): BaseViewHolder<DoubleItemModel> {
         return PatientHolder(itemView).apply {
             this.setOnClickListener(onClickListener)
         }

@@ -18,6 +18,9 @@ abstract class BaseFragment<T : Entity, M : ItemModel> : Fragment() {
     abstract val screenName: String
     abstract val entity: T
 
+    abstract fun initViews()
+    abstract fun convertToItemModel(values: List<Pair<String, String>>): M
+
     val layoutId: Int = R.layout.fragment_list_of_double_items
 
     private var currentId: Int = 0
@@ -28,9 +31,6 @@ abstract class BaseFragment<T : Entity, M : ItemModel> : Fragment() {
         }
 
     protected lateinit var dbHelper: DBHelper
-
-    abstract fun initViews()
-    abstract fun convertToItemModel(values: List<Pair<String, String>>): M
 
     override fun onCreateView(
         inflater: LayoutInflater,

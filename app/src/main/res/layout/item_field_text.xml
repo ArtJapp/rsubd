@@ -9,11 +9,12 @@
     android:paddingEnd="16dp">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/field_til"
+        android:id="@+id/text_field_til"
+        style="@style/EditTextHint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        style="@style/EditTextHint"
+        android:visibility="gone"
         android:layout_marginBottom="4dp"
         android:textAppearance="@style/Text.Regular.16.PrimaryColor"
         app:hintTextAppearance="@style/Text.Regular.12.SecondaryColor">
@@ -29,5 +30,14 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <Spinner
+        android:id="@+id/spinner_field_til"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:visibility="gone"
+        android:layout_marginBottom="4dp"
+        android:textAppearance="@style/Text.Regular.16.PrimaryColor"
+        app:hintTextAppearance="@style/Text.Regular.12.SecondaryColor" />
 
 </LinearLayout>

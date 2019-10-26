@@ -13,4 +13,10 @@
         android:icon="@drawable/ic_doctor"
         android:title="@string/menu_doctors"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_diseases"
+        android:enabled="true"
+        android:icon="@drawable/ic_disease"
+        android:title="@string/menu_diseases"
+        app:showAsAction="ifRoom" />
 </menu>
