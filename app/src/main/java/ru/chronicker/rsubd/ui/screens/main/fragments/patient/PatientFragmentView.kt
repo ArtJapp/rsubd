@@ -38,7 +38,7 @@ class PatientFragmentView : BaseFragment<Patient, DoubleItemModel>() {
 
     private fun openForm(id: Int) {
         val intent = Intent(this.context, FormActivityView::class.java)
-        val d = Disease()
+        val d = Patient()
         d.values["ID"] = id as Any
         d.values["NAME"] = "Попытка $id" as Any
 

@@ -24,7 +24,6 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
 
     private val entities = listOf(
         Disease(),
-        Patient(),
         State(),
         Treatment(),
         Diagnosis(),
@@ -37,6 +36,11 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
         Diploma(),
         History()
     )
+
+//    init {
+//        dropAllDatabases(writableDatabase)
+//        onCreate(writableDatabase)
+//    }
 
     override fun onCreate(db: SQLiteDatabase?) {
         db?.let { database ->
@@ -58,6 +62,12 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
                     database.execSQL(ScriptConstructor.formDrop(entityName))
                 }
         }
+    }
+
+    fun select(entityName: String, params: Array<String>? = null): List<QueryResult> {
+        return entities.find { it.name == entityName }
+            ?.let { entity -> select(entity, params) }
+            ?: emptyList()
     }
 
     /**
