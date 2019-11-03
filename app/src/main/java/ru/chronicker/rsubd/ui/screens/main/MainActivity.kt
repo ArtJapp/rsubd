@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import ru.chronicker.rsubd.R
+import ru.chronicker.rsubd.ui.base.BaseFragment
 import ru.chronicker.rsubd.ui.screens.form.DiseaseRoute
 import ru.chronicker.rsubd.ui.screens.main.adapters.ViewPagerAdapter
 
@@ -19,11 +21,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
         initViews()
     }
 
@@ -64,9 +61,5 @@ class MainActivity : AppCompatActivity() {
                 }
             true
         }
-    }
-
-    private fun startForm(id: Int) {
-        DiseaseRoute(this, id).startIntent()
     }
 }

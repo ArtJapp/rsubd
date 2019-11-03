@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import ru.chronicker.rsubd.Constants.ENTITY
 import ru.chronicker.rsubd.Constants.ID
+import ru.chronicker.rsubd.Constants.MODE
 import ru.chronicker.rsubd.Constants.VALUES
 import ru.chronicker.rsubd.database.base.Entity
 import ru.chronicker.rsubd.database.base.Field
@@ -19,9 +20,9 @@ abstract class FormRoute<T : Entity>(private val context: Context) {
 
     init {
         Intent(context, FormActivityView::class.java)
-            .apply {
-                this.putExtra(ENTITY, entity)
-            }
+//            .apply {
+//                this.putExtra(ENTITY, entity)
+//            }
             .also {
                 intent = prepareIntent(it)
             }
@@ -33,9 +34,24 @@ abstract class FormRoute<T : Entity>(private val context: Context) {
         }
     }
 
-    fun startIntent() {
+    fun createForm() {
+        intent.putExtra(MODE, FormMode.CREATE)
+        startIntent()
+    }
+
+    fun updateForm() {
+        intent.putExtra(MODE, FormMode.UPDATE)
+        startIntent()
+    }
+
+    private fun startIntent() {
         context.startActivity(intent)
     }
+}
+
+enum class FormMode {
+    CREATE,
+    UPDATE
 }
 
 class DiseaseRoute(context: Context, private val id: Int = -1) : FormRoute<Disease>(context) {
@@ -43,5 +59,8 @@ class DiseaseRoute(context: Context, private val id: Int = -1) : FormRoute<Disea
     override val entity = Disease()
 
     override fun prepareIntent(intent: Intent): Intent =
-        intent.putExtra(ID, id)
+        intent.apply {
+            putExtra(ID, id)
+            putExtra(ENTITY, Disease())
+        }
 }

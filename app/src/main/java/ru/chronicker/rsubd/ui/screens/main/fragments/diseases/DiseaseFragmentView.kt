@@ -2,13 +2,16 @@ package ru.chronicker.rsubd.ui.screens.main.fragments.diseases
 
 import android.content.Intent
 import android.util.Log
+import kotlinx.android.synthetic.main.fragment_list_of_double_items.*
 import ru.chronicker.rsubd.Constants.ENTITY
 import ru.chronicker.rsubd.EMPTY_INT
 import ru.chronicker.rsubd.EMPTY_STRING
 import ru.chronicker.rsubd.database.models.Disease
 import ru.chronicker.rsubd.ui.base.AloneItemModel
 import ru.chronicker.rsubd.ui.base.BaseFragment
+import ru.chronicker.rsubd.ui.screens.form.DiseaseRoute
 import ru.chronicker.rsubd.ui.screens.form.FormActivityView
+import ru.chronicker.rsubd.ui.screens.form.FormRoute
 
 class DiseaseFragmentView : BaseFragment<Disease, AloneItemModel>() {
 
@@ -16,6 +19,9 @@ class DiseaseFragmentView : BaseFragment<Disease, AloneItemModel>() {
     override val entity = Disease()
 
     override fun initViews() {
+        fab.setOnClickListener {
+            DiseaseRoute(context = requireContext(), id = -1).createForm()
+        }
         initList()
     }
 
@@ -44,5 +50,7 @@ class DiseaseFragmentView : BaseFragment<Disease, AloneItemModel>() {
 
         intent.putExtra(ENTITY, d)
         startActivity(intent)
+
+
     }
 }
