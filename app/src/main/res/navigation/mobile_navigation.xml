@@ -37,27 +37,27 @@
         tools:layout="@layout/fragment_list_of_double_items" />
     <fragment
         android:id="@+id/nav_qualification"
-        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.patient.PatientFragmentView"
+        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.qualification.QualificationFragmentView"
         android:label="@string/menu_qualification"
         tools:layout="@layout/fragment_list_of_double_items" />
     <fragment
         android:id="@+id/nav_social_status"
-        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.patient.PatientFragmentView"
+        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.social_status.SocialStatusFragmentView"
         android:label="@string/menu_social_status"
         tools:layout="@layout/fragment_list_of_double_items" />
     <fragment
         android:id="@+id/nav_specialization"
-        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.patient.PatientFragmentView"
+        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.specialization.SpecializationFragmentView"
         android:label="@string/menu_specialization"
         tools:layout="@layout/fragment_list_of_double_items" />
     <fragment
         android:id="@+id/nav_state"
-        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.patient.PatientFragmentView"
+        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.state.StateFragmentView"
         android:label="@string/menu_state"
         tools:layout="@layout/fragment_list_of_double_items" />
     <fragment
         android:id="@+id/nav_treatment"
-        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.patient.PatientFragmentView"
+        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.treatment.TreatmentFragmentView"
         android:label="@string/menu_treatment"
         tools:layout="@layout/fragment_list_of_double_items" />
     <fragment
