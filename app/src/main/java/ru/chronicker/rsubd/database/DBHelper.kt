@@ -17,6 +17,7 @@ import ru.chronicker.rsubd.database.models.*
 import ru.chronicker.rsubd.database.utils.ScriptConstructor
 import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formInsert
 import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formSelect
+import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formUpdate
 
 private const val DB_HELPER = "DB_HELPER"
 private val UNKNOWN_ERROR = "Unknown Error"
@@ -65,7 +66,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
         }
     }
 
-    fun select(entityName: String, params: Array<String>? = null): List<QueryResult> {
+    fun select(entityName: String, params: Map<String, String>? = null): List<QueryResult> {
         return entities.find { it.name == entityName }
             ?.let { entity -> select(entity, params) }
             ?: emptyList()
@@ -74,11 +75,11 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
     /**
      * Метод выборки данных по таблице/сущности
      */
-    fun select(entity: Entity, params: Array<String>? = null): List<QueryResult> {
+    fun select(entity: Entity, params: Map<String, String>? = null): List<QueryResult> {
         val result = mutableListOf<QueryResult>()
-        val query = formSelect(entity)
+        val query = formSelect(entity, params.takeIf { it != null } ?: emptyMap())
         log(query)
-        val response = readableDatabase.rawQuery(query, params)
+        val response = readableDatabase.rawQuery(query, null)
         if (response.moveToFirst()) {
             do {
                 result.add(combineFieldsToValues(response, entity.fields))
@@ -93,6 +94,20 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
      */
     fun insert(entity: Entity, values: List<Value>, onSuccess: (() -> Unit)? = null, onError: ((String) -> Unit)? = null) {
         val request = formInsert(entity, values)
+        log(request)
+        try {
+            writableDatabase.execSQL(request)
+            onSuccess?.invoke()
+        } catch (error: SQLException) {
+            error.message?.let {
+                log(it)
+                onError?.invoke(it)
+            }
+        }
+    }
+
+    fun update(entity: Entity, values: List<Value>, onSuccess: (() -> Unit)? = null, onError: ((String) -> Unit)? = null) {
+        val request = formUpdate(entity, values)
         log(request)
         try {
             writableDatabase.execSQL(request)

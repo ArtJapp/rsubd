@@ -5,6 +5,8 @@ import ru.chronicker.rsubd.Scripts.CREATE
 import ru.chronicker.rsubd.Scripts.DROP
 import ru.chronicker.rsubd.Scripts.INSERT
 import ru.chronicker.rsubd.Scripts.SELECT
+import ru.chronicker.rsubd.Scripts.SELECT_WITH_CONDITION
+import ru.chronicker.rsubd.Scripts.UPDATE
 import ru.chronicker.rsubd.database.base.Entity
 import ru.chronicker.rsubd.database.base.Field
 import ru.chronicker.rsubd.database.base.ForeignKeyField
@@ -45,13 +47,15 @@ class ScriptConstructor {
         /**
          * Генерация скрипта на чтение всех полей сущности
          */
-        fun formSelect(entity: Entity): String {
+        fun formSelect(entity: Entity, conditions: Map<String, String> = emptyMap()): String {
             return entity.fields
                 .joinToString(separator = ", ") { field -> field.name }
                 .let { params ->
-                    SELECT.format(
+                    (SELECT.takeIf { conditions.isEmpty() } ?: SELECT_WITH_CONDITION)
+                    .format(
                         params,
-                        "main." + entity.name
+                        "main." + entity.name,
+                        formConditions(conditions)
                     )
                 }
         }
@@ -60,6 +64,25 @@ class ScriptConstructor {
             return values.joinToString(", ") { it.wrap() }
                 .let {  parameters ->
                     INSERT.format(entity.name, parameters)
+                }
+        }
+
+        fun formUpdate(entity: Entity, values: List<Value>): String {
+            val conditions: MutableMap<String, Value> = mutableMapOf()
+            val entityValues: MutableMap<String, Value> = mutableMapOf()
+            entity.fields.forEachIndexed { index, field ->
+                if (field.primaryKey) {
+                    conditions[field.name] = values[index]
+                } else {
+                    entityValues[field.name] = values[index]
+                }
+            }
+            val condition = conditions.map { (key, value) -> "$key = ${value.wrap()}" }
+                .joinToString(separator = ", ")
+            return entityValues.map { (key, value) -> "$key = ${value.wrap()}" }
+                .joinToString(separator = ", ")
+                .let {
+                    UPDATE.format(entity.name, it, condition)
                 }
         }
 
@@ -85,6 +108,11 @@ class ScriptConstructor {
                         ?.plus(instructions)
                         ?: EMPTY_STRING
                 }
+        }
+
+        private fun formConditions(values: Map<String, String>): String {
+            return values.map { (key, value) -> "$key = $value" }
+                .joinToString(", ")
         }
     }
 }

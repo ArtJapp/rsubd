@@ -6,6 +6,9 @@ import kotlinx.android.synthetic.main.fragment_list_of_double_items.*
 import ru.chronicker.rsubd.Constants.ENTITY
 import ru.chronicker.rsubd.EMPTY_INT
 import ru.chronicker.rsubd.EMPTY_STRING
+import ru.chronicker.rsubd.database.base.FieldType
+import ru.chronicker.rsubd.database.base.IntValue
+import ru.chronicker.rsubd.database.base.Value
 import ru.chronicker.rsubd.database.models.Disease
 import ru.chronicker.rsubd.ui.base.AloneItemModel
 import ru.chronicker.rsubd.ui.base.BaseFragment
@@ -43,14 +46,6 @@ class DiseaseFragmentView : BaseFragment<Disease, AloneItemModel>() {
     }
 
     private fun openDiseaseForm(id: Int) {
-        val intent = Intent(this.context, FormActivityView::class.java)
-        val d = Disease()
-        d.values["ID"] = id as Any
-        d.values["NAME"] = "Попытка $id" as Any
-
-        intent.putExtra(ENTITY, d)
-        startActivity(intent)
-
-
+        DiseaseRoute(requireContext(), id = id).updateForm()
     }
 }

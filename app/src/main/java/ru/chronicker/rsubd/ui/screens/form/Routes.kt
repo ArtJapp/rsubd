@@ -16,31 +16,31 @@ abstract class FormRoute<T : Entity>(private val context: Context) {
     abstract val entity: T
     protected abstract fun prepareIntent(intent: Intent): Intent
 
-    private val intent: Intent
-
-    init {
-        Intent(context, FormActivityView::class.java)
-//            .apply {
-//                this.putExtra(ENTITY, entity)
-//            }
-            .also {
-                intent = prepareIntent(it)
-            }
-    }
+    private var intent: Intent? = null
 
     fun withValues(values: Map<String, Value>) {
         values.forEach { (key, value) ->
-            intent.putExtra(key, value.wrap())
+            intent?.putExtra(key, value.wrap())
         }
     }
 
     fun createForm() {
-        intent.putExtra(MODE, FormMode.CREATE)
+        Intent(context, FormActivityView::class.java)
+            .putExtra(MODE, FormMode.CREATE)
+            .let { prepareIntent(it) }
+            .let {
+                intent = it
+            }
         startIntent()
     }
 
     fun updateForm() {
-        intent.putExtra(MODE, FormMode.UPDATE)
+        Intent(context, FormActivityView::class.java)
+            .putExtra(MODE, FormMode.UPDATE)
+            .let { prepareIntent(it) }
+            .let {
+                intent = it
+            }
         startIntent()
     }
 
