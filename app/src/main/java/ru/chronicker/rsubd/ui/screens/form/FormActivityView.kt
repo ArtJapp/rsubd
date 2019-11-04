@@ -53,7 +53,7 @@ class FormActivityView : AppCompatActivity() {
         if (screenMode == FormMode.UPDATE) {
             loadData()
         } else {
-            setEntityData(currentModel)
+            setEntityData(currentModel, getEmptyValues(currentModel))
         }
     }
 
@@ -94,8 +94,12 @@ class FormActivityView : AppCompatActivity() {
         setEntityData(currentModel, values)
     }
 
-    private fun setEntityData(entity: Entity, values: MutableMap<String, Any> = entity.values) {
+    private fun setEntityData(entity: Entity, values: Map<String, Any>) {
         setFields(entity.fields, sortValuesAsFields(values, entity.fields))
+    }
+
+    private fun getEmptyValues(entity: Entity): Map<String, Any> {
+        return entity.values.mapValues { (key, value) -> (value as Value).value }
     }
 
     private fun sortValuesAsFields(values: Map<String, Any>, fields: List<Field>): List<Any?> {
