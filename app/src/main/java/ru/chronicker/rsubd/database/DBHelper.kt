@@ -2,6 +2,7 @@ package ru.chronicker.rsubd.database
 
 import android.content.Context
 import android.database.Cursor
+import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
@@ -24,7 +25,6 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
 
     private val entities = listOf(
         Disease(),
-        Patient(),
         State(),
         Treatment(),
         Diagnosis(),
@@ -37,6 +37,11 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
         Diploma(),
         History()
     )
+
+//    init {
+//        dropAllDatabases(writableDatabase)
+//        onCreate(writableDatabase)
+//    }
 
     override fun onCreate(db: SQLiteDatabase?) {
         db?.let { database ->
@@ -60,6 +65,12 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
         }
     }
 
+    fun select(entityName: String, params: Array<String>? = null): List<QueryResult> {
+        return entities.find { it.name == entityName }
+            ?.let { entity -> select(entity, params) }
+            ?: emptyList()
+    }
+
     /**
      * Метод выборки данных по таблице/сущности
      */
@@ -80,10 +91,18 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
     /**
      * Метод загрузки данных сущности в базу данных
      */
-    fun insert(entity: Entity, values: List<Value>) {
+    fun insert(entity: Entity, values: List<Value>, onSuccess: (() -> Unit)? = null, onError: ((String) -> Unit)? = null) {
         val request = formInsert(entity, values)
         log(request)
-        writableDatabase.execSQL(request)
+        try {
+            writableDatabase.execSQL(request)
+            onSuccess?.invoke()
+        } catch (error: SQLException) {
+            error.message?.let {
+                log(it)
+                onError?.invoke(it)
+            }
+        }
     }
 
     private fun combineFieldsToValues(resultSet: Cursor, fields: List<Field>): QueryResult {

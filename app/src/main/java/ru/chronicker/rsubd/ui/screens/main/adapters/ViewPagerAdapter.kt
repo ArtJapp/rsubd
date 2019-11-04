@@ -29,7 +29,7 @@ class ViewPagerAdapter internal constructor(fm: FragmentManager) : FragmentPager
 
     private fun getFragment(position: Int): BaseFragment<Entity, ItemModel>? {
         return when (position) {
-            0 -> DiseaseFragmentView() as BaseFragment<Entity, ItemModel>
+            0 -> PatientFragmentView() as BaseFragment<Entity, ItemModel>
             1 -> DiseaseFragmentView() as BaseFragment<Entity, ItemModel>
             2 -> DiseaseFragmentView() as BaseFragment<Entity, ItemModel>
             else -> null

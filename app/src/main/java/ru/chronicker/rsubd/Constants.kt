@@ -23,6 +23,7 @@ object Scripts {
 
 object Constants {
     const val ID = "ID"
+    const val MODE = "MODE"
     const val ENTITY = "ENTITY"
     const val VALUES = "VALUES"
 }

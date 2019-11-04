@@ -1,11 +1,12 @@
 package ru.chronicker.rsubd.database.base
 
 import ru.chronicker.rsubd.EMPTY_STRING
+import java.io.Serializable
 
 open class Value(
     val value: Any,
     val type: FieldType
-) {
+): Serializable {
 
     val isInt: Boolean
         get() = type == FieldType.INTEGER
