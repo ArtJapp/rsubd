@@ -14,19 +14,22 @@ class Doctor : Entity(
         IntField(
             name = "ID",
             primaryKey = true,
-            autoIncrement = true
+            autoIncrement = true,
+            title = "id"
         ),
         ForeignKeyField(
             name = "PERSON_ID",
             type = FieldType.INTEGER,
             foreignTable = "Person",
-            foreignKey = "id"
+            foreignKey = "id",
+            title = "Человек"
         ),
         ForeignKeyField(
             name = "QUALIFICATION_ID",
             type = FieldType.INTEGER,
             foreignTable = "Qualification",
-            foreignKey = "id"
+            foreignKey = "id",
+            title = "Квалификация"
         )
     )
 )

@@ -11,7 +11,8 @@ class Patient : Entity(
         IntField(
             name = "ID",
             primaryKey = true,
-            autoIncrement = true
+            autoIncrement = true,
+            title = "id"
         ),
         IntField(
             name = "BIRTH_DATE",

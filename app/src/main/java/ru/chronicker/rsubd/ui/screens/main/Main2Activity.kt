@@ -25,11 +25,6 @@ class Main2Activity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        val fab: FloatingActionButton = findViewById(R.id.fab)
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
@@ -37,8 +32,18 @@ class Main2Activity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_patients, R.id.nav_diseases, R.id.nav_gallery,
-                R.id.nav_slideshow, R.id.nav_tools, R.id.nav_share, R.id.nav_send
+                R.id.nav_diagnosis,
+                R.id.nav_diploma,
+                R.id.nav_diseases,
+                R.id.nav_doctors,
+                R.id.nav_history,
+                R.id.nav_patients,
+                R.id.nav_qualification,
+                R.id.nav_social_status,
+                R.id.nav_specialization,
+                R.id.nav_state,
+                R.id.nav_treatment,
+                R.id.nav_person
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -46,7 +51,6 @@ class Main2Activity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main2, menu)
         return true
     }

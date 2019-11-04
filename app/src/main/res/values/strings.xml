@@ -2,9 +2,18 @@
     <string name="app_name">RSUBD</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_patients">Пациенты</string>
-    <string name="menu_doctors">Врачи</string>
+    <string name="menu_diagnosis">Диагнозы</string>
+    <string name="menu_diploma">Дипломы</string>
     <string name="menu_diseases">Болезни</string>
+    <string name="menu_doctors">Врачи</string>
+    <string name="menu_history">Истории посещения</string>
+    <string name="menu_patients">Пациенты</string>
+    <string name="menu_qualification">Квалификации</string>
+    <string name="menu_social_status">Соц статус</string>
+    <string name="menu_specialization">Специализации</string>
+    <string name="menu_state">Состояния</string>
+    <string name="menu_treatment">Лечения</string>
+    <string name="menu_person">Люди</string>
     <string name="patients_header">Пациенты</string>
 
     <string name="menu_save">Сохранить</string>

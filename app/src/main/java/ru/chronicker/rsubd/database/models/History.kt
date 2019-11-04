@@ -15,25 +15,29 @@ class History : Entity(
         IntField(
             name = "ID",
             primaryKey = true,
-            autoIncrement = true
+            autoIncrement = true,
+            title = "id"
         ),
         ForeignKeyField(
             name = "DOCTOR_ID",
             type = FieldType.INTEGER,
             foreignTable = "Doctor",
-            foreignKey = "id"
+            foreignKey = "id",
+            title = "Доктор"
         ),
         ForeignKeyField(
             name = "PATIENT_ID",
             type = FieldType.INTEGER,
             foreignTable = "Patient",
-            foreignKey = "id"
+            foreignKey = "id",
+            title = "Пациент"
         ),
         ForeignKeyField(
             name = "DIAGNOSIS_ID",
             type = FieldType.INTEGER,
             foreignTable = "Diagnosis",
-            foreignKey = "id"
+            foreignKey = "id",
+            title = "Диагноз"
         )
     )
 )

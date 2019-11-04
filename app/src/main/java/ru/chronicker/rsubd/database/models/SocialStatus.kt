@@ -14,11 +14,13 @@ class SocialStatus : Entity(
         IntField(
             name = "ID",
             primaryKey = true,
-            autoIncrement = true
+            autoIncrement = true,
+            title = "id"
         ),
         Field(
             name = "NAME",
-            type = FieldType.TEXT
+            type = FieldType.TEXT,
+            title = "Наименование"
         )
     )
 )

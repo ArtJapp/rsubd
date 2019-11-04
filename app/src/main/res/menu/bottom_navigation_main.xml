@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
-        android:id="@+id/action_patients"
+        android:id="@+id/action_diagnosis"
         android:enabled="true"
-        android:icon="@drawable/ic_patient"
-        android:title="@string/menu_patients"
+        android:icon="@drawable/ic_diagnosis"
+        android:title="@string/menu_diagnosis"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_diploma"
+        android:enabled="true"
+        android:icon="@drawable/ic_diploma"
+        android:title="@string/menu_diploma"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_diseases"
+        android:enabled="true"
+        android:icon="@drawable/ic_disease"
+        android:title="@string/menu_diseases"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_doctors"
@@ -14,9 +27,52 @@
         android:title="@string/menu_doctors"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_diseases"
+        android:id="@+id/action_history"
         android:enabled="true"
-        android:icon="@drawable/ic_disease"
-        android:title="@string/menu_diseases"
+        android:icon="@drawable/ic_history"
+        android:title="@string/menu_history"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_patients"
+        android:enabled="true"
+        android:icon="@drawable/ic_patient"
+        android:title="@string/menu_patients"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_qualification"
+        android:enabled="true"
+        android:icon="@drawable/ic_qualification"
+        android:title="@string/menu_qualification"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_social_status"
+        android:enabled="true"
+        android:icon="@drawable/ic_social_status"
+        android:title="@string/menu_social_status"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_specialization"
+        android:enabled="true"
+        android:icon="@drawable/ic_specialization"
+        android:title="@string/menu_specialization"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_state"
+        android:enabled="true"
+        android:icon="@drawable/ic_treatment"
+        android:title="@string/menu_state"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_treatment"
+        android:enabled="true"
+        android:icon="@drawable/ic_treatment"
+        android:title="@string/menu_treatment"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_person"
+        android:enabled="true"
+        android:icon="@drawable/ic_person"
+        android:title="@string/menu_person"
+        app:showAsAction="ifRoom" />
+
 </menu>
