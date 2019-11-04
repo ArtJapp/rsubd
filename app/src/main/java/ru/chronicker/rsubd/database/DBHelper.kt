@@ -125,7 +125,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
             fields = fields.mapIndexed { index, field ->
                 field to when (field.type) {
                     FieldType.TEXT -> resultSet.getString(index)
-                    FieldType.INTEGER -> resultSet.getInt(index)
+                    FieldType.INTEGER -> resultSet.getLong(index)
                     FieldType.REAL -> resultSet.getFloat(index)
                     else -> EMPTY_INT
                 }

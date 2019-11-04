@@ -197,7 +197,7 @@ class FormActivityView : AppCompatActivity() {
                     formBuilder.getElementAtIndex(index)
                         .value
                         .toString()
-                        .toInt()
+                        .toLong()
                         .let { Value(it, FieldType.INTEGER) }
                 }
                 else -> {

@@ -74,7 +74,7 @@ abstract class BaseFragment<T : Entity, M : ItemModel> : Fragment() {
     private fun getValue(value: Any, field: Field): String {
         return when (field.type) {
             FieldType.TEXT -> value as String
-            FieldType.INTEGER -> (value as Int).toString()
+            FieldType.INTEGER -> (value as Long).toString()
             FieldType.REAL -> (value as Float).toString()
             else -> EMPTY_STRING
         }

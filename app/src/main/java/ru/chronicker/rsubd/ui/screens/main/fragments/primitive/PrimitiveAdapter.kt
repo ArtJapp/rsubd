@@ -27,7 +27,7 @@ class PrimitiveDoubleAdapter(
     private val onClickListener: (Int) -> Unit
 ) : PrimitiveAdapter<DoubleItemModel>(onClickListener) {
 
-    override val componentLayoutId: Int = R.layout.item_alone
+    override val componentLayoutId: Int = R.layout.item_double
 
     override fun createHolder(itemView: View, viewType: Int): BaseViewHolder<DoubleItemModel> {
         return DoubleHolder(itemView).apply {
