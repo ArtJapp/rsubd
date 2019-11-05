@@ -1,7 +1,9 @@
 package ru.chronicker.rsubd.database.utils
 
+import ru.chronicker.rsubd.Constants.ID
 import ru.chronicker.rsubd.EMPTY_STRING
 import ru.chronicker.rsubd.Scripts.CREATE
+import ru.chronicker.rsubd.Scripts.DELETE
 import ru.chronicker.rsubd.Scripts.DROP
 import ru.chronicker.rsubd.Scripts.INSERT
 import ru.chronicker.rsubd.Scripts.SELECT
@@ -84,6 +86,14 @@ class ScriptConstructor {
                 .let {
                     UPDATE.format(entity.name, it, condition)
                 }
+        }
+
+        fun formDelete(entity: Entity, values: List<Value>): String {
+            val conditions: MutableMap<String, Value> = mutableMapOf()
+            conditions[ID] = values[0]
+            val condition = conditions.map { (key, value) -> "$key = ${value.wrap()}" }
+                .joinToString(separator = ", ")
+            return DELETE.format(entity.name, condition)
         }
 
         private fun sortFields(fields: List<Field>): List<Field> {

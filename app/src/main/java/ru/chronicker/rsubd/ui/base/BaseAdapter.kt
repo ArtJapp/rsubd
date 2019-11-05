@@ -38,6 +38,8 @@ abstract class BaseAdapter<T : ItemModel>(
 
     fun deleteItem(position: Int) {
         onDeleteAction?.invoke(values[position].id)
+        values.removeAt(position)
+        notifyDataSetChanged()
     }
 }
 

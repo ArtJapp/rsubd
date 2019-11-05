@@ -5,12 +5,14 @@ import ru.chronicker.rsubd.R
 import ru.chronicker.rsubd.ui.base.*
 
 abstract class PrimitiveAdapter<IM: ItemModel>(
-    private val onClickListener: (Int) -> Unit
-) : BaseAdapter<IM>()
+    private val onClickListener: (Int) -> Unit,
+    private val onDeleteListener: ((Int) -> Unit)? = null
+) : BaseAdapter<IM>(onDeleteListener)
 
 class PrimitiveAloneAdapter(
-    private val onClickListener: (Int) -> Unit
-) : PrimitiveAdapter<AloneItemModel>(onClickListener) {
+    private val onClickListener: (Int) -> Unit,
+    private val onDeleteListener: (Int) -> Unit
+) : PrimitiveAdapter<AloneItemModel>(onClickListener, onDeleteListener) {
 
     override val componentLayoutId: Int = R.layout.item_alone
 
@@ -24,8 +26,9 @@ class PrimitiveAloneAdapter(
 }
 
 class PrimitiveDoubleAdapter(
-    private val onClickListener: (Int) -> Unit
-) : PrimitiveAdapter<DoubleItemModel>(onClickListener) {
+    private val onClickListener: (Int) -> Unit,
+    private val onDeleteListener: (Int) -> Unit
+) : PrimitiveAdapter<DoubleItemModel>(onClickListener, onDeleteListener) {
 
     override val componentLayoutId: Int = R.layout.item_double
 

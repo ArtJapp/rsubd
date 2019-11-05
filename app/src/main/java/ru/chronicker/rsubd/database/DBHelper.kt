@@ -15,6 +15,7 @@ import ru.chronicker.rsubd.database.base.FieldType
 import ru.chronicker.rsubd.database.base.Value
 import ru.chronicker.rsubd.database.models.*
 import ru.chronicker.rsubd.database.utils.ScriptConstructor
+import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formDelete
 import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formInsert
 import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formSelect
 import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formUpdate
@@ -94,20 +95,20 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
      */
     fun insert(entity: Entity, values: List<Value>, onSuccess: (() -> Unit)? = null, onError: ((String) -> Unit)? = null) {
         val request = formInsert(entity, values)
-        log(request)
-        try {
-            writableDatabase.execSQL(request)
-            onSuccess?.invoke()
-        } catch (error: SQLException) {
-            error.message?.let {
-                log(it)
-                onError?.invoke(it)
-            }
-        }
+        doRequest(request, onSuccess, onError)
     }
 
     fun update(entity: Entity, values: List<Value>, onSuccess: (() -> Unit)? = null, onError: ((String) -> Unit)? = null) {
         val request = formUpdate(entity, values)
+        doRequest(request, onSuccess, onError)
+    }
+
+    fun delete(entity: Entity, values: List<Value>, onSuccess: (() -> Unit)?, onError: ((String) -> Unit)?) {
+        val request = formDelete(entity, values)
+        doRequest(request, onSuccess, onError)
+    }
+
+    private fun doRequest(request: String, onSuccess: (() -> Unit)?, onError: ((String) -> Unit)?) {
         log(request)
         try {
             writableDatabase.execSQL(request)

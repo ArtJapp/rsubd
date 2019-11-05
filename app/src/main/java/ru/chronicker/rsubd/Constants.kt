@@ -21,6 +21,7 @@ object Scripts {
     const val SELECT_WITH_CONDITION = "SELECT %s FROM %s WHERE %s ;"
     const val INSERT = "INSERT INTO %s VALUES(%s);"
     const val UPDATE = "UPDATE %s SET %s WHERE %s;"
+    const val DELETE = "DELETE FROM %s WHERE %s;"
 }
 
 object Constants {

@@ -5,6 +5,7 @@ import kotlinx.android.synthetic.main.fragment_list_of_double_items.*
 import ru.chronicker.rsubd.EMPTY_INT
 import ru.chronicker.rsubd.EMPTY_STRING
 import ru.chronicker.rsubd.database.base.Entity
+import ru.chronicker.rsubd.database.base.IntValue
 import ru.chronicker.rsubd.ui.base.AloneItemModel
 import ru.chronicker.rsubd.ui.base.BaseFragment
 import ru.chronicker.rsubd.ui.base.DoubleItemModel
@@ -54,9 +55,14 @@ abstract class PrimitiveAloneFragmentView<M : Entity, R : LazyRoute<M>>(
 ) : PrimitiveFragmentView<M, AloneItemModel, R>(entity = entity, route = route, screenName = screenName){
 
     override fun provideAdapter(): PrimitiveAdapter<AloneItemModel> {
-        return PrimitiveAloneAdapter { id ->
-            openUpdateForm(id)
-        }
+        return PrimitiveAloneAdapter(
+            onClickListener = { id ->
+                openUpdateForm(id)
+            },
+            onDeleteListener = { id ->
+                dbHelper.delete(entity, listOf(IntValue(id)), {}, {println("DELETED $id")})
+            }
+        )
     }
 
     override fun convertToItemModel(values: List<Pair<String, String>>): AloneItemModel {
@@ -74,9 +80,14 @@ abstract class PrimitiveDoubleFragmentView<M : Entity, R : LazyRoute<M>>(
 ) : PrimitiveFragmentView<M, DoubleItemModel, R>(entity = entity, route = route, screenName = screenName){
 
     override fun provideAdapter(): PrimitiveAdapter<DoubleItemModel> {
-        return PrimitiveDoubleAdapter { id ->
-            openUpdateForm(id)
-        }
+        return PrimitiveDoubleAdapter(
+            onClickListener = { id ->
+                openUpdateForm(id)
+            },
+            onDeleteListener = { id ->
+                dbHelper.delete(entity, listOf(IntValue(id)), {}, {println("DELETED $id")})
+            }
+        )
     }
 
     override fun convertToItemModel(values: List<Pair<String, String>>): DoubleItemModel {
