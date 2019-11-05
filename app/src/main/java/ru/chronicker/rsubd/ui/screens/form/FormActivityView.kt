@@ -1,8 +1,10 @@
 package ru.chronicker.rsubd.ui.screens.form
 
-import android.app.LauncherActivity
 import android.os.Bundle
+import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import com.google.android.material.snackbar.Snackbar
 import com.thejuki.kformmaster.helper.FormBuildHelper
 import com.thejuki.kformmaster.helper.dropDown
 import com.thejuki.kformmaster.helper.form
@@ -10,20 +12,12 @@ import com.thejuki.kformmaster.helper.text
 import kotlinx.android.synthetic.main.activity_form.*
 import kotlinx.android.synthetic.main.content_form.*
 import ru.chronicker.rsubd.Constants.ENTITY
-import ru.chronicker.rsubd.R
-import android.app.LauncherActivity.ListItem
-import android.util.Log
-import android.view.Menu
-import androidx.core.content.ContextCompat
-import com.google.android.material.snackbar.Snackbar
+import ru.chronicker.rsubd.Constants.ID
 import ru.chronicker.rsubd.Constants.MODE
-import ru.chronicker.rsubd.EMPTY_STRING
+import ru.chronicker.rsubd.R
 import ru.chronicker.rsubd.database.DBHelper
 import ru.chronicker.rsubd.database.base.*
 import ru.chronicker.rsubd.ui.base.ToolbarConfig
-import ru.chronicker.rsubd.ui.screens.form.adapters.FormFieldsAdapter
-import java.util.logging.Logger
-import kotlin.reflect.KFunction
 
 class FormActivityView : AppCompatActivity() {
 
@@ -32,6 +26,7 @@ class FormActivityView : AppCompatActivity() {
 
     private var screenMode = FormMode.CREATE
     private lateinit var currentModel: Entity
+    private var id: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,13 +42,19 @@ class FormActivityView : AppCompatActivity() {
     }
 
     private fun initData() {
+        intent.getIntExtra(ID, 0)
+            .let { id = it }
         intent.getSerializableExtra(ENTITY)
             .let { it as Entity }
             .also { currentModel = it }
-            .let { setEntityData(it) }
         intent.getSerializableExtra(MODE)
             .let { it as FormMode }
             .let { screenMode = it }
+        if (screenMode == FormMode.UPDATE) {
+            loadData()
+        } else {
+            setEntityData(currentModel, getEmptyValues(currentModel))
+        }
     }
 
     private fun initViews() {
@@ -82,8 +83,23 @@ class FormActivityView : AppCompatActivity() {
 //        fields_rv.adapter = adapter
     }
 
-    private fun setEntityData(entity: Entity) {
-        setFields(entity.fields, sortValuesAsFields(entity.values, entity.fields))
+    private fun loadData() {
+        val values = mutableMapOf<String, Any>()
+        dbHelper.select(currentModel, mapOf(ID to "$id"))
+            .map {
+                it.fields.map { (field, value) ->
+                    values[field.name] = value
+                }
+            }
+        setEntityData(currentModel, values)
+    }
+
+    private fun setEntityData(entity: Entity, values: Map<String, Any>) {
+        setFields(entity.fields, sortValuesAsFields(values, entity.fields))
+    }
+
+    private fun getEmptyValues(entity: Entity): Map<String, Any> {
+        return entity.values.mapValues { (key, value) -> (value as Value).value }
     }
 
     private fun sortValuesAsFields(values: Map<String, Any>, fields: List<Field>): List<Any?> {
@@ -102,14 +118,14 @@ class FormActivityView : AppCompatActivity() {
                         title = field.title
                         dialogTitle = field.title
                         options = getForeignItems(field.foreignTable, field.foreignKey)
-                        value = EMPTY_STRING
+                        value = (values[index] as Value).value.toString()
                         backgroundColor = getBackgroundColor()
                         titleTextColor = getHintColor()
                         valueTextColor = getFontColor()
                     }
                 } else {
                     text(1) {
-                        value = (values[index] as Value).value.toString()
+                        value = values[index].toString()
                         title = field.title
                         backgroundColor = getBackgroundColor()
                         titleTextColor = getHintColor()
@@ -129,18 +145,30 @@ class FormActivityView : AppCompatActivity() {
 
     private fun save() {
         getValues().let {
-            when(screenMode) {
+            when (screenMode) {
                 FormMode.CREATE -> {
                     println("AAA create $it")
                     doInsert(it)
                 }
-                FormMode.UPDATE -> println("AAA update $it")
+                FormMode.UPDATE -> {
+                    println("AAA update $it")
+                    doUpdate(it)
+                }
             }
         }
     }
 
     private fun doInsert(values: List<Value>) {
         dbHelper.insert(
+            entity = currentModel,
+            values = values,
+            onSuccess = ::savingSucceed,
+            onError = ::onError
+        )
+    }
+
+    private fun doUpdate(values: List<Value>) {
+        dbHelper.update(
             entity = currentModel,
             values = values,
             onSuccess = ::savingSucceed,
@@ -159,8 +187,8 @@ class FormActivityView : AppCompatActivity() {
     private fun getValues(): List<Value> {
         val values: MutableList<Value> = ArrayList()
         currentModel.fields.forEachIndexed { index, field ->
-//            if (field.name != "ID")
-            when(field) {
+            //            if (field.name != "ID")
+            when (field) {
                 is ForeignKeyField -> {
                     // FIXME
                     Value(0, FieldType.INTEGER)
@@ -169,7 +197,7 @@ class FormActivityView : AppCompatActivity() {
                     formBuilder.getElementAtIndex(index)
                         .value
                         .toString()
-                        .toInt()
+                        .toLong()
                         .let { Value(it, FieldType.INTEGER) }
                 }
                 else -> {

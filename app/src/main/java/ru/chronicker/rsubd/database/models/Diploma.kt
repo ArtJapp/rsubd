@@ -11,19 +11,22 @@ class Diploma : Entity(
         IntField(
             name = "ID",
             primaryKey = true,
-            autoIncrement = true
+            autoIncrement = true,
+            title = "id"
         ),
         ForeignKeyField(
             name = "DOCTOR_ID",
             type = FieldType.INTEGER,
             foreignTable = "Doctor",
-            foreignKey = "id"
+            foreignKey = "id",
+            title = "Доктор"
         ),
         ForeignKeyField(
             name = "SPECIALIZATION_ID",
             type = FieldType.INTEGER,
             foreignTable = "Specialization",
-            foreignKey = "id"
+            foreignKey = "id",
+            title = "Специализация"
         )
     )
 )

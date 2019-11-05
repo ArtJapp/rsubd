@@ -15,20 +15,25 @@ class Treatment : Entity(
         IntField(
             name = "ID",
             primaryKey = true,
-            autoIncrement = true
+            autoIncrement = true,
+            title = "id"
         ),
         Field(
             name = "NAME",
-            type = FieldType.TEXT
+            type = FieldType.TEXT,
+            title = "Наименование"
         ),
         IntField(
-            name = "TREATMENT_START"
+            name = "TREATMENT_START",
+            title = "Начало лечения"
         ),
         IntField(
-            name = "TREATMENT_END"
+            name = "TREATMENT_END",
+            title = "Окончание лечения"
         ),
         IntField(
-            name = "AMBULANCE_REQUIRED"
+            name = "AMBULANCE_REQUIRED",
+            title = "Нужна госпитализация"
         )
     )
 )

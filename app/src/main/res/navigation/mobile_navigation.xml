@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/nav_person">
+
+    <fragment
+        android:id="@+id/nav_diagnosis"
+        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.patient.PatientFragmentView"
+        android:label="@string/menu_diagnosis"
+        tools:layout="@layout/fragment_list_of_double_items" />
+    <fragment
+        android:id="@+id/nav_diploma"
+        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.patient.PatientFragmentView"
+        android:label="@string/menu_diploma"
+        tools:layout="@layout/fragment_list_of_double_items" />
+    <fragment
+        android:id="@+id/nav_diseases"
+        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.diseases.DiseaseFragmentView"
+        android:label="@string/menu_diseases"
+        tools:layout="@layout/fragment_list_of_double_items" />
+    <fragment
+        android:id="@+id/nav_doctors"
+        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.patient.PatientFragmentView"
+        android:label="@string/menu_doctors"
+        tools:layout="@layout/fragment_list_of_double_items" />
+    <fragment
+        android:id="@+id/nav_history"
+        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.patient.PatientFragmentView"
+        android:label="@string/menu_history"
+        tools:layout="@layout/fragment_list_of_double_items" />
+    <fragment
+        android:id="@+id/nav_patients"
+        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.patient.PatientFragmentView"
+        android:label="@string/menu_patients"
+        tools:layout="@layout/fragment_list_of_double_items" />
+    <fragment
+        android:id="@+id/nav_qualification"
+        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.qualification.QualificationFragmentView"
+        android:label="@string/menu_qualification"
+        tools:layout="@layout/fragment_list_of_double_items" />
+    <fragment
+        android:id="@+id/nav_social_status"
+        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.social_status.SocialStatusFragmentView"
+        android:label="@string/menu_social_status"
+        tools:layout="@layout/fragment_list_of_double_items" />
+    <fragment
+        android:id="@+id/nav_specialization"
+        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.specialization.SpecializationFragmentView"
+        android:label="@string/menu_specialization"
+        tools:layout="@layout/fragment_list_of_double_items" />
+    <fragment
+        android:id="@+id/nav_state"
+        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.state.StateFragmentView"
+        android:label="@string/menu_state"
+        tools:layout="@layout/fragment_list_of_double_items" />
+    <fragment
+        android:id="@+id/nav_treatment"
+        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.treatment.TreatmentFragmentView"
+        android:label="@string/menu_treatment"
+        tools:layout="@layout/fragment_list_of_double_items" />
+    <fragment
+        android:id="@+id/nav_person"
+        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.person.PersonFragmentView"
+        android:label="@string/menu_person"
+        tools:layout="@layout/fragment_list_of_double_items" />
+
+</navigation>

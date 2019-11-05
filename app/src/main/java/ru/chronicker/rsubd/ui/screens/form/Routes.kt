@@ -5,46 +5,46 @@ import android.content.Intent
 import ru.chronicker.rsubd.Constants.ENTITY
 import ru.chronicker.rsubd.Constants.ID
 import ru.chronicker.rsubd.Constants.MODE
-import ru.chronicker.rsubd.Constants.VALUES
 import ru.chronicker.rsubd.database.base.Entity
-import ru.chronicker.rsubd.database.base.Field
 import ru.chronicker.rsubd.database.base.Value
-import ru.chronicker.rsubd.database.models.Disease
+import ru.chronicker.rsubd.database.models.*
 
-abstract class FormRoute<T : Entity>(private val context: Context) {
+private const val NON_EXISTING_ID = -1
+
+abstract class FormRoute<T : Entity> {
 
     abstract val entity: T
-    protected abstract fun prepareIntent(intent: Intent): Intent
+    protected abstract fun prepareIntent(intent: Intent, id: Int): Intent
 
-    private val intent: Intent
-
-    init {
-        Intent(context, FormActivityView::class.java)
-//            .apply {
-//                this.putExtra(ENTITY, entity)
-//            }
-            .also {
-                intent = prepareIntent(it)
-            }
-    }
+    private var intent: Intent? = null
 
     fun withValues(values: Map<String, Value>) {
         values.forEach { (key, value) ->
-            intent.putExtra(key, value.wrap())
+            intent?.putExtra(key, value.wrap())
         }
     }
 
-    fun createForm() {
-        intent.putExtra(MODE, FormMode.CREATE)
-        startIntent()
+    fun createForm(context: Context) {
+        Intent(context, FormActivityView::class.java)
+            .putExtra(MODE, FormMode.CREATE)
+            .let { prepareIntent(it, NON_EXISTING_ID) }
+            .let {
+                intent = it
+            }
+        startIntent(context)
     }
 
-    fun updateForm() {
-        intent.putExtra(MODE, FormMode.UPDATE)
-        startIntent()
+    fun updateForm(context: Context, id: Int) {
+        Intent(context, FormActivityView::class.java)
+            .putExtra(MODE, FormMode.UPDATE)
+            .let { prepareIntent(it, id) }
+            .let {
+                intent = it
+            }
+        startIntent(context)
     }
 
-    private fun startIntent() {
+    private fun startIntent(context: Context) {
         context.startActivity(intent)
     }
 }
@@ -54,13 +54,26 @@ enum class FormMode {
     UPDATE
 }
 
-class DiseaseRoute(context: Context, private val id: Int = -1) : FormRoute<Disease>(context) {
+abstract class LazyRoute<T : Entity>(
+    override val entity: T
+) : FormRoute<T>() {
 
-    override val entity = Disease()
-
-    override fun prepareIntent(intent: Intent): Intent =
+    override fun prepareIntent(intent: Intent, id: Int): Intent =
         intent.apply {
             putExtra(ID, id)
-            putExtra(ENTITY, Disease())
+            putExtra(ENTITY, entity)
         }
 }
+
+class PersonRoute : LazyRoute<Person>(Person())
+class DoctorRoute : LazyRoute<Doctor>(Doctor())
+class DiplomRoute : LazyRoute<Diploma>(Diploma())
+class SpecializationRoute : LazyRoute<Specialization>(Specialization())
+class QualificationRoute : LazyRoute<Qualification>(Qualification())
+class PatientRoute : LazyRoute<Patient>(Patient())
+class StateRoute : LazyRoute<State>(State())
+class SocialStatusRoute : LazyRoute<SocialStatus>(SocialStatus())
+class DiagnosisRoute : LazyRoute<Diagnosis>(Diagnosis())
+class HistoryRoute : LazyRoute<History>(History())
+class TreatmentRoute : LazyRoute<Treatment>(Treatment())
+class DiseaseRoute : LazyRoute<Disease>(Disease())

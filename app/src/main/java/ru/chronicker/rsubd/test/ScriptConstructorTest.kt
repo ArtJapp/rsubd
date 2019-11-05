@@ -34,3 +34,11 @@ fun insertConstructionTest() {
     )
     println(ScriptConstructor.formInsert(Disease(), params))
 }
+
+fun updateConstructionTest() {
+    val params = listOf(
+        Value(1, FieldType.INTEGER),
+        Value("Вавка", FieldType.TEXT)
+    )
+    println(ScriptConstructor.formUpdate(Disease(), params))
+}

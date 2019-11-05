@@ -8,28 +8,33 @@ class Diagnosis : Entity(
         IntField(
             name = "ID",
             primaryKey = true,
-            autoIncrement = true
+            autoIncrement = true,
+            title = "id"
         ),
         ForeignKeyField(
             name = "DISEASE_ID",
             type = FieldType.INTEGER,
             foreignTable = "Disease",
-            foreignKey = "id"
+            foreignKey = "id",
+            title = "Болезнь"
         ),
         ForeignKeyField(
             name = "STATE_ID",
             type = FieldType.INTEGER,
             foreignTable = "State",
-            foreignKey = "id"
+            foreignKey = "id",
+            title = "Состояние"
         ),
         ForeignKeyField(
             name = "TREATMENT",
             type = FieldType.INTEGER,
             foreignTable = "Treatment",
-            foreignKey = "id"
+            foreignKey = "id",
+            title = "Лечение"
         ),
         IntField(
-            name = "IS_DISPANSERIZED"
+            name = "IS_DISPANSERIZED",
+            title = "Диспансеризован"
         )
     )
 )

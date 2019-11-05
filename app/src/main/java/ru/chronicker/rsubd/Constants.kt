@@ -18,7 +18,10 @@ object Scripts {
     const val DROP = "DROP TABLE IF EXISTS %s;"
     const val FOREIGN_KEY_INSTRUCTION = "FOREIGN KEY(%s) REFERENCES %s(%s)"
     const val SELECT = "SELECT %s FROM %s;"
+    const val SELECT_WITH_CONDITION = "SELECT %s FROM %s WHERE %s ;"
     const val INSERT = "INSERT INTO %s VALUES(%s);"
+    const val UPDATE = "UPDATE %s SET %s WHERE %s;"
+    const val DELETE = "DELETE FROM %s WHERE %s;"
 }
 
 object Constants {
