@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.content_form.*
 import ru.chronicker.rsubd.Constants.ENTITY
 import ru.chronicker.rsubd.Constants.ID
 import ru.chronicker.rsubd.Constants.MODE
+import ru.chronicker.rsubd.EMPTY_STRING
 import ru.chronicker.rsubd.R
 import ru.chronicker.rsubd.database.DBHelper
 import ru.chronicker.rsubd.database.base.*
@@ -118,7 +119,7 @@ class FormActivityView : AppCompatActivity() {
                         title = field.title
                         dialogTitle = field.title
                         options = getForeignItems(field.foreignTable, field.foreignKey)
-                        value = (values[index] as Value).value.toString()
+                        value = values[index].toString()
                         backgroundColor = getBackgroundColor()
                         titleTextColor = getHintColor()
                         valueTextColor = getFontColor()
@@ -138,9 +139,14 @@ class FormActivityView : AppCompatActivity() {
 
     private fun getForeignItems(table: String, key: String): List<String> {
         return dbHelper.select(table)
-            .flatMap { it.fields }
-            .map { it.second.toString() }
-
+            .map { it.fields }
+            .map { values ->
+                values.let {
+                    dbHelper.getEntityByName(table)
+                        ?.convertToString(values)
+                        ?: EMPTY_STRING
+                }
+            }
     }
 
     private fun save() {
@@ -209,6 +215,10 @@ class FormActivityView : AppCompatActivity() {
             }.let { values.add(it) }
         }
         return values
+    }
+
+    private fun getList() {
+
     }
 
     private fun getBackgroundColor(): Int {

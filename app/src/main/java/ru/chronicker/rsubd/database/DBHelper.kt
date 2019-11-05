@@ -108,6 +108,10 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
         doRequest(request, onSuccess, onError)
     }
 
+    fun getEntityByName(name: String): Entity? {
+        return entities.find { it.name == name }
+    }
+
     private fun doRequest(request: String, onSuccess: (() -> Unit)?, onError: ((String) -> Unit)?) {
         log(request)
         try {

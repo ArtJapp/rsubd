@@ -1,9 +1,15 @@
 package ru.chronicker.rsubd.database.models
 
+import ru.chronicker.rsubd.EMPTY_STRING
 import ru.chronicker.rsubd.database.base.Entity
 import ru.chronicker.rsubd.database.base.Field
 import ru.chronicker.rsubd.database.base.FieldType
 import ru.chronicker.rsubd.database.base.IntField
+
+private const val ID = "ID"
+private const val FIRST_NAME = "FIRST_NAME"
+private const val SECOND_NAME = "SECOND_NAME"
+private const val LAST_NAME = "LAST_NAME"
 
 /**
  * Общая маппинг-модель человека
@@ -12,25 +18,34 @@ class Person : Entity(
     name = "Person",
     fields = mutableListOf(
         IntField(
-            name = "ID",
+            name = ID,
             primaryKey = true,
             autoIncrement = true,
             title = "id"
         ),
         Field(
-            name = "FIRST_NAME",
+            name = FIRST_NAME,
             type = FieldType.TEXT,
             title = "Имя"
         ),
         Field(
-            name = "SECOND_NAME",
+            name = SECOND_NAME,
             type = FieldType.TEXT,
             title = "Отчество"
         ),
         Field(
-            name = "LAST_NAME",
+            name = LAST_NAME,
             type = FieldType.TEXT,
             title = "Фамилия"
         )
     )
-)
+) {
+
+    override fun convertToString(values: List<Pair<Field, Any>>): String {
+        val id = values.find { it.first.name == ID }?.second?.toString() ?: EMPTY_STRING
+        val firstName = values.find { it.first.name == FIRST_NAME }?.second?.toString() ?: EMPTY_STRING
+        val secondName = values.find { it.first.name == SECOND_NAME }?.second?.toString() ?: EMPTY_STRING
+        val lastName = values.find { it.first.name == LAST_NAME }?.second?.toString() ?: EMPTY_STRING
+        return "$id. $firstName $secondName $lastName"
+    }
+}
