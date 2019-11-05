@@ -21,6 +21,7 @@ import ru.chronicker.rsubd.R
 import ru.chronicker.rsubd.database.DBHelper
 import ru.chronicker.rsubd.database.base.*
 import ru.chronicker.rsubd.ui.base.ToolbarConfig
+import ru.chronicker.rsubd.utils.setStatusBarColor
 
 class FormActivityView : AppCompatActivity() {
 
@@ -36,7 +37,7 @@ class FormActivityView : AppCompatActivity() {
         setContentView(R.layout.activity_form)
         dbHelper = DBHelper(this)
         initData()
-        initViews()
+        initToolbar()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -60,14 +61,9 @@ class FormActivityView : AppCompatActivity() {
         }
     }
 
-    private fun initViews() {
-        initToolbar()
-        initContainer()
-    }
-
     private fun initToolbar() {
         ToolbarConfig.builder(this)
-            .setToolbarBackgroundColor(ContextCompat.getColor(this, R.color.bright_blue_10))
+            .setToolbarBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary))
             .setDisplayHomeAsUpEnabled(true)
             .enableBackAction(true)
             .setHomeAsUpIndicatorId(R.drawable.ic_back)
@@ -80,10 +76,7 @@ class FormActivityView : AppCompatActivity() {
                 }
             }
             .apply()
-    }
-
-    private fun initContainer() {
-//        fields_rv.adapter = adapter
+        setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark))
     }
 
     private fun loadData() {
@@ -189,7 +182,7 @@ class FormActivityView : AppCompatActivity() {
     }
 
     private fun onError(message: String) {
-        Snackbar.make(form_container, message, Snackbar.LENGTH_LONG)
+        Snackbar.make(form_container, message, Snackbar.LENGTH_LONG).show()
     }
 
     private fun getValues(): List<Value> {
@@ -231,7 +224,7 @@ class FormActivityView : AppCompatActivity() {
                     .filter { it.second == choice }
                     .map { it.first }
                     .firstOrNull()
-                    ?.let {  values ->
+                    ?.let { values ->
                         values.find { it.first.name == ID }?.second as Long
                     }
             } ?: EMPTY_LONG
