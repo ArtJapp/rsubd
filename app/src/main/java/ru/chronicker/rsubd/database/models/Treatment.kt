@@ -1,5 +1,6 @@
 package ru.chronicker.rsubd.database.models
 
+import ru.chronicker.rsubd.EMPTY_STRING
 import ru.chronicker.rsubd.database.base.Entity
 import ru.chronicker.rsubd.database.base.Field
 import ru.chronicker.rsubd.database.base.FieldType
@@ -36,4 +37,9 @@ class Treatment : Entity(
             title = "Нужна госпитализация"
         )
     )
-)
+) {
+
+    override fun convertToString(values: List<Pair<Field, Any>>): String {
+        return values.find { it.first.name == "NAME" }?.second?.toString() ?: EMPTY_STRING
+    }
+}

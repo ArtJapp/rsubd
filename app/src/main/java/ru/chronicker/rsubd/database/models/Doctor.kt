@@ -1,9 +1,7 @@
 package ru.chronicker.rsubd.database.models
 
-import ru.chronicker.rsubd.database.base.Entity
-import ru.chronicker.rsubd.database.base.FieldType
-import ru.chronicker.rsubd.database.base.ForeignKeyField
-import ru.chronicker.rsubd.database.base.IntField
+import ru.chronicker.rsubd.EMPTY_STRING
+import ru.chronicker.rsubd.database.base.*
 
 /**
  * Маппинг-модель врача
@@ -34,4 +32,9 @@ class Doctor : Entity(
             isCascade = true
         )
     )
-)
+) {
+
+    override fun convertToString(values: List<Pair<Field, Any>>): String {
+        return values.find { it.first.name == "PERSON_ID" }?.second?.toString() ?: EMPTY_STRING
+    }
+}
