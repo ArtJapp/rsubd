@@ -14,6 +14,8 @@ import kotlinx.android.synthetic.main.content_form.*
 import ru.chronicker.rsubd.Constants.ENTITY
 import ru.chronicker.rsubd.Constants.ID
 import ru.chronicker.rsubd.Constants.MODE
+import ru.chronicker.rsubd.EMPTY_INT
+import ru.chronicker.rsubd.EMPTY_LONG
 import ru.chronicker.rsubd.EMPTY_STRING
 import ru.chronicker.rsubd.R
 import ru.chronicker.rsubd.database.DBHelper
@@ -193,11 +195,13 @@ class FormActivityView : AppCompatActivity() {
     private fun getValues(): List<Value> {
         val values: MutableList<Value> = ArrayList()
         currentModel.fields.forEachIndexed { index, field ->
-            //            if (field.name != "ID")
             when (field) {
                 is ForeignKeyField -> {
-                    // FIXME
-                    Value(0, FieldType.INTEGER)
+                    formBuilder.getElementAtIndex(index)
+                        .value
+                        .toString()
+                        .let { convertSelectedToForeignKeyId(it, field.foreignTable) }
+                        .let { Value(it, FieldType.INTEGER) }
                 }
                 is IntField -> {
                     formBuilder.getElementAtIndex(index)
@@ -217,8 +221,20 @@ class FormActivityView : AppCompatActivity() {
         return values
     }
 
-    private fun getList() {
-
+    private fun convertSelectedToForeignKeyId(choice: String, entityName: String): Long {
+        return dbHelper.getEntityByName(entityName)
+            ?.let { entity ->
+                dbHelper.select(entityName)
+                    .asSequence()
+                    .map { it.fields }
+                    .map { it to entity.convertToString(it) }
+                    .filter { it.second == choice }
+                    .map { it.first }
+                    .firstOrNull()
+                    ?.let {  values ->
+                        values.find { it.first.name == ID }?.second as Long
+                    }
+            } ?: EMPTY_LONG
     }
 
     private fun getBackgroundColor(): Int {
