@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_list_of_double_items.*
 import ru.chronicker.rsubd.EMPTY_STRING
 import ru.chronicker.rsubd.R
@@ -50,6 +52,7 @@ abstract class BaseFragment<T : Entity, M : ItemModel> : Fragment() {
 
     fun setListAdapter(adapter: BaseAdapter<M>) {
         this.adapter = adapter
+        enableSwipeToDeleteAndUndo()
     }
 
     fun loadData() {
@@ -78,5 +81,17 @@ abstract class BaseFragment<T : Entity, M : ItemModel> : Fragment() {
             FieldType.REAL -> (value as Float).toString()
             else -> EMPTY_STRING
         }
+    }
+
+    private fun enableSwipeToDeleteAndUndo() {
+        val swipeToDeleteCallback = object : SwipeToDeleteCallback(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, i: Int) {
+                val position = viewHolder.adapterPosition
+                adapter?.deleteItem(position)
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
+        itemTouchHelper.attachToRecyclerView(items_rv)
     }
 }

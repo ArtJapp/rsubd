@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_double.view.*
 import ru.chronicker.rsubd.EMPTY_INT
 
-abstract class BaseAdapter<T : ItemModel> : RecyclerView.Adapter<BaseViewHolder<T>>() {
+abstract class BaseAdapter<T : ItemModel>(
+    private val onDeleteAction: ((Int) -> Unit)? = null
+) : RecyclerView.Adapter<BaseViewHolder<T>>() {
 
     abstract val componentLayoutId: Int
 
@@ -32,6 +34,10 @@ abstract class BaseAdapter<T : ItemModel> : RecyclerView.Adapter<BaseViewHolder<
 
     override fun onBindViewHolder(holder: BaseViewHolder<T>, position: Int) {
         holder.bind(values[position])
+    }
+
+    fun deleteItem(position: Int) {
+        onDeleteAction?.invoke(values[position].id)
     }
 }
 
