@@ -22,14 +22,16 @@ class Doctor : Entity(
             type = FieldType.INTEGER,
             foreignTable = "Person",
             foreignKey = "id",
-            title = "Человек"
+            title = "Человек",
+            isCascade = true
         ),
         ForeignKeyField(
             name = "QUALIFICATION_ID",
             type = FieldType.INTEGER,
             foreignTable = "Qualification",
             foreignKey = "id",
-            title = "Квалификация"
+            title = "Квалификация",
+            isCascade = true
         )
     )
 )

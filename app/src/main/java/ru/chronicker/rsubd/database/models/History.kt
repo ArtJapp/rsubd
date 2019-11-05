@@ -23,21 +23,24 @@ class History : Entity(
             type = FieldType.INTEGER,
             foreignTable = "Doctor",
             foreignKey = "id",
-            title = "Доктор"
+            title = "Доктор",
+            isCascade = true
         ),
         ForeignKeyField(
             name = "PATIENT_ID",
             type = FieldType.INTEGER,
             foreignTable = "Patient",
             foreignKey = "id",
-            title = "Пациент"
+            title = "Пациент",
+            isCascade = true
         ),
         ForeignKeyField(
             name = "DIAGNOSIS_ID",
             type = FieldType.INTEGER,
             foreignTable = "Diagnosis",
             foreignKey = "id",
-            title = "Диагноз"
+            title = "Диагноз",
+            isCascade = true
         )
     )
 )

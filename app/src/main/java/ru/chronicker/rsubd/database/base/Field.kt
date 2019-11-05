@@ -3,6 +3,8 @@ package ru.chronicker.rsubd.database.base
 import ru.chronicker.rsubd.EMPTY_STRING
 import ru.chronicker.rsubd.SPACE
 import ru.chronicker.rsubd.Scripts.AUTOINCREMENT
+import ru.chronicker.rsubd.Scripts.CASCASE_DELETE
+import ru.chronicker.rsubd.Scripts.CASCASE_UPDATE
 import ru.chronicker.rsubd.Scripts.FOREIGN_KEY_INSTRUCTION
 import ru.chronicker.rsubd.Scripts.PRIMARY_KEY
 import java.io.Serializable
@@ -70,7 +72,8 @@ class ForeignKeyField(
     type: FieldType,
     title: String = EMPTY_STRING,
     val foreignTable: String,
-    val foreignKey: String
+    val foreignKey: String,
+    val isCascade: Boolean = false
 ) : Field(
     name = name,
     type = type,
@@ -83,6 +86,8 @@ class ForeignKeyField(
      */
     fun getForeignKeyInstruction(): String {
         return FOREIGN_KEY_INSTRUCTION.format(name, foreignTable, foreignKey)
+            .addWithSpaceIf(isCascade, CASCASE_UPDATE)
+            .addWithSpaceIf(isCascade, CASCASE_DELETE)
     }
 }
 

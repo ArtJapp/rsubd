@@ -19,14 +19,16 @@ class Diploma : Entity(
             type = FieldType.INTEGER,
             foreignTable = "Doctor",
             foreignKey = "id",
-            title = "Доктор"
+            title = "Доктор",
+            isCascade = true
         ),
         ForeignKeyField(
             name = "SPECIALIZATION_ID",
             type = FieldType.INTEGER,
             foreignTable = "Specialization",
             foreignKey = "id",
-            title = "Специализация"
+            title = "Специализация",
+            isCascade = true
         )
     )
 )

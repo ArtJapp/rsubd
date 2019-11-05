@@ -16,7 +16,8 @@ class Diagnosis : Entity(
             type = FieldType.INTEGER,
             foreignTable = "Disease",
             foreignKey = "id",
-            title = "Болезнь"
+            title = "Болезнь",
+            isCascade = true
         ),
         ForeignKeyField(
             name = "STATE_ID",

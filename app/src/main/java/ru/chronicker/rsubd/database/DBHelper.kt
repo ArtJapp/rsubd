@@ -48,9 +48,18 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
     override fun onCreate(db: SQLiteDatabase?) {
         db?.let { database ->
             entities.forEach { entity ->
-                database.execSQL(ScriptConstructor.formCreate(entity))
+                ScriptConstructor.formCreate(entity)
+                    .let { script ->
+                        log(script)
+                        database.execSQL(script)
+                    }
             }
         }
+    }
+
+    override fun onOpen(db: SQLiteDatabase?) {
+        super.onOpen(db)
+        db?.execSQL("PRAGMA foreign_keys=ON")
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -60,9 +69,13 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
 
     private fun dropAllDatabases(db: SQLiteDatabase?) {
         db?.let { database ->
-            entities.map { it.name }
+            entities.map { "main." + it.name }
                 .forEach { entityName ->
-                    database.execSQL(ScriptConstructor.formDrop(entityName))
+                    ScriptConstructor.formDrop(entityName)
+                        .let { script ->
+                            log(script)
+                            database.execSQL(script)
+                        }
                 }
         }
     }

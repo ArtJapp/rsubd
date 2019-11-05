@@ -23,7 +23,8 @@ class Patient : Entity(
             type = FieldType.INTEGER,
             foreignTable = "Person",
             foreignKey = "id",
-            title = "Персональные данные"
+            title = "Персональные данные",
+            isCascade = true
         ),
         ForeignKeyField(
             name = "STATUS_ID",
