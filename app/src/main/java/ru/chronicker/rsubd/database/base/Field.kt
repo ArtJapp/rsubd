@@ -45,7 +45,7 @@ open class Field(
  * Модель поля с целочисленным значением.
  * Может использоваться для хранения ID, дат и булеанов.
  */
-class IntField(
+open class IntField(
     name: String,
     primaryKey: Boolean = false,
     title: String = EMPTY_STRING,
@@ -62,6 +62,16 @@ class IntField(
             .addWithSpaceIf(autoIncrement, AUTOINCREMENT)
     }
 }
+
+class BooleanField(
+    name: String,
+    title: String
+): IntField(name, false, title, false)
+
+class DateField(
+    name: String,
+    title: String
+): IntField(name, false, title, false)
 
 /**
  * Модель поля с внешним ключом.

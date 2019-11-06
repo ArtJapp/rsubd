@@ -5,10 +5,7 @@ import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
-import com.thejuki.kformmaster.helper.FormBuildHelper
-import com.thejuki.kformmaster.helper.dropDown
-import com.thejuki.kformmaster.helper.form
-import com.thejuki.kformmaster.helper.text
+import com.thejuki.kformmaster.helper.*
 import kotlinx.android.synthetic.main.activity_form.*
 import kotlinx.android.synthetic.main.content_form.*
 import ru.chronicker.rsubd.Constants.ENTITY
@@ -109,23 +106,37 @@ class FormActivityView : AppCompatActivity() {
     private fun setFields(fields: List<Field>, values: List<Any?>) {
         formBuilder = form(this, fields_rv) {
             fields.forEachIndexed { index, field ->
-                if (field is ForeignKeyField) {
-                    dropDown<String> {
-                        title = field.title
-                        dialogTitle = field.title
-                        options = getForeignItems(field.foreignTable, field.foreignKey)
-                        value = values[index].toString()
-                        backgroundColor = getBackgroundColor()
-                        titleTextColor = getHintColor()
-                        valueTextColor = getFontColor()
+                when (field) {
+                    is ForeignKeyField -> {
+                        dropDown<String> {
+                            title = field.title
+                            dialogTitle = field.title
+                            options = getForeignItems(field.foreignTable, field.foreignKey)
+                            value = values[index].toString()
+                            backgroundColor = getBackgroundColor()
+                            titleTextColor = getHintColor()
+                            valueTextColor = getFontColor()
+                        }
                     }
-                } else {
-                    text(1) {
-                        value = values[index].toString()
-                        title = field.title
-                        backgroundColor = getBackgroundColor()
-                        titleTextColor = getHintColor()
-                        valueTextColor = getFontColor()
+                    is BooleanField -> {
+                        checkBox<String> {
+                            title = field.title
+                            checkedValue = "1"
+                            unCheckedValue = "0"
+                            value = values[index].toString()
+                            backgroundColor = getBackgroundColor()
+                            titleTextColor = getHintColor()
+                            valueTextColor = getFontColor()
+                        }
+                    }
+                    else -> {
+                        text(1) {
+                            value = values[index].toString()
+                            title = field.title
+                            backgroundColor = getBackgroundColor()
+                            titleTextColor = getHintColor()
+                            valueTextColor = getFontColor()
+                        }
                     }
                 }
             }
@@ -194,6 +205,13 @@ class FormActivityView : AppCompatActivity() {
                         .value
                         .toString()
                         .let { convertSelectedToForeignKeyId(it, field.foreignTable) }
+                        .let { Value(it, FieldType.INTEGER) }
+                }
+                is BooleanField -> {
+                    formBuilder.getElementAtIndex(index)
+                        .value
+                        .toString()
+                        .toLong()
                         .let { Value(it, FieldType.INTEGER) }
                 }
                 is IntField -> {

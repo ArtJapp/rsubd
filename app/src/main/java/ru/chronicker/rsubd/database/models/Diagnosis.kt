@@ -33,7 +33,7 @@ class Diagnosis : Entity(
             foreignKey = "id",
             title = "Лечение"
         ),
-        IntField(
+        BooleanField(
             name = "IS_DISPANSERIZED",
             title = "Диспансеризован"
         )
