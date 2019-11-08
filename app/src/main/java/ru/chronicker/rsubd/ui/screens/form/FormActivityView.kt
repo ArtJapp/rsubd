@@ -7,6 +7,8 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import com.thejuki.kformmaster.helper.*
 import com.thejuki.kformmaster.model.FormPickerDateElement
+import com.thejuki.kformmaster.view.FormSingleLineLockableEditTextViewBinder
+import com.thejuki.kformmaster.view.lockableField
 import kotlinx.android.synthetic.main.activity_form.*
 import kotlinx.android.synthetic.main.content_form.*
 import ru.chronicker.rsubd.Constants.ENTITY
@@ -20,7 +22,6 @@ import ru.chronicker.rsubd.database.base.*
 import ru.chronicker.rsubd.ui.base.ToolbarConfig
 import ru.chronicker.rsubd.ui.screens.main.fragments.treatment.toDate
 import ru.chronicker.rsubd.utils.setStatusBarColor
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -155,25 +156,14 @@ class FormActivityView : AppCompatActivity() {
                         }
                     }
                     is IntField -> {
-                        if (checkFieldEnabled(field)) {
-                            text(1) {
-                                value = getIntValue(field, values[index].toString().toLong()).toString()
-                                title = field.title
-                                backgroundColor = getBackgroundColor()
-                                titleTextColor = getHintColor()
-                                valueTextColor = getFontColor()
-                                enabled = true
-                            }
-                        } else {
-                            label {
-                                value =
-                                    getIntValue(field, values[index].toString().toLong()).toString()
-                                title = field.title
-                                backgroundColor = getBackgroundColor()
-                                titleTextColor = getHintColor()
-                                valueTextColor = getFontColor()
-                                enabled = false
-                            }
+                        lockableField(1) {
+                            value =
+                                getIntValue(field, values[index].toString().toLong()).toString()
+                            title = field.title
+                            backgroundColor = getBackgroundColor()
+                            titleTextColor = getHintColor()
+                            valueTextColor = getFontColor()
+                            enabled = checkFieldEnabled(field)
                         }
                     }
                     else -> {
@@ -188,6 +178,13 @@ class FormActivityView : AppCompatActivity() {
                 }
             }
         }
+        formBuilder.registerCustomViewBinder(
+            FormSingleLineLockableEditTextViewBinder(
+                context = this,
+                formBuilder = formBuilder,
+                layoutID = formBuilder.formLayouts?.text
+            ).viewBinder
+        )
     }
 
     private fun getForeignItems(table: String, key: String): List<String> {
@@ -332,4 +329,3 @@ data class ForeignSelectableField(
     val id: Int,
     val title: String
 )
-
