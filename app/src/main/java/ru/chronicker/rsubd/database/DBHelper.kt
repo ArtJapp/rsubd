@@ -17,8 +17,10 @@ import ru.chronicker.rsubd.database.models.*
 import ru.chronicker.rsubd.database.utils.ScriptConstructor
 import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formDelete
 import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formInsert
+import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formQueryMaxId
 import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formSelect
 import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formUpdate
+import kotlin.math.max
 
 private const val DB_HELPER = "DB_HELPER"
 private val UNKNOWN_ERROR = "Unknown Error"
@@ -48,9 +50,18 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
     override fun onCreate(db: SQLiteDatabase?) {
         db?.let { database ->
             entities.forEach { entity ->
-                database.execSQL(ScriptConstructor.formCreate(entity))
+                ScriptConstructor.formCreate(entity)
+                    .let { script ->
+                        log(script)
+                        database.execSQL(script)
+                    }
             }
         }
+    }
+
+    override fun onOpen(db: SQLiteDatabase?) {
+        super.onOpen(db)
+        db?.execSQL("PRAGMA foreign_keys=ON")
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -60,9 +71,13 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
 
     private fun dropAllDatabases(db: SQLiteDatabase?) {
         db?.let { database ->
-            entities.map { it.name }
+            entities.map { "main." + it.name }
                 .forEach { entityName ->
-                    database.execSQL(ScriptConstructor.formDrop(entityName))
+                    ScriptConstructor.formDrop(entityName)
+                        .let { script ->
+                            log(script)
+                            database.execSQL(script)
+                        }
                 }
         }
     }
@@ -108,11 +123,32 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
         doRequest(request, onSuccess, onError)
     }
 
+    fun getEntityByName(name: String): Entity? {
+        return entities.find { it.name == name }
+    }
+
+    fun getMaxId(entity: Entity): Long {
+        val request = formQueryMaxId(entity)
+        val response = readableDatabase.rawQuery(request, null)
+        var result = -1L
+        if (response.moveToFirst()) {
+            do {
+                response.getLong(0)
+                    .let {
+                        result = max(it, result)
+                    }
+            } while (response.moveToNext())
+        }
+        response.close()
+        return result
+    }
+
     private fun doRequest(request: String, onSuccess: (() -> Unit)?, onError: ((String) -> Unit)?) {
         log(request)
         try {
             writableDatabase.execSQL(request)
             onSuccess?.invoke()
+            writableDatabase.close()
         } catch (error: SQLException) {
             error.message?.let {
                 log(it)

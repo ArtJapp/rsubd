@@ -1,5 +1,6 @@
 package ru.chronicker.rsubd.database.models
 
+import ru.chronicker.rsubd.EMPTY_STRING
 import ru.chronicker.rsubd.database.base.*
 
 /**
@@ -14,7 +15,7 @@ class Patient : Entity(
             autoIncrement = true,
             title = "id"
         ),
-        IntField(
+        DateField(
             name = "BIRTH_DATE",
             title = "Дата рождения"
         ),
@@ -23,7 +24,8 @@ class Patient : Entity(
             type = FieldType.INTEGER,
             foreignTable = "Person",
             foreignKey = "id",
-            title = "Персональные данные"
+            title = "Персональные данные",
+            isCascade = true
         ),
         ForeignKeyField(
             name = "STATUS_ID",
@@ -33,4 +35,9 @@ class Patient : Entity(
             title = "Социальный статус"
         )
     )
-)
+) {
+
+    override fun convertToString(values: List<Pair<Field, Any>>): String {
+        return values.find { it.first.name == "PERSON_ID" }?.second?.toString() ?: EMPTY_STRING
+    }
+}

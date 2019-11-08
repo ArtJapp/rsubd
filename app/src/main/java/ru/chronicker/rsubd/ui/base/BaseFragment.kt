@@ -14,6 +14,7 @@ import ru.chronicker.rsubd.database.DBHelper
 import ru.chronicker.rsubd.database.base.Entity
 import ru.chronicker.rsubd.database.base.Field
 import ru.chronicker.rsubd.database.base.FieldType
+import ru.chronicker.rsubd.database.base.ForeignKeyField
 
 abstract class BaseFragment<T : Entity, M : ItemModel> : Fragment() {
 
@@ -63,7 +64,7 @@ abstract class BaseFragment<T : Entity, M : ItemModel> : Fragment() {
             .map { result ->
                 result.fields
                     .map { (field, value) ->
-                        Pair(field.name, getValue(value, field))
+                        field.name to getValue(value, field)
                     }
             }
             .map { pair ->
@@ -75,6 +76,18 @@ abstract class BaseFragment<T : Entity, M : ItemModel> : Fragment() {
     }
 
     private fun getValue(value: Any, field: Field): String {
+        if (field is ForeignKeyField) {
+            val entity = dbHelper.getEntityByName(field.foreignTable)
+            return dbHelper.select(field.foreignTable)
+                .asSequence()
+                .map { it.fields }
+                .filter { list ->
+                    list.find { it.second == value } != null
+                }
+                .firstOrNull()
+                ?.let { entity?.convertToString(it) }
+                ?: EMPTY_STRING
+        }
         return when (field.type) {
             FieldType.TEXT -> value as String
             FieldType.INTEGER -> (value as Long).toString()

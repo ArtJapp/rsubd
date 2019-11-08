@@ -14,10 +14,10 @@ class PatientFragmentView : PrimitiveDoubleFragmentView<Patient, PatientRoute>(
 ) {
 
     override fun convertToTitle(values: List<Pair<String, String>>): String {
-        return values.find { it.first == "" }?.second ?: EMPTY_STRING
+        return values.find { it.first == "PERSON_ID" }?.second ?: EMPTY_STRING
     }
 
     override fun provideSubtitle(values: List<Pair<String, String>>): String {
-        return values.find { it.first == "" }?.second ?: EMPTY_STRING
+        return values.find { it.first == "STATUS_ID" }?.second ?: EMPTY_STRING
     }
 }

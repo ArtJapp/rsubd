@@ -5,19 +5,27 @@ import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
-import com.thejuki.kformmaster.helper.FormBuildHelper
-import com.thejuki.kformmaster.helper.dropDown
-import com.thejuki.kformmaster.helper.form
-import com.thejuki.kformmaster.helper.text
+import com.thejuki.kformmaster.helper.*
+import com.thejuki.kformmaster.model.FormPickerDateElement
+import com.thejuki.kformmaster.view.FormSingleLineLockableEditTextViewBinder
+import com.thejuki.kformmaster.view.lockableField
 import kotlinx.android.synthetic.main.activity_form.*
 import kotlinx.android.synthetic.main.content_form.*
+import ru.chronicker.rsubd.Constants.DATE_PATTERN
 import ru.chronicker.rsubd.Constants.ENTITY
 import ru.chronicker.rsubd.Constants.ID
 import ru.chronicker.rsubd.Constants.MODE
+import ru.chronicker.rsubd.EMPTY_LONG
+import ru.chronicker.rsubd.EMPTY_STRING
 import ru.chronicker.rsubd.R
 import ru.chronicker.rsubd.database.DBHelper
 import ru.chronicker.rsubd.database.base.*
 import ru.chronicker.rsubd.ui.base.ToolbarConfig
+import ru.chronicker.rsubd.ui.screens.main.fragments.treatment.toDate
+import ru.chronicker.rsubd.utils.setStatusBarColor
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class FormActivityView : AppCompatActivity() {
 
@@ -26,14 +34,14 @@ class FormActivityView : AppCompatActivity() {
 
     private var screenMode = FormMode.CREATE
     private lateinit var currentModel: Entity
-    private var id: Int = 0
+    private var id: Long = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form)
         dbHelper = DBHelper(this)
         initData()
-        initViews()
+        initToolbar()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -42,7 +50,7 @@ class FormActivityView : AppCompatActivity() {
     }
 
     private fun initData() {
-        intent.getIntExtra(ID, 0)
+        intent.getIntExtra(ID, 0).toLong()
             .let { id = it }
         intent.getSerializableExtra(ENTITY)
             .let { it as Entity }
@@ -53,18 +61,14 @@ class FormActivityView : AppCompatActivity() {
         if (screenMode == FormMode.UPDATE) {
             loadData()
         } else {
+            updateId(currentModel)
             setEntityData(currentModel, getEmptyValues(currentModel))
         }
     }
 
-    private fun initViews() {
-        initToolbar()
-        initContainer()
-    }
-
     private fun initToolbar() {
         ToolbarConfig.builder(this)
-            .setToolbarBackgroundColor(ContextCompat.getColor(this, R.color.bright_blue_10))
+            .setToolbarBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary))
             .setDisplayHomeAsUpEnabled(true)
             .enableBackAction(true)
             .setHomeAsUpIndicatorId(R.drawable.ic_back)
@@ -77,10 +81,7 @@ class FormActivityView : AppCompatActivity() {
                 }
             }
             .apply()
-    }
-
-    private fun initContainer() {
-//        fields_rv.adapter = adapter
+        setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark))
     }
 
     private fun loadData() {
@@ -98,6 +99,13 @@ class FormActivityView : AppCompatActivity() {
         setFields(entity.fields, sortValuesAsFields(values, entity.fields))
     }
 
+    private fun updateId(model: Entity) {
+        dbHelper.getMaxId(model)
+            .let {
+                id = it + 1
+            }
+    }
+
     private fun getEmptyValues(entity: Entity): Map<String, Any> {
         return entity.values.mapValues { (key, value) -> (value as Value).value }
     }
@@ -113,34 +121,109 @@ class FormActivityView : AppCompatActivity() {
     private fun setFields(fields: List<Field>, values: List<Any?>) {
         formBuilder = form(this, fields_rv) {
             fields.forEachIndexed { index, field ->
-                if (field is ForeignKeyField) {
-                    dropDown<String> {
-                        title = field.title
-                        dialogTitle = field.title
-                        options = getForeignItems(field.foreignTable, field.foreignKey)
-                        value = (values[index] as Value).value.toString()
-                        backgroundColor = getBackgroundColor()
-                        titleTextColor = getHintColor()
-                        valueTextColor = getFontColor()
+                when (field) {
+                    is ForeignKeyField -> {
+                        dropDown<String> {
+                            title = field.title
+                            dialogTitle = field.title
+                            options = getForeignItems(field.foreignTable, field.foreignKey)
+                            value =
+                                getInitialForeignKey(values[index].toString(), field.foreignTable)
+                            backgroundColor = getBackgroundColor()
+                            titleTextColor = getHintColor()
+                            valueTextColor = getFontColor()
+                        }
                     }
-                } else {
-                    text(1) {
-                        value = values[index].toString()
-                        title = field.title
-                        backgroundColor = getBackgroundColor()
-                        titleTextColor = getHintColor()
-                        valueTextColor = getFontColor()
+                    is BooleanField -> {
+                        checkBox<String> {
+                            title = field.title
+                            checkedValue = "1"
+                            unCheckedValue = "0"
+                            value = values[index].toString()
+                            backgroundColor = getBackgroundColor()
+                            titleTextColor = getHintColor()
+                            valueTextColor = getFontColor()
+                        }
+                    }
+                    is DateField -> {
+                        date {
+                            title = field.title
+                            value = FormPickerDateElement.DateHolder(
+                                Date(values[index].toString().toLong()),
+                                dateFormat = SimpleDateFormat(DATE_PATTERN, Locale.US)
+                            )
+                            backgroundColor = getBackgroundColor()
+                            titleTextColor = getHintColor()
+                            valueTextColor = getFontColor()
+                        }
+                    }
+                    is IntField -> {
+                        lockableField(1) {
+                            value =
+                                getIntValue(field, values[index].toString().toLong()).toString()
+                            title = field.title
+                            backgroundColor = getBackgroundColor()
+                            titleTextColor = getHintColor()
+                            valueTextColor = getFontColor()
+                            enabled = checkFieldEnabled(field)
+                        }
+                    }
+                    else -> {
+                        text(1) {
+                            value = values[index].toString()
+                            title = field.title
+                            backgroundColor = getBackgroundColor()
+                            titleTextColor = getHintColor()
+                            valueTextColor = getFontColor()
+                        }
                     }
                 }
             }
         }
+        formBuilder.registerCustomViewBinder(
+            FormSingleLineLockableEditTextViewBinder(
+                context = this,
+                formBuilder = formBuilder,
+                layoutID = formBuilder.formLayouts?.text
+            ).viewBinder
+        )
     }
 
     private fun getForeignItems(table: String, key: String): List<String> {
         return dbHelper.select(table)
-            .flatMap { it.fields }
-            .map { it.second.toString() }
+            .map { it.fields }
+            .map { values ->
+                values.let {
+                    dbHelper.getEntityByName(table)
+                        ?.convertToString(values)
+                        ?: EMPTY_STRING
+                }
+            }
+    }
 
+    private fun getInitialForeignKey(value: String, modelName: String): String {
+        return dbHelper.getEntityByName(modelName)
+            ?.let { model ->
+                dbHelper.select(model, mapOf(ID to value))
+                    .map { it.fields }
+                    .map { result ->
+                        model.convertToString(result)
+                    }
+                    .firstOrNull()
+            }
+            ?: EMPTY_STRING
+    }
+
+    private fun getIntValue(field: Field, possibleValue: Long): Long {
+        return if (screenMode == FormMode.CREATE && field.name == ID) {
+            id
+        } else {
+            possibleValue
+        }
+    }
+
+    private fun checkFieldEnabled(field: Field): Boolean {
+        return field.name != ID
     }
 
     private fun save() {
@@ -181,17 +264,34 @@ class FormActivityView : AppCompatActivity() {
     }
 
     private fun onError(message: String) {
-        Snackbar.make(form_container, message, Snackbar.LENGTH_LONG)
+        Snackbar.make(form_container, message, Snackbar.LENGTH_LONG).show()
     }
 
     private fun getValues(): List<Value> {
         val values: MutableList<Value> = ArrayList()
         currentModel.fields.forEachIndexed { index, field ->
-            //            if (field.name != "ID")
             when (field) {
                 is ForeignKeyField -> {
-                    // FIXME
-                    Value(0, FieldType.INTEGER)
+                    formBuilder.getElementAtIndex(index)
+                        .value
+                        .toString()
+                        .let { convertSelectedToForeignKeyId(it, field.foreignTable) }
+                        .let { Value(it, FieldType.INTEGER) }
+                }
+                is BooleanField -> {
+                    formBuilder.getElementAtIndex(index)
+                        .value
+                        .toString()
+                        .toLong()
+                        .let { Value(it, FieldType.INTEGER) }
+                }
+                is DateField -> {
+                    formBuilder.getElementAtIndex(index)
+                        .value
+                        .toString()
+                        .toDate()
+                        .time
+                        .let { Value(it, FieldType.INTEGER) }
                 }
                 is IntField -> {
                     formBuilder.getElementAtIndex(index)
@@ -211,6 +311,22 @@ class FormActivityView : AppCompatActivity() {
         return values
     }
 
+    private fun convertSelectedToForeignKeyId(choice: String, entityName: String): Long {
+        return dbHelper.getEntityByName(entityName)
+            ?.let { entity ->
+                dbHelper.select(entityName)
+                    .asSequence()
+                    .map { it.fields }
+                    .map { it to entity.convertToString(it) }
+                    .filter { it.second == choice }
+                    .map { it.first }
+                    .firstOrNull()
+                    ?.let { values ->
+                        values.find { it.first.name == ID }?.second as Long
+                    }
+            } ?: EMPTY_LONG
+    }
+
     private fun getBackgroundColor(): Int {
         return ContextCompat.getColor(this, R.color.colorSurface)
     }
@@ -223,8 +339,3 @@ class FormActivityView : AppCompatActivity() {
         return ContextCompat.getColor(this, R.color.secondaryTextColor)
     }
 }
-
-data class ForeignSelectableField(
-    val id: Int,
-    val title: String
-)

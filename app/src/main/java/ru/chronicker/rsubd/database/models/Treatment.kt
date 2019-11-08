@@ -1,9 +1,7 @@
 package ru.chronicker.rsubd.database.models
 
-import ru.chronicker.rsubd.database.base.Entity
-import ru.chronicker.rsubd.database.base.Field
-import ru.chronicker.rsubd.database.base.FieldType
-import ru.chronicker.rsubd.database.base.IntField
+import ru.chronicker.rsubd.EMPTY_STRING
+import ru.chronicker.rsubd.database.base.*
 
 /**
  * Маппинг-модель лечения пациента, включает в себя название лечения
@@ -23,17 +21,24 @@ class Treatment : Entity(
             type = FieldType.TEXT,
             title = "Наименование"
         ),
-        IntField(
+        DateField(
             name = "TREATMENT_START",
             title = "Начало лечения"
         ),
-        IntField(
+        DateField(
             name = "TREATMENT_END",
             title = "Окончание лечения"
         ),
-        IntField(
+        BooleanField(
             name = "AMBULANCE_REQUIRED",
             title = "Нужна госпитализация"
         )
     )
-)
+) {
+
+    override fun convertToString(values: List<Pair<Field, Any>>): String {
+        val id = values.find { it.first.name == "ID" }?.second?.toString() ?: EMPTY_STRING
+        val name = values.find { it.first.name == "NAME" }?.second?.toString() ?: EMPTY_STRING
+        return "$id. $name"
+    }
+}

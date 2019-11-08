@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/nav_diagnosis"
-        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.patient.PatientFragmentView"
+        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.diagnosis.DiagnosisFragmentView"
         android:label="@string/menu_diagnosis"
         tools:layout="@layout/fragment_list_of_double_items" />
     <fragment
         android:id="@+id/nav_diploma"
-        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.patient.PatientFragmentView"
+        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.diploma.DiplomaFragmentView"
         android:label="@string/menu_diploma"
         tools:layout="@layout/fragment_list_of_double_items" />
     <fragment
@@ -22,12 +22,12 @@
         tools:layout="@layout/fragment_list_of_double_items" />
     <fragment
         android:id="@+id/nav_doctors"
-        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.patient.PatientFragmentView"
+        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.doctors.DoctorsFragmentView"
         android:label="@string/menu_doctors"
         tools:layout="@layout/fragment_list_of_double_items" />
     <fragment
         android:id="@+id/nav_history"
-        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.patient.PatientFragmentView"
+        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.history.HistoryFragmentView"
         android:label="@string/menu_history"
         tools:layout="@layout/fragment_list_of_double_items" />
     <fragment
