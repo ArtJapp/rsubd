@@ -21,11 +21,11 @@ class Treatment : Entity(
             type = FieldType.TEXT,
             title = "Наименование"
         ),
-        IntField(
+        DateField(
             name = "TREATMENT_START",
             title = "Начало лечения"
         ),
-        IntField(
+        DateField(
             name = "TREATMENT_END",
             title = "Окончание лечения"
         ),

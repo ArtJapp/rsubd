@@ -1,5 +1,6 @@
 package ru.chronicker.rsubd.ui.screens.main.fragments.treatment
 
+import android.annotation.SuppressLint
 import ru.chronicker.rsubd.EMPTY_STRING
 import ru.chronicker.rsubd.database.models.Treatment
 import ru.chronicker.rsubd.ui.screens.form.TreatmentRoute
@@ -33,4 +34,9 @@ class TreatmentFragmentView : PrimitiveDoubleFragmentView<Treatment, TreatmentRo
 fun Date.toSimpleString() : String {
     val format = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
     return format.format(this)
+}
+
+@SuppressLint("SimpleDateFormat")
+fun String.toDate(): Date {
+    return SimpleDateFormat("dd.MM.yyyy").parse(this) ?: Date()
 }

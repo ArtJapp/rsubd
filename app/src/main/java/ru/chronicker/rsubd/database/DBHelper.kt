@@ -17,8 +17,10 @@ import ru.chronicker.rsubd.database.models.*
 import ru.chronicker.rsubd.database.utils.ScriptConstructor
 import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formDelete
 import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formInsert
+import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formQueryMaxId
 import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formSelect
 import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formUpdate
+import kotlin.math.max
 
 private const val DB_HELPER = "DB_HELPER"
 private val UNKNOWN_ERROR = "Unknown Error"
@@ -123,6 +125,22 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
 
     fun getEntityByName(name: String): Entity? {
         return entities.find { it.name == name }
+    }
+
+    fun getMaxId(entity: Entity): Long {
+        val request = formQueryMaxId(entity)
+        val response = readableDatabase.rawQuery(request, null)
+        var result = -1L
+        if (response.moveToFirst()) {
+            do {
+                response.getLong(0)
+                    .let {
+                        result = max(it, result)
+                    }
+            } while (response.moveToNext())
+        }
+        response.close()
+        return result
     }
 
     private fun doRequest(request: String, onSuccess: (() -> Unit)?, onError: ((String) -> Unit)?) {

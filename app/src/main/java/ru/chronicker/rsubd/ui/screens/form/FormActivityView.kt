@@ -6,19 +6,24 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import com.thejuki.kformmaster.helper.*
+import com.thejuki.kformmaster.model.FormPickerDateElement
 import kotlinx.android.synthetic.main.activity_form.*
 import kotlinx.android.synthetic.main.content_form.*
 import ru.chronicker.rsubd.Constants.ENTITY
 import ru.chronicker.rsubd.Constants.ID
 import ru.chronicker.rsubd.Constants.MODE
-import ru.chronicker.rsubd.EMPTY_INT
 import ru.chronicker.rsubd.EMPTY_LONG
 import ru.chronicker.rsubd.EMPTY_STRING
 import ru.chronicker.rsubd.R
 import ru.chronicker.rsubd.database.DBHelper
 import ru.chronicker.rsubd.database.base.*
 import ru.chronicker.rsubd.ui.base.ToolbarConfig
+import ru.chronicker.rsubd.ui.screens.main.fragments.treatment.toDate
 import ru.chronicker.rsubd.utils.setStatusBarColor
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class FormActivityView : AppCompatActivity() {
 
@@ -27,7 +32,7 @@ class FormActivityView : AppCompatActivity() {
 
     private var screenMode = FormMode.CREATE
     private lateinit var currentModel: Entity
-    private var id: Int = 0
+    private var id: Long = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +48,7 @@ class FormActivityView : AppCompatActivity() {
     }
 
     private fun initData() {
-        intent.getIntExtra(ID, 0)
+        intent.getIntExtra(ID, 0).toLong()
             .let { id = it }
         intent.getSerializableExtra(ENTITY)
             .let { it as Entity }
@@ -54,6 +59,7 @@ class FormActivityView : AppCompatActivity() {
         if (screenMode == FormMode.UPDATE) {
             loadData()
         } else {
+            updateId(currentModel)
             setEntityData(currentModel, getEmptyValues(currentModel))
         }
     }
@@ -89,6 +95,13 @@ class FormActivityView : AppCompatActivity() {
 
     private fun setEntityData(entity: Entity, values: Map<String, Any>) {
         setFields(entity.fields, sortValuesAsFields(values, entity.fields))
+    }
+
+    private fun updateId(model: Entity) {
+        dbHelper.getMaxId(model)
+            .let {
+                id = it + 1
+            }
     }
 
     private fun getEmptyValues(entity: Entity): Map<String, Any> {
@@ -129,6 +142,40 @@ class FormActivityView : AppCompatActivity() {
                             valueTextColor = getFontColor()
                         }
                     }
+                    is DateField -> {
+                        date {
+                            title = field.title
+                            value = FormPickerDateElement.DateHolder(
+                                Date(values[index].toString().toLong()),
+                                dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.US)
+                            )
+                            backgroundColor = getBackgroundColor()
+                            titleTextColor = getHintColor()
+                            valueTextColor = getFontColor()
+                        }
+                    }
+                    is IntField -> {
+                        if (checkFieldEnabled(field)) {
+                            text(1) {
+                                value = getIntValue(field, values[index].toString().toLong()).toString()
+                                title = field.title
+                                backgroundColor = getBackgroundColor()
+                                titleTextColor = getHintColor()
+                                valueTextColor = getFontColor()
+                                enabled = true
+                            }
+                        } else {
+                            label {
+                                value =
+                                    getIntValue(field, values[index].toString().toLong()).toString()
+                                title = field.title
+                                backgroundColor = getBackgroundColor()
+                                titleTextColor = getHintColor()
+                                valueTextColor = getFontColor()
+                                enabled = false
+                            }
+                        }
+                    }
                     else -> {
                         text(1) {
                             value = values[index].toString()
@@ -153,6 +200,18 @@ class FormActivityView : AppCompatActivity() {
                         ?: EMPTY_STRING
                 }
             }
+    }
+
+    private fun getIntValue(field: Field, possibleValue: Long): Long {
+        return if (screenMode == FormMode.CREATE && field.name == ID) {
+            id
+        } else {
+            possibleValue
+        }
+    }
+
+    private fun checkFieldEnabled(field: Field): Boolean {
+        return field.name != ID
     }
 
     private fun save() {
@@ -214,6 +273,14 @@ class FormActivityView : AppCompatActivity() {
                         .toLong()
                         .let { Value(it, FieldType.INTEGER) }
                 }
+                is DateField -> {
+                    formBuilder.getElementAtIndex(index)
+                        .value
+                        .toString()
+                        .toDate()
+                        .time
+                        .let { Value(it, FieldType.INTEGER) }
+                }
                 is IntField -> {
                     formBuilder.getElementAtIndex(index)
                         .value
@@ -265,3 +332,4 @@ data class ForeignSelectableField(
     val id: Int,
     val title: String
 )
+

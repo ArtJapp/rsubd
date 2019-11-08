@@ -25,6 +25,7 @@ object Scripts {
     const val INSERT = "INSERT INTO %s VALUES(%s);"
     const val UPDATE = "UPDATE %s SET %s WHERE %s;"
     const val DELETE = "DELETE FROM %s WHERE %s;"
+    const val GET_MAX_ID = "SELECT max(id) FROM %s;"
 }
 
 object Constants {

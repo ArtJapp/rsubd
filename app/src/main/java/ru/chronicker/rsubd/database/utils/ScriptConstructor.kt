@@ -5,6 +5,7 @@ import ru.chronicker.rsubd.EMPTY_STRING
 import ru.chronicker.rsubd.Scripts.CREATE
 import ru.chronicker.rsubd.Scripts.DELETE
 import ru.chronicker.rsubd.Scripts.DROP
+import ru.chronicker.rsubd.Scripts.GET_MAX_ID
 import ru.chronicker.rsubd.Scripts.INSERT
 import ru.chronicker.rsubd.Scripts.SELECT
 import ru.chronicker.rsubd.Scripts.SELECT_WITH_CONDITION
@@ -94,6 +95,10 @@ class ScriptConstructor {
             val condition = conditions.map { (key, value) -> "$key = ${value.wrap()}" }
                 .joinToString(separator = ", ")
             return DELETE.format(entity.name, condition)
+        }
+
+        fun formQueryMaxId(entity: Entity): String {
+            return GET_MAX_ID.format(entity.name)
         }
 
         private fun sortFields(fields: List<Field>): List<Field> {
