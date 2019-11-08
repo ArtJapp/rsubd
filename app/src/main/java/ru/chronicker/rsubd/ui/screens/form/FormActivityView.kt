@@ -11,6 +11,7 @@ import com.thejuki.kformmaster.view.FormSingleLineLockableEditTextViewBinder
 import com.thejuki.kformmaster.view.lockableField
 import kotlinx.android.synthetic.main.activity_form.*
 import kotlinx.android.synthetic.main.content_form.*
+import ru.chronicker.rsubd.Constants.DATE_PATTERN
 import ru.chronicker.rsubd.Constants.ENTITY
 import ru.chronicker.rsubd.Constants.ID
 import ru.chronicker.rsubd.Constants.MODE
@@ -149,7 +150,7 @@ class FormActivityView : AppCompatActivity() {
                             title = field.title
                             value = FormPickerDateElement.DateHolder(
                                 Date(values[index].toString().toLong()),
-                                dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.US)
+                                dateFormat = SimpleDateFormat(DATE_PATTERN, Locale.US)
                             )
                             backgroundColor = getBackgroundColor()
                             titleTextColor = getHintColor()
@@ -338,8 +339,3 @@ class FormActivityView : AppCompatActivity() {
         return ContextCompat.getColor(this, R.color.secondaryTextColor)
     }
 }
-
-data class ForeignSelectableField(
-    val id: Int,
-    val title: String
-)

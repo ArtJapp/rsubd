@@ -33,4 +33,5 @@ object Constants {
     const val MODE = "MODE"
     const val ENTITY = "ENTITY"
     const val VALUES = "VALUES"
+    const val DATE_PATTERN = "dd.MM.yyyy"
 }
