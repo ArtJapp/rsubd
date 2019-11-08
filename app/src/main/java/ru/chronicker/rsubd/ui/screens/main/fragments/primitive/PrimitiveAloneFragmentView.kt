@@ -25,6 +25,11 @@ abstract class PrimitiveFragmentView<M : Entity, IM: ItemModel, R : LazyRoute<M>
         initList()
     }
 
+    override fun onResume() {
+        super.onResume()
+        loadData()
+    }
+
     /**
      * Метод преобразования полученных данных в заголовки элементов списка
      */
@@ -40,7 +45,6 @@ abstract class PrimitiveFragmentView<M : Entity, IM: ItemModel, R : LazyRoute<M>
         setListAdapter(
             adapter = provideAdapter()
         )
-        loadData()
     }
 
     private fun openCreateForm() {
