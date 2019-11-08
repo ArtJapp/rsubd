@@ -148,6 +148,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
         try {
             writableDatabase.execSQL(request)
             onSuccess?.invoke()
+            writableDatabase.close()
         } catch (error: SQLException) {
             error.message?.let {
                 log(it)

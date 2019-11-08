@@ -42,10 +42,9 @@ class Person : Entity(
 ) {
 
     override fun convertToString(values: List<Pair<Field, Any>>): String {
-        val id = values.find { it.first.name == ID }?.second?.toString() ?: EMPTY_STRING
         val firstName = values.find { it.first.name == FIRST_NAME }?.second?.toString() ?: EMPTY_STRING
         val secondName = values.find { it.first.name == SECOND_NAME }?.second?.toString() ?: EMPTY_STRING
         val lastName = values.find { it.first.name == LAST_NAME }?.second?.toString() ?: EMPTY_STRING
-        return "$id. $firstName $secondName $lastName"
+        return "$firstName $secondName $lastName"
     }
 }

@@ -3,6 +3,8 @@ package ru.chronicker.rsubd.database.models
 import ru.chronicker.rsubd.EMPTY_STRING
 import ru.chronicker.rsubd.database.base.*
 
+private const val TITLE = "Доктор "
+
 /**
  * Маппинг-модель врача
  */
@@ -35,6 +37,11 @@ class Doctor : Entity(
 ) {
 
     override fun convertToString(values: List<Pair<Field, Any>>): String {
-        return values.find { it.first.name == "PERSON_ID" }?.second?.toString() ?: EMPTY_STRING
+        return values.find { it.first.name == "PERSON_ID" }
+            ?.second
+            ?.let {
+                TITLE + it.toString()
+            }
+            ?: EMPTY_STRING
     }
 }

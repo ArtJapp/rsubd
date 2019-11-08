@@ -12,10 +12,10 @@ class DiagnosisFragmentView : PrimitiveDoubleFragmentView<Diagnosis, DiagnosisRo
 ) {
 
     override fun convertToTitle(values: List<Pair<String, String>>): String {
-        return values.find { it.first == "DISEASE_ID" }?.second ?: EMPTY_STRING
+        return entity.convertMappedToString(values)
     }
 
     override fun provideSubtitle(values: List<Pair<String, String>>): String {
-        return values.find { it.first == "TREATMENT_ID" }?.second ?: EMPTY_STRING
+        return values.find { it.first == "DISEASE_ID" }?.second ?: EMPTY_STRING
     }
 }

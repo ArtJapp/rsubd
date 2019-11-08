@@ -31,8 +31,6 @@ class Disease : Entity(
 ) {
 
     override fun convertToString(values: List<Pair<Field, Any>>): String {
-        val id = values.find { it.first.name == ID }?.second?.toString() ?: EMPTY_STRING
-        val name = values.find { it.first.name == NAME }?.second?.toString() ?: EMPTY_STRING
-        return "$id. $name"
+        return values.find { it.first.name == NAME }?.second?.toString() ?: EMPTY_STRING
     }
 }

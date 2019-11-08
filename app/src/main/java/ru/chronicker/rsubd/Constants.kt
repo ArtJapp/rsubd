@@ -22,7 +22,7 @@ object Scripts {
     const val CASCASE_DELETE = "ON DELETE CASCADE"
     const val SELECT = "SELECT %s FROM %s;"
     const val SELECT_WITH_CONDITION = "SELECT %s FROM %s WHERE %s ;"
-    const val INSERT = "INSERT INTO %s VALUES(%s);"
+    const val INSERT = "INSERT INTO %s(%s) VALUES(%s);"
     const val UPDATE = "UPDATE %s SET %s WHERE %s;"
     const val DELETE = "DELETE FROM %s WHERE %s;"
     const val GET_MAX_ID = "SELECT max(id) FROM %s;"

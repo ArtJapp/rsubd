@@ -126,7 +126,8 @@ class FormActivityView : AppCompatActivity() {
                             title = field.title
                             dialogTitle = field.title
                             options = getForeignItems(field.foreignTable, field.foreignKey)
-                            value = values[index].toString()
+                            value =
+                                getInitialForeignKey(values[index].toString(), field.foreignTable)
                             backgroundColor = getBackgroundColor()
                             titleTextColor = getHintColor()
                             valueTextColor = getFontColor()
@@ -197,6 +198,19 @@ class FormActivityView : AppCompatActivity() {
                         ?: EMPTY_STRING
                 }
             }
+    }
+
+    private fun getInitialForeignKey(value: String, modelName: String): String {
+        return dbHelper.getEntityByName(modelName)
+            ?.let { model ->
+                dbHelper.select(model, mapOf(ID to value))
+                    .map { it.fields }
+                    .map { result ->
+                        model.convertToString(result)
+                    }
+                    .firstOrNull()
+            }
+            ?: EMPTY_STRING
     }
 
     private fun getIntValue(field: Field, possibleValue: Long): Long {

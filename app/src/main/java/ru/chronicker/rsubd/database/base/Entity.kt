@@ -35,6 +35,9 @@ abstract class Entity(
     open fun convertToString(values: List<Pair<Field, Any>>): String =
         EMPTY_STRING
 
+    open fun convertMappedToString(values: List<Pair<String, String>>): String =
+        EMPTY_STRING
+
     private fun putEmptyInt(fieldName: String) {
         values[fieldName] = Value(EMPTY_INT, FieldType.INTEGER)
     }

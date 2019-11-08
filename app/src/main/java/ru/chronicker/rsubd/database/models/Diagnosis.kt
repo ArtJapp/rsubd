@@ -1,6 +1,9 @@
 package ru.chronicker.rsubd.database.models
 
+import ru.chronicker.rsubd.EMPTY_STRING
 import ru.chronicker.rsubd.database.base.*
+
+private const val TITLE = "Диагноз #"
 
 class Diagnosis : Entity(
     name = "Diagnosis",
@@ -38,4 +41,23 @@ class Diagnosis : Entity(
             title = "Диспансеризован"
         )
     )
-)
+) {
+
+    override fun convertToString(values: List<Pair<Field, Any>>): String {
+        return values.find { it.first.name == "ID" }
+            ?.second
+            ?.let {
+                TITLE + it.toString()
+            }
+            ?: EMPTY_STRING
+    }
+
+    override fun convertMappedToString(values: List<Pair<String, String>>): String {
+        return values.find { it.first == "ID" }
+            ?.second
+            ?.let {
+                TITLE + it
+            }
+            ?: EMPTY_STRING
+    }
+}

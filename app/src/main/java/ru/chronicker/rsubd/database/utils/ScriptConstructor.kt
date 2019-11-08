@@ -64,9 +64,14 @@ class ScriptConstructor {
         }
 
         fun formInsert(entity: Entity, values: List<Value>): String {
-            return values.joinToString(", ") { it.wrap() }
-                .let {  parameters ->
-                    INSERT.format(entity.name, parameters)
+            return values
+                .joinToString(", ") { it.wrap() }
+                .let {  value ->
+                    entity.fields
+                        .joinToString(", ") { it.name }
+                        .let { parameters ->
+                            INSERT.format(entity.name, parameters, value)
+                        }
                 }
         }
 
