@@ -20,6 +20,8 @@ import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formInsert
 import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formQueryMaxId
 import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formSelect
 import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formUpdate
+import ru.chronicker.rsubd.database.views.DoctorView
+import java.lang.Exception
 import kotlin.math.max
 
 private const val DB_HELPER = "DB_HELPER"
@@ -42,15 +44,19 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
         History()
     )
 
+    private val views = listOf(
+        DoctorView()
+    )
+
+//    init {
+//        dropDB(writableDatabase)
+//        onCreate(writableDatabase)
+//    }
+
     override fun onCreate(db: SQLiteDatabase?) {
         db?.let { database ->
-            entities.forEach { entity ->
-                ScriptConstructor.formCreate(entity)
-                    .let { script ->
-                        log(script)
-                        database.execSQL(script)
-                    }
-            }
+            initializeTables(database)
+            initializeViews(database)
         }
     }
 
@@ -60,22 +66,8 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        dropAllDatabases(db)
+        dropDB(db)
         onCreate(db)
-    }
-
-    private fun dropAllDatabases(db: SQLiteDatabase?) {
-        db?.let { database ->
-            entities.map { "main." + it.name }
-                .reversed()
-                .forEach { entityName ->
-                    ScriptConstructor.formDrop(entityName)
-                        .let { script ->
-                            log(script)
-                            database.execSQL(script)
-                        }
-                }
-        }
     }
 
     fun select(entityName: String, params: Map<String, String>? = null): List<QueryResult> {
@@ -104,17 +96,32 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
     /**
      * Метод загрузки данных сущности в базу данных
      */
-    fun insert(entity: Entity, values: List<Value>, onSuccess: (() -> Unit)? = null, onError: ((String) -> Unit)? = null) {
+    fun insert(
+        entity: Entity,
+        values: List<Value>,
+        onSuccess: (() -> Unit)? = null,
+        onError: ((String) -> Unit)? = null
+    ) {
         val request = formInsert(entity, values)
         doRequest(request, onSuccess, onError)
     }
 
-    fun update(entity: Entity, values: List<Value>, onSuccess: (() -> Unit)? = null, onError: ((String) -> Unit)? = null) {
+    fun update(
+        entity: Entity,
+        values: List<Value>,
+        onSuccess: (() -> Unit)? = null,
+        onError: ((String) -> Unit)? = null
+    ) {
         val request = formUpdate(entity, values)
         doRequest(request, onSuccess, onError)
     }
 
-    fun delete(entity: Entity, values: List<Value>, onSuccess: (() -> Unit)?, onError: ((String) -> Unit)?) {
+    fun delete(
+        entity: Entity,
+        values: List<Value>,
+        onSuccess: (() -> Unit)?,
+        onError: ((String) -> Unit)?
+    ) {
         val request = formDelete(entity, values)
         doRequest(request, onSuccess, onError)
     }
@@ -139,8 +146,34 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
         return result
     }
 
+    private fun initializeTables(database: SQLiteDatabase) {
+        entities.forEach { entity ->
+            ScriptConstructor.formCreate(entity)
+                .let { script ->
+                    try {
+                        log(script)
+                        database.execSQL(script)
+                    } catch (e: Exception) {
+                        log(e.toString())
+                    }
+                }
+        }
+    }
+
+    private fun initializeViews(database: SQLiteDatabase) {
+        views.forEach { view ->
+            doRequest(
+                ScriptConstructor.formCreateView(view.name, view.getBaseScript()),
+                { },
+                {
+                    log(it)
+                }
+            )
+        }
+    }
+
     fun clear() {
-        dropAllDatabases(writableDatabase)
+        dropDB(writableDatabase)
         onCreate(writableDatabase)
     }
 
@@ -155,6 +188,47 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
                 log(it)
                 onError?.invoke(it)
             }
+        }
+    }
+
+    private fun dropDB(db: SQLiteDatabase?) {
+        dropViews(db)
+        dropAllTables(db)
+    }
+
+    private fun dropViews(db: SQLiteDatabase?) {
+        db?.let { database ->
+            views.reversed()
+                .map { it.name }
+                .forEach { viewName ->
+                    try {
+                        ScriptConstructor.formDropView(viewName)
+                            .let { script ->
+                                log(script)
+                                database.execSQL(script)
+                            }
+                    } catch (e: Exception) {
+                        log(e.toString())
+                    }
+                }
+        }
+    }
+
+    private fun dropAllTables(db: SQLiteDatabase?) {
+        db?.let { database ->
+            entities.reversed()
+                .map { "main." + it.name }
+                .forEach { entityName ->
+                    try {
+                        ScriptConstructor.formDrop(entityName)
+                            .let { script ->
+                                log(script)
+                                database.execSQL(script)
+                            }
+                    } catch (e: Exception) {
+                        log(e.toString())
+                    }
+                }
         }
     }
 

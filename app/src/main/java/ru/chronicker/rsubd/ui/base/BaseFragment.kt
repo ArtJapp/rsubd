@@ -51,9 +51,11 @@ abstract class BaseFragment<T : Entity, M : ItemModel> : Fragment() {
         initViews()
     }
 
-    fun setListAdapter(adapter: BaseAdapter<M>) {
+    fun setListAdapter(adapter: BaseAdapter<M>, isSwipeToDeleteEnabled: Boolean) {
         this.adapter = adapter
-        enableSwipeToDeleteAndUndo()
+        if (isSwipeToDeleteEnabled) {
+            enableSwipeToDeleteAndUndo()
+        }
     }
 
     fun loadData() {

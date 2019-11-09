@@ -66,7 +66,7 @@ class Main2Activity : AppCompatActivity() {
 
         if (item.itemId == R.id.action_settings) {
             dbHelper.clear()
-            nav_host_fragment.onResume()
+            this.recreate()
             return true
         }
         return super.onOptionsItemSelected(item)

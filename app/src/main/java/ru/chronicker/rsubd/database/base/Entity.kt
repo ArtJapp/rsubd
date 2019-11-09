@@ -11,8 +11,8 @@ import java.io.Serializable
  * Общая модель сущности в базе данных
  */
 abstract class Entity(
-    val name: String,
-    val fields: MutableList<Field>
+    open val name: String = EMPTY_STRING,
+    open val fields: MutableList<Field> = mutableListOf()
 ) : Serializable {
     val values: MutableMap<String, Any> = mutableMapOf()
 
