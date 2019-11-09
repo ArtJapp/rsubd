@@ -26,6 +26,8 @@ object Scripts {
     const val UPDATE = "UPDATE %s SET %s WHERE %s;"
     const val DELETE = "DELETE FROM %s WHERE %s;"
     const val GET_MAX_ID = "SELECT max(id) FROM %s;"
+    const val CREATE_VIEW = "CREATE VIEW %s AS %s;"
+    const val DROP_VIEW = "DROP VIEW IF EXISTS %s;"
 }
 
 object Constants {
