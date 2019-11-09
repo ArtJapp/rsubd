@@ -1,11 +1,13 @@
 package ru.chronicker.rsubd.ui.screens.main.fragments.primitive
 
 import android.util.Log
+import androidx.core.view.isVisible
 import kotlinx.android.synthetic.main.fragment_list_of_double_items.*
 import ru.chronicker.rsubd.EMPTY_INT
 import ru.chronicker.rsubd.EMPTY_STRING
 import ru.chronicker.rsubd.database.base.Entity
 import ru.chronicker.rsubd.database.base.IntValue
+import ru.chronicker.rsubd.database.base.View
 import ru.chronicker.rsubd.ui.base.AloneItemModel
 import ru.chronicker.rsubd.ui.base.BaseFragment
 import ru.chronicker.rsubd.ui.base.DoubleItemModel
@@ -22,7 +24,10 @@ abstract class PrimitiveFragmentView<M : Entity, IM: ItemModel, R : LazyRoute<M>
         fab.setOnClickListener {
             openCreateForm()
         }
-        initList()
+        if (entity is View) {
+            fab.isVisible = false
+        }
+        initList(isSwipeToDeleteEnabled = true)
     }
 
     override fun onResume() {
@@ -41,9 +46,10 @@ abstract class PrimitiveFragmentView<M : Entity, IM: ItemModel, R : LazyRoute<M>
         route.updateForm(context = requireContext(), id = id)
     }
 
-    private fun initList() {
+    private fun initList(isSwipeToDeleteEnabled: Boolean) {
         setListAdapter(
-            adapter = provideAdapter()
+            adapter = provideAdapter(),
+            isSwipeToDeleteEnabled = isSwipeToDeleteEnabled
         )
     }
 

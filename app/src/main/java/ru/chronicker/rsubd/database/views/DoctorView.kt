@@ -46,7 +46,7 @@ class DoctorView : Entity(
 ), View {
 
     override fun getBaseScript(): String {
-        return "SELECT P.FIRST_NAME, P.SECOND_NAME, P.LAST_NAME, Q.NAME as Qualification, S.NAME\n" +
+        return "SELECT P.FIRST_NAME, P.SECOND_NAME, P.LAST_NAME, Q.NAME as Qualification, S.NAME as Specialization\n" +
                 "FROM Doctor\n" +
                 "         LEFT JOIN Person P on Doctor.PERSON_ID = P.ID\n" +
                 "         LEFT JOIN Qualification Q on Doctor.QUALIFICATION_ID = Q.ID\n" +

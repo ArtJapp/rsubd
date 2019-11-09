@@ -4,6 +4,14 @@ abstract class ItemModel(
     open val id: Int
 )
 
+class DoctorViewItemModel(
+    val firstName: String,
+    val secondName: String,
+    val lastName: String,
+    val qualification: String,
+    val specialization: String
+): ItemModel(0)
+
 class DoubleItemModel(
     override val id: Int,
     val title: String,
