@@ -12,6 +12,16 @@ class DoctorViewItemModel(
     val specialization: String
 ): ItemModel(0)
 
+class PatientViewItemModel(
+    val firstName: String,
+    val secondName: String,
+    val lastName: String,
+    val birthDate: String,
+    val socialStatus: String,
+    val state: String,
+    val disease: String
+): ItemModel(0)
+
 class DoubleItemModel(
     override val id: Int,
     val title: String,

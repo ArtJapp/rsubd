@@ -1,4 +1,4 @@
-package ru.chronicker.rsubd.ui.screens.main.fragments.views
+package ru.chronicker.rsubd.ui.screens.main.fragments.views.doctor_view
 
 import ru.chronicker.rsubd.EMPTY_STRING
 import ru.chronicker.rsubd.database.views.DoctorView
@@ -6,7 +6,6 @@ import ru.chronicker.rsubd.ui.base.DoctorViewItemModel
 import ru.chronicker.rsubd.ui.screens.form.DoctorViewRoute
 import ru.chronicker.rsubd.ui.screens.main.fragments.primitive.PrimitiveAdapter
 import ru.chronicker.rsubd.ui.screens.main.fragments.primitive.PrimitiveFragmentView
-import ru.chronicker.rsubd.ui.screens.main.fragments.views.doctor_view.DoctorViewAdapter
 
 class DoctorViewFragmentView : PrimitiveFragmentView<DoctorView, DoctorViewItemModel, DoctorViewRoute>(
     entity = DoctorView(),

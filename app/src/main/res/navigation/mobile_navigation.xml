@@ -68,8 +68,14 @@
 
     <fragment
         android:id="@+id/nav_view_doctor"
-        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.views.DoctorViewFragmentView"
+        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.views.doctor_view.DoctorViewFragmentView"
         android:label="@string/menu_doctors"
+        tools:layout="@layout/fragment_list_of_double_items" />
+
+    <fragment
+        android:id="@+id/nav_view_patient"
+        android:name="ru.chronicker.rsubd.ui.screens.main.fragments.views.patient_view.PatientViewFragmentView"
+        android:label="@string/menu_patients"
         tools:layout="@layout/fragment_list_of_double_items" />
 
 </navigation>

@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_list_of_double_items.*
+import ru.chronicker.rsubd.EMPTY_LONG
+import ru.chronicker.rsubd.EMPTY_REAL
 import ru.chronicker.rsubd.EMPTY_STRING
 import ru.chronicker.rsubd.R
 import ru.chronicker.rsubd.database.DBHelper
@@ -77,7 +79,7 @@ abstract class BaseFragment<T : Entity, M : ItemModel> : Fragment() {
             }
     }
 
-    private fun getValue(value: Any, field: Field): String {
+    private fun getValue(value: Any?, field: Field): String {
         if (field is ForeignKeyField) {
             val entity = dbHelper.getEntityByName(field.foreignTable)
             return dbHelper.select(field.foreignTable)
@@ -91,11 +93,26 @@ abstract class BaseFragment<T : Entity, M : ItemModel> : Fragment() {
                 ?: EMPTY_STRING
         }
         return when (field.type) {
-            FieldType.TEXT -> value as String
-            FieldType.INTEGER -> (value as Long).toString()
-            FieldType.REAL -> (value as Float).toString()
+            FieldType.TEXT -> transformToText(value)
+            FieldType.INTEGER -> transformToLong(value).toString()
+            FieldType.REAL -> transformToReal(value).toString()
             else -> EMPTY_STRING
         }
+    }
+
+    private fun transformToText(value: Any?): String {
+        return EMPTY_STRING.takeIf { value == null }
+            ?: value as String
+    }
+
+    private fun transformToLong(value: Any?): Long {
+        return EMPTY_LONG.takeIf { value == null }
+            ?: value as Long
+    }
+
+    private fun transformToReal(value: Any?): Float {
+        return EMPTY_REAL.takeIf { value == null }
+            ?: value as Float
     }
 
     private fun enableSwipeToDeleteAndUndo() {

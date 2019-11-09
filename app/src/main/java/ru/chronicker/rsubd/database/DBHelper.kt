@@ -9,10 +9,7 @@ import android.util.Log
 import ru.chronicker.rsubd.DBConstants.DB_NAME
 import ru.chronicker.rsubd.DBConstants.DB_VERSION
 import ru.chronicker.rsubd.EMPTY_INT
-import ru.chronicker.rsubd.database.base.Entity
-import ru.chronicker.rsubd.database.base.Field
-import ru.chronicker.rsubd.database.base.FieldType
-import ru.chronicker.rsubd.database.base.Value
+import ru.chronicker.rsubd.database.base.*
 import ru.chronicker.rsubd.database.models.*
 import ru.chronicker.rsubd.database.utils.ScriptConstructor
 import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formDelete
@@ -21,6 +18,7 @@ import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formQueryM
 import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formSelect
 import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formUpdate
 import ru.chronicker.rsubd.database.views.DoctorView
+import ru.chronicker.rsubd.database.views.PatientView
 import java.lang.Exception
 import kotlin.math.max
 
@@ -45,7 +43,8 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
     )
 
     private val views = listOf(
-        DoctorView()
+        DoctorView(),
+        PatientView()
     )
 
 //    init {
@@ -163,7 +162,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
     private fun initializeViews(database: SQLiteDatabase) {
         views.forEach { view ->
             doRequest(
-                ScriptConstructor.formCreateView(view.name, view.getBaseScript()),
+                ScriptConstructor.formCreateView((view as Entity).name, (view as View).getBaseScript()),
                 { },
                 {
                     log(it)
@@ -199,7 +198,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
     private fun dropViews(db: SQLiteDatabase?) {
         db?.let { database ->
             views.reversed()
-                .map { it.name }
+                .map { (it as Entity).name }
                 .forEach { viewName ->
                     try {
                         ScriptConstructor.formDropView(viewName)
