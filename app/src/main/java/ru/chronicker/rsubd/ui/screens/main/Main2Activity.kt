@@ -1,21 +1,17 @@
 package ru.chronicker.rsubd.ui.screens.main
 
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
+import android.view.Menu
+import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import android.view.Menu
-import android.view.MenuItem
-import kotlinx.android.synthetic.main.activity_main2.*
-import kotlinx.android.synthetic.main.content_main2.*
 import ru.chronicker.rsubd.R
 import ru.chronicker.rsubd.database.DBHelper
 
@@ -64,10 +60,17 @@ class Main2Activity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        if (item.itemId == R.id.action_settings) {
-            dbHelper.clear()
-            this.recreate()
-            return true
+        when (item.itemId) {
+            R.id.action_settings -> {
+                dbHelper.clear()
+                this.recreate()
+                return true
+            }
+            R.id.action_setup -> {
+                dbHelper.reinitialize()
+                this.recreate()
+                return true
+            }
         }
         return super.onOptionsItemSelected(item)
     }

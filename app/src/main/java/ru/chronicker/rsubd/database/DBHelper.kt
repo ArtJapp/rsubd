@@ -17,6 +17,7 @@ import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formInsert
 import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formQueryMaxId
 import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formSelect
 import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formUpdate
+import ru.chronicker.rsubd.database.views.DiseaseView
 import ru.chronicker.rsubd.database.views.DoctorView
 import ru.chronicker.rsubd.database.views.PatientView
 import java.lang.Exception
@@ -44,7 +45,8 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
 
     private val views = listOf(
         DoctorView(),
-        PatientView()
+        PatientView(),
+        DiseaseView()
     )
 
 //    init {
@@ -176,6 +178,11 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
         onCreate(writableDatabase)
     }
 
+    fun reinitialize() {
+        initializeTables(writableDatabase)
+        initializeViews(writableDatabase)
+    }
+
     private fun doRequest(request: String, onSuccess: (() -> Unit)?, onError: ((String) -> Unit)?) {
         log(request)
         try {
@@ -193,6 +200,10 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
     private fun dropDB(db: SQLiteDatabase?) {
         dropViews(db)
         dropAllTables(db)
+        db?.let {
+            initializeTables(it)
+            initializeViews(it)
+        }
     }
 
     private fun dropViews(db: SQLiteDatabase?) {

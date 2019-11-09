@@ -19,6 +19,7 @@ class PatientViewAdapter(
     }
 
     inner class PatientViewHolder(itemView: View) : BaseViewHolder<PatientViewItemModel>(itemView) {
+
         override fun bind(data: PatientViewItemModel) {
             itemView.name_tv.text = "${data.firstName} ${data.secondName} ${data.lastName}"
             itemView.birthday_tv.text = "Дата рождения: ${data.birthDate}"

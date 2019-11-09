@@ -22,6 +22,12 @@ class PatientViewItemModel(
     val disease: String
 ): ItemModel(0)
 
+class DiseaseViewItemModel(
+    val disease: String,
+    val treatment: String,
+    val efficiency: Float
+): ItemModel(0)
+
 class DoubleItemModel(
     override val id: Int,
     val title: String,
