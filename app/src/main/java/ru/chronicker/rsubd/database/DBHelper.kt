@@ -172,6 +172,11 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
         }
     }
 
+    fun clear() {
+        dropDB(writableDatabase)
+        onCreate(writableDatabase)
+    }
+
     private fun doRequest(request: String, onSuccess: (() -> Unit)?, onError: ((String) -> Unit)?) {
         log(request)
         try {

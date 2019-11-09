@@ -27,4 +27,8 @@
         <item name="colorControlHighlight">@color/controlActivated</item>
     </style>
 
+    <style name="NavigationView">
+        <item name="android:textColorSecondary">@color/secondaryTextColor</item>
+    </style>
+
 </resources>
