@@ -31,7 +31,8 @@ class Person : Entity(
         Field(
             name = SECOND_NAME,
             type = FieldType.TEXT,
-            title = "Отчество"
+            title = "Отчество",
+            isRequired = false
         ),
         Field(
             name = LAST_NAME,
