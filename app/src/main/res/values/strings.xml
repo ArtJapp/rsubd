@@ -1,9 +1,12 @@
 <resources>
     <string name="app_name">RSUBD</string>
     <string name="action_settings">Снести БД</string>
+    <string name="action_setup">Досоздать сущности</string>
 
     <string name="menu_views">Представления</string>
     <string name="menu_views_doctor">Доктора</string>
+    <string name="menu_views_patient">Пациенты</string>
+    <string name="menu_views_disease">Болезни</string>
 
     <string name="menu_diagnosis">Диагнозы</string>
     <string name="menu_diploma">Дипломы</string>

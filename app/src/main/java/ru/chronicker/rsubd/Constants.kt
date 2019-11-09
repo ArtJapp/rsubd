@@ -3,7 +3,7 @@ package ru.chronicker.rsubd
 const val EMPTY_STRING = ""
 const val EMPTY_INT = 0
 const val EMPTY_LONG = 0L
-const val EMPTY_REAL = 0.0
+const val EMPTY_REAL = 0.0F
 val EMPTY_BLOB = Any()
 const val SPACE = " "
 

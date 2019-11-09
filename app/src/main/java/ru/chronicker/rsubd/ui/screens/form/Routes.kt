@@ -8,7 +8,9 @@ import ru.chronicker.rsubd.Constants.MODE
 import ru.chronicker.rsubd.database.base.Entity
 import ru.chronicker.rsubd.database.base.Value
 import ru.chronicker.rsubd.database.models.*
+import ru.chronicker.rsubd.database.views.DiseaseView
 import ru.chronicker.rsubd.database.views.DoctorView
+import ru.chronicker.rsubd.database.views.PatientView
 
 private const val NON_EXISTING_ID = -1
 
@@ -80,3 +82,5 @@ class TreatmentRoute : LazyRoute<Treatment>(Treatment())
 class DiseaseRoute : LazyRoute<Disease>(Disease())
 
 class DoctorViewRoute : LazyRoute<DoctorView>(DoctorView())
+class PatientViewRoute : LazyRoute<PatientView>(PatientView())
+class DiseaseViewRoute : LazyRoute<DiseaseView>(DiseaseView())

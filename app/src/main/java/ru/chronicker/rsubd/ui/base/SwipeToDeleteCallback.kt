@@ -25,9 +25,7 @@ abstract class SwipeToDeleteCallback(private var context: Context) : ItemTouchHe
         clearPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
         deleteDrawable = ContextCompat.getDrawable(context, R.drawable.ic_delete)
         intrinsicWidth = 48
-//        intrinsicWidth = deleteDrawable?.intrinsicWidth ?: 0
         intrinsicHeight = 48
-//        intrinsicHeight = deleteDrawable?.intrinsicHeight ?: 0
     }
 
     override fun getMovementFlags(

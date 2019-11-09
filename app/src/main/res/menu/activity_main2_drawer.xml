@@ -75,6 +75,14 @@
                 android:id="@+id/nav_view_doctor"
                 android:icon="@drawable/ic_doctor"
                 android:title="@string/menu_views_doctor" />
+            <item
+                android:id="@+id/nav_view_patient"
+                android:icon="@drawable/ic_patient"
+                android:title="@string/menu_views_patient" />
+            <item
+                android:id="@+id/nav_view_disease"
+                android:icon="@drawable/ic_disease"
+                android:title="@string/menu_views_disease" />
         </menu>
     </item>
 
