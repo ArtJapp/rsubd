@@ -42,11 +42,6 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
         History()
     )
 
-//    init {
-//        dropAllDatabases(writableDatabase)
-//        onCreate(writableDatabase)
-//    }
-
     override fun onCreate(db: SQLiteDatabase?) {
         db?.let { database ->
             entities.forEach { entity ->
@@ -72,6 +67,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
     private fun dropAllDatabases(db: SQLiteDatabase?) {
         db?.let { database ->
             entities.map { "main." + it.name }
+                .reversed()
                 .forEach { entityName ->
                     ScriptConstructor.formDrop(entityName)
                         .let { script ->
@@ -141,6 +137,11 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
         }
         response.close()
         return result
+    }
+
+    fun clear() {
+        dropAllDatabases(writableDatabase)
+        onCreate(writableDatabase)
     }
 
     private fun doRequest(request: String, onSuccess: (() -> Unit)?, onError: ((String) -> Unit)?) {

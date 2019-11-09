@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">RSUBD</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Снести БД</string>
 
     <string name="menu_diagnosis">Диагнозы</string>
     <string name="menu_diploma">Дипломы</string>
