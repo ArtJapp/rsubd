@@ -43,6 +43,22 @@ open class Field(
 }
 
 /**
+ * Общая модель поля, включает в себя название, тип
+ * и флаг, является ли главным ключом
+ */
+open class PasswordField(
+    name: String,
+    title: String = EMPTY_STRING,
+    isRequired: Boolean = true
+) : Field(
+    name = name,
+            type = FieldType.TEXT,
+            primaryKey = false,
+            title = title,
+            isRequired = isRequired
+)
+
+/**
  * Модель поля с целочисленным значением.
  * Может использоваться для хранения ID, дат и булеанов.
  */

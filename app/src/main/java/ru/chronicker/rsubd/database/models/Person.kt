@@ -1,15 +1,14 @@
 package ru.chronicker.rsubd.database.models
 
 import ru.chronicker.rsubd.EMPTY_STRING
-import ru.chronicker.rsubd.database.base.Entity
-import ru.chronicker.rsubd.database.base.Field
-import ru.chronicker.rsubd.database.base.FieldType
-import ru.chronicker.rsubd.database.base.IntField
+import ru.chronicker.rsubd.database.base.*
 
 private const val ID = "ID"
 private const val FIRST_NAME = "FIRST_NAME"
 private const val SECOND_NAME = "SECOND_NAME"
 private const val LAST_NAME = "LAST_NAME"
+private const val LOGIN = "LOGIN"
+private const val PASSWORD = "PASSWORD"
 
 /**
  * Общая маппинг-модель человека
@@ -38,6 +37,15 @@ class Person : Entity(
             name = LAST_NAME,
             type = FieldType.TEXT,
             title = "Фамилия"
+        ),
+        Field(
+            name = LOGIN,
+            type = FieldType.TEXT,
+            title = "login"
+        ),
+        PasswordField(
+            name = PASSWORD,
+            title = "Пароль"
         )
     )
 ) {

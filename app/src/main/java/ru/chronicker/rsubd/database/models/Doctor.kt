@@ -32,6 +32,10 @@ class Doctor : Entity(
             foreignKey = "id",
             title = "Квалификация",
             isCascade = true
+        ),
+        BooleanField(
+            name = "IS_HEAD",
+            title = "Является главврачом"
         )
     )
 ) {

@@ -49,10 +49,11 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
         DiseaseView()
     )
 
-//    init {
+    init {
+//        Раскомментируй, когда нужно принудительно мигрировать БД
 //        dropDB(writableDatabase)
 //        onCreate(writableDatabase)
-//    }
+    }
 
     override fun onCreate(db: SQLiteDatabase?) {
         db?.let { database ->

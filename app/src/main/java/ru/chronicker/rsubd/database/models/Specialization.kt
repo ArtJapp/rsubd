@@ -1,16 +1,17 @@
 package ru.chronicker.rsubd.database.models
 
 import ru.chronicker.rsubd.EMPTY_STRING
-import ru.chronicker.rsubd.database.base.Entity
-import ru.chronicker.rsubd.database.base.Field
-import ru.chronicker.rsubd.database.base.FieldType
-import ru.chronicker.rsubd.database.base.IntField
+import ru.chronicker.rsubd.database.base.*
 
 private const val ID = "ID"
 private const val NAME = "NAME"
+private const val IS_DEFAULT = "IS_DEFAULT"
 
 /**
  * Маппинг-модель специализации врача
+ *
+ * @property IS_DEFAULT - показывает, является ли специализация основной (т.е. можно ли при перераспределении
+ * пациентов на крайний случай назначить больных на них)
  */
 class Specialization : Entity(
     name = "Specialization",
@@ -25,6 +26,10 @@ class Specialization : Entity(
             name = NAME,
             type = FieldType.TEXT,
             title = "Наименование"
+        ),
+        BooleanField(
+            name = IS_DEFAULT,
+            title = "Основной специалист"
         )
     )
 ) {
