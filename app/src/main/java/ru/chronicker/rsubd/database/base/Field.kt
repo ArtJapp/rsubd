@@ -28,7 +28,8 @@ open class Field(
     val name: String,
     val type: FieldType,
     val primaryKey: Boolean = false,
-    val title: String = EMPTY_STRING
+    val title: String = EMPTY_STRING,
+    val isRequired: Boolean = true
 ) : Serializable {
 
     /**
@@ -49,12 +50,14 @@ open class IntField(
     name: String,
     primaryKey: Boolean = false,
     title: String = EMPTY_STRING,
+    isRequired: Boolean = true,
     val autoIncrement: Boolean = false
 ) : Field(
     name = name,
     type = FieldType.INTEGER,
     primaryKey = primaryKey,
-    title = title
+    title = title,
+    isRequired = isRequired
 ), Serializable {
 
     override fun formForCreate(): String {
@@ -65,13 +68,15 @@ open class IntField(
 
 class BooleanField(
     name: String,
-    title: String
-): IntField(name, false, title, false)
+    title: String,
+    isRequired: Boolean = true
+): IntField(name, false, title, isRequired,false)
 
 class DateField(
     name: String,
-    title: String
-): IntField(name, false, title, false)
+    title: String,
+    isRequired: Boolean = true
+): IntField(name, false, title, isRequired, false)
 
 /**
  * Модель поля с внешним ключом.
@@ -87,7 +92,8 @@ class ForeignKeyField(
 ) : Field(
     name = name,
     type = type,
-    title = title
+    title = title,
+    isRequired = true
 ), Serializable {
 
     /**

@@ -27,6 +27,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
+private const val UNEXPECTED_ERROR = "UNEXPECTED_ERROR"
+
 class FormActivityView : AppCompatActivity() {
 
     private lateinit var formBuilder: FormBuildHelper
@@ -227,17 +229,19 @@ class FormActivityView : AppCompatActivity() {
     }
 
     private fun save() {
-        getValues().let {
-            when (screenMode) {
-                FormMode.CREATE -> {
-                    println("AAA create $it")
-                    doInsert(it)
-                }
-                FormMode.UPDATE -> {
-                    println("AAA update $it")
-                    doUpdate(it)
+        try {
+            getValues().let {
+                when (screenMode) {
+                    FormMode.CREATE -> {
+                        doInsert(it)
+                    }
+                    FormMode.UPDATE -> {
+                        doUpdate(it)
+                    }
                 }
             }
+        } catch (e: NotCompletedFieldsException) {
+            onError(e.message ?: UNEXPECTED_ERROR)
         }
     }
 
@@ -275,8 +279,10 @@ class FormActivityView : AppCompatActivity() {
                     formBuilder.getElementAtIndex(index)
                         .value
                         .toString()
-                        .let { convertSelectedToForeignKeyId(it, field.foreignTable) }
-                        .let { Value(it, FieldType.INTEGER) }
+                        .takeIf { it.isNotBlank() || field.isRequired.not() }
+                        ?.let { convertSelectedToForeignKeyId(it, field.foreignTable) }
+                        ?.let { Value(it, FieldType.INTEGER) }
+                        ?: throw NotCompletedFieldsException()
                 }
                 is BooleanField -> {
                     formBuilder.getElementAtIndex(index)
@@ -304,7 +310,9 @@ class FormActivityView : AppCompatActivity() {
                     formBuilder.getElementAtIndex(index)
                         .value
                         .toString()
-                        .let { Value(it, FieldType.TEXT) }
+                        .takeIf { it.isNotBlank() || field.isRequired.not() }
+                        ?.let { Value(it, FieldType.TEXT) }
+                        ?: throw NotCompletedFieldsException()
                 }
             }.let { values.add(it) }
         }
@@ -339,3 +347,5 @@ class FormActivityView : AppCompatActivity() {
         return ContextCompat.getColor(this, R.color.secondaryTextColor)
     }
 }
+
+private class NotCompletedFieldsException : Exception("Не все поля заполнены!")

@@ -3,7 +3,7 @@ package ru.chronicker.rsubd.database.models
 import ru.chronicker.rsubd.EMPTY_STRING
 import ru.chronicker.rsubd.database.base.*
 
-private const val TITLE = "Доктор "
+private const val TITLE = "Доктор #"
 
 /**
  * Маппинг-модель врача
