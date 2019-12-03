@@ -27,6 +27,12 @@
         <item name="colorControlHighlight">@color/controlActivated</item>
     </style>
 
+    <style name="Base.Widget.MaterialComponents.TextInputEditText.Default">
+        <item name="android:colorActivatedHighlight">@color/controlActivated</item>
+        <item name="android:colorControlNormal">@color/controlNormal</item>
+        <item name="android:textAppearance">@style/Text.Medium.16.PrimaryColor</item>
+    </style>
+
     <style name="NavigationView">
         <item name="android:textColorSecondary">@color/secondaryTextColor</item>
     </style>
