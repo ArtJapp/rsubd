@@ -197,7 +197,7 @@ class FormActivityView : AppCompatActivity() {
             .map { values ->
                 values.let {
                     dbHelper.getEntityByName(table)
-                        ?.convertToString(values)
+                        ?.deepConvertToString(values, dbHelper)
                         ?: EMPTY_STRING
                 }
             }
@@ -209,7 +209,7 @@ class FormActivityView : AppCompatActivity() {
                 dbHelper.select(model, mapOf(ID to value))
                     .map { it.fields }
                     .map { result ->
-                        model.convertToString(result)
+                        model.deepConvertToString(result, dbHelper)
                     }
                     .firstOrNull()
             }
@@ -325,7 +325,7 @@ class FormActivityView : AppCompatActivity() {
                 dbHelper.select(entityName)
                     .asSequence()
                     .map { it.fields }
-                    .map { it to entity.convertToString(it) }
+                    .map { it to entity.deepConvertToString(it, dbHelper) }
                     .filter { it.second == choice }
                     .map { it.first }
                     .firstOrNull()

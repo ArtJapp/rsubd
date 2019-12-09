@@ -89,7 +89,7 @@ abstract class BaseFragment<T : Entity, M : ItemModel> : Fragment() {
                     list.find { it.second == value } != null
                 }
                 .firstOrNull()
-                ?.let { entity?.convertToString(it) }
+                ?.let { entity?.deepConvertToString(it, dbHelper) }
                 ?: EMPTY_STRING
         }
         return when (field.type) {

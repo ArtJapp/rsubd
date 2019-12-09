@@ -5,6 +5,7 @@ import ru.chronicker.rsubd.EMPTY_BLOB
 import ru.chronicker.rsubd.EMPTY_INT
 import ru.chronicker.rsubd.EMPTY_REAL
 import ru.chronicker.rsubd.EMPTY_STRING
+import ru.chronicker.rsubd.database.DBHelper
 import java.io.Serializable
 
 /**
@@ -34,6 +35,9 @@ abstract class Entity(
      */
     open fun convertToString(values: List<Pair<Field, Any>>): String =
         EMPTY_STRING
+
+    open fun deepConvertToString(values: List<Pair<Field, Any>>, dbHelper: DBHelper): String =
+        convertToString(values)
 
     open fun convertMappedToString(values: List<Pair<String, String>>): String =
         EMPTY_STRING
