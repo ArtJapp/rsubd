@@ -28,7 +28,7 @@ object Scripts {
     const val GET_MAX_ID = "SELECT max(id) FROM %s;"
     const val CREATE_VIEW = "CREATE VIEW %s AS %s;"
     const val DROP_VIEW = "DROP VIEW IF EXISTS %s;"
-    const val AUTH_QUERY = "SELECT ID FROM Person WHERE login = %s and password = %s;"
+    const val AUTH_QUERY = "SELECT ID FROM Person WHERE login = '%s' and password = '%s';"
     const val GET_ROLE = "SELECT CASE\n" +
             "           WHEN ID = %s and ID in CURRENT_HEADS THEN 'ADMIN'\n" +
             "           WHEN ID = %s and ID in CURRENT_PATIENTS THEN 'PATIENT'\n" +
