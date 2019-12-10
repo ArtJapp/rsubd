@@ -19,6 +19,7 @@ import ru.chronicker.rsubd.database.base.Entity
 import ru.chronicker.rsubd.database.base.Field
 import ru.chronicker.rsubd.database.base.FieldType
 import ru.chronicker.rsubd.database.base.ForeignKeyField
+import ru.chronicker.rsubd.database.views.PatientView
 import ru.chronicker.rsubd.interactor.UserRole
 import ru.chronicker.rsubd.utils.storage.ConfigurationStorage
 
@@ -77,7 +78,18 @@ abstract class BaseFragment<T : Entity, M : ItemModel> : Fragment() {
     }
 
     fun loadData() {
-        dbHelper.select(entity)
+        (
+                if (entity is PatientView
+                    && configurationStorage.userRole in setOf(
+                        UserRole.Patient,
+                        UserRole.Undefined
+                    )
+                ) {
+                    dbHelper.select(entity, mapOf("ID" to configurationStorage.id))
+                } else {
+                    dbHelper.select(entity)
+                }
+                )
             .also {
                 currentId = it.size + 1
             }
@@ -98,8 +110,18 @@ abstract class BaseFragment<T : Entity, M : ItemModel> : Fragment() {
     private fun getValue(value: Any?, field: Field): String {
         if (field is ForeignKeyField) {
             val entity = dbHelper.getEntityByName(field.foreignTable)
-            return dbHelper.select(field.foreignTable)
-                .asSequence()
+            return (
+                    if (entity is PatientView
+                        && configurationStorage.userRole in setOf(
+                            UserRole.Patient,
+                            UserRole.Undefined
+                        )
+                    ) {
+                        dbHelper.select(field.foreignTable, mapOf("ID" to configurationStorage.id))
+                    } else {
+                        dbHelper.select(field.foreignTable)
+                    }
+                    ).asSequence()
                 .map { it.fields }
                 .filter { list ->
                     list.find { it.second == value } != null

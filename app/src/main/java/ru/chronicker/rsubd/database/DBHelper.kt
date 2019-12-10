@@ -56,7 +56,8 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
 //        Раскомментируй, когда нужно принудительно мигрировать БД
 //        dropDB(writableDatabase)
 //        onCreate(writableDatabase)
-        initializeAuth(writableDatabase)
+        dropViews(writableDatabase)
+        initializeViews(writableDatabase)
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
@@ -193,6 +194,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
     fun reinitialize() {
         initializeTables(writableDatabase)
         initializeViews(writableDatabase)
+        initializeAuth(writableDatabase)
     }
 
     fun authenticate(login: String, password: String, onSuccess: ((UserRole, Int) -> Unit)?, onError: ((String) -> Unit)?) {
@@ -218,9 +220,13 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
         log(query)
         val response = readableDatabase.rawQuery(query, null)
         var role: UserRole = UserRole.Undefined
+        val roles = listOf(UserRole.Admin, UserRole.Doctor, UserRole.Patient, UserRole.Undefined)
         if (response.moveToFirst()) {
             do {
-                role = UserRole.getByTitle(response.getString(0))
+                val r = UserRole.getByTitle(response.getString(0))
+                if (roles.indexOf(r) < roles.indexOf(role)) {
+                    role = r
+                }
             } while (response.moveToNext())
         }
         response.close()

@@ -17,6 +17,11 @@ class PatientView : Entity(
     name = "PatientView",
     fields = mutableListOf(
         Field(
+            name = "ID",
+            type = FieldType.INTEGER,
+            title = "id"
+        ),
+        Field(
             name = FIRST_NAME,
             type = FieldType.TEXT,
             title = "Имя"
@@ -54,7 +59,7 @@ class PatientView : Entity(
 ), View {
 
     override fun getBaseScript(): String {
-        return "SELECT P.FIRST_NAME, P.SECOND_NAME, P.LAST_NAME, BIRTH_DATE, SS.NAME AS SS_NAME, S.NAME as S_NAME, D2.NAME as D_NAME\n" +
+        return "SELECT P.ID, P.FIRST_NAME, P.SECOND_NAME, P.LAST_NAME, BIRTH_DATE, SS.NAME AS SS_NAME, S.NAME as S_NAME, D2.NAME as D_NAME\n" +
                 "FROM Patient LEFT JOIN Person P on Patient.PERSON_ID = P.id\n" +
                 "LEFT JOIN SocialStatus SS on Patient.STATUS_ID = SS.ID\n" +
                 "LEFT JOIN History H on Patient.ID = H.PATIENT_ID\n" +
