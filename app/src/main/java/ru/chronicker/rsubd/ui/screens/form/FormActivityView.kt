@@ -279,6 +279,7 @@ class FormActivityView : AppCompatActivity() {
                     formBuilder.getElementAtIndex(index)
                         .value
                         .toString()
+                        .trim()
                         .takeIf { it.isNotBlank() || field.isRequired.not() }
                         ?.let { convertSelectedToForeignKeyId(it, field.foreignTable) }
                         ?.let { Value(it, FieldType.INTEGER) }
@@ -288,6 +289,7 @@ class FormActivityView : AppCompatActivity() {
                     formBuilder.getElementAtIndex(index)
                         .value
                         .toString()
+                        .trim()
                         .toLong()
                         .let { Value(it, FieldType.INTEGER) }
                 }
@@ -295,6 +297,7 @@ class FormActivityView : AppCompatActivity() {
                     formBuilder.getElementAtIndex(index)
                         .value
                         .toString()
+                        .trim()
                         .toDate()
                         .time
                         .let { Value(it, FieldType.INTEGER) }
@@ -303,6 +306,7 @@ class FormActivityView : AppCompatActivity() {
                     formBuilder.getElementAtIndex(index)
                         .value
                         .toString()
+                        .trim()
                         .toLong()
                         .let { Value(it, FieldType.INTEGER) }
                 }
@@ -310,6 +314,7 @@ class FormActivityView : AppCompatActivity() {
                     formBuilder.getElementAtIndex(index)
                         .value
                         .toString()
+                        .trim()
                         .takeIf { it.isNotBlank() || field.isRequired.not() }
                         ?.let { Value(it, FieldType.TEXT) }
                         ?: throw NotCompletedFieldsException()
