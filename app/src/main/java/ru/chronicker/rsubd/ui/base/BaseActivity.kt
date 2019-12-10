@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import ru.chronicker.rsubd.utils.storage.ConfigurationStorage
 
-private const val APP_PREFERENCES = "APP_PREFERENCES"
+const val APP_PREFERENCES = "APP_PREFERENCES"
 
 abstract class BaseActivity : AppCompatActivity() {
 

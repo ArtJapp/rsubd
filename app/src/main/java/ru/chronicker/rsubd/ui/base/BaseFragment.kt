@@ -1,9 +1,11 @@
 package ru.chronicker.rsubd.ui.base
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +19,8 @@ import ru.chronicker.rsubd.database.base.Entity
 import ru.chronicker.rsubd.database.base.Field
 import ru.chronicker.rsubd.database.base.FieldType
 import ru.chronicker.rsubd.database.base.ForeignKeyField
+import ru.chronicker.rsubd.interactor.UserRole
+import ru.chronicker.rsubd.utils.storage.ConfigurationStorage
 
 abstract class BaseFragment<T : Entity, M : ItemModel> : Fragment() {
 
@@ -25,6 +29,8 @@ abstract class BaseFragment<T : Entity, M : ItemModel> : Fragment() {
 
     abstract fun initViews()
     abstract fun convertToItemModel(values: List<Pair<String, String>>): M
+
+    open fun shouldPlusBeEnabledForDoctor(): Boolean = false
 
     val layoutId: Int = R.layout.fragment_list_of_double_items
 
@@ -36,6 +42,12 @@ abstract class BaseFragment<T : Entity, M : ItemModel> : Fragment() {
         }
 
     protected lateinit var dbHelper: DBHelper
+    protected lateinit var configurationStorage: ConfigurationStorage
+    var plusEnabled: Boolean = false
+        set(value) {
+            field = value
+            fab.isGone = !value
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,6 +61,8 @@ abstract class BaseFragment<T : Entity, M : ItemModel> : Fragment() {
         super.onActivityCreated(savedInstanceState)
         context?.let {
             dbHelper = DBHelper(it)
+            configurationStorage = ConfigurationStorage(it.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE))
+            plusEnabled = configurationStorage.userRole == UserRole.Admin || (configurationStorage.userRole == UserRole.Doctor && shouldPlusBeEnabledForDoctor())
         }
         initViews()
     }

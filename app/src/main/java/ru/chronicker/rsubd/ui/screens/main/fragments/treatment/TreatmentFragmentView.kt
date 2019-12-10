@@ -15,6 +15,10 @@ class TreatmentFragmentView : PrimitiveDoubleFragmentView<Treatment, TreatmentRo
     route = TreatmentRoute()
 ) {
 
+    override fun shouldPlusBeEnabledForDoctor(): Boolean {
+        return true
+    }
+
     override fun convertToTitle(values: List<Pair<String, String>>): String {
         return values.find { it.first == "NAME" }?.second ?: EMPTY_STRING
     }
