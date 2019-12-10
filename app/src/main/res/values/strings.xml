@@ -23,6 +23,9 @@
     <string name="patients_header">Пациенты</string>
 
     <string name="menu_save">Сохранить</string>
+    <string name="login_auth_button_title">Войти</string>
+    <string name="login_login_field_title">Логин</string>
+    <string name="login_password_field_title">Пароль</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

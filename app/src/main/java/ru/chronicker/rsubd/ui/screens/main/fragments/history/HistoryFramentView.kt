@@ -10,6 +10,10 @@ class HistoryFragmentView : PrimitiveAloneFragmentView<History, HistoryRoute>(
     route = HistoryRoute()
 ) {
 
+    override fun shouldPlusBeEnabledForDoctor(): Boolean {
+        return true
+    }
+
     override fun convertToTitle(values: List<Pair<String, String>>): String {
         return entity.convertMappedToString(values)
     }

@@ -11,6 +11,10 @@ class DiagnosisFragmentView : PrimitiveDoubleFragmentView<Diagnosis, DiagnosisRo
     route = DiagnosisRoute()
 ) {
 
+    override fun shouldPlusBeEnabledForDoctor(): Boolean {
+        return true
+    }
+
     override fun convertToTitle(values: List<Pair<String, String>>): String {
         return entity.convertMappedToString(values)
     }

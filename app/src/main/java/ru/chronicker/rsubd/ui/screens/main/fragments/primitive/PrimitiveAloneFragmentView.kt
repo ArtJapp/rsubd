@@ -8,6 +8,11 @@ import ru.chronicker.rsubd.EMPTY_STRING
 import ru.chronicker.rsubd.database.base.Entity
 import ru.chronicker.rsubd.database.base.IntValue
 import ru.chronicker.rsubd.database.base.View
+import ru.chronicker.rsubd.database.models.Diagnosis
+import ru.chronicker.rsubd.database.models.Disease
+import ru.chronicker.rsubd.database.models.History
+import ru.chronicker.rsubd.database.models.Treatment
+import ru.chronicker.rsubd.interactor.UserRole
 import ru.chronicker.rsubd.ui.base.AloneItemModel
 import ru.chronicker.rsubd.ui.base.BaseFragment
 import ru.chronicker.rsubd.ui.base.DoubleItemModel
@@ -43,6 +48,8 @@ abstract class PrimitiveFragmentView<M : Entity, IM: ItemModel, R : LazyRoute<M>
     abstract fun provideAdapter(): PrimitiveAdapter<IM>
 
     protected fun openUpdateForm(id: Int) {
+//        if (plusEnabled || id.toString() == configurationStorage.id)
+        if (plusEnabled || ((entity is Disease || entity is History || entity is Diagnosis || entity is Treatment) && configurationStorage.userRole == UserRole.Doctor))
         route.updateForm(context = requireContext(), id = id)
     }
 

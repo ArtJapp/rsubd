@@ -12,7 +12,9 @@ import ru.chronicker.rsubd.EMPTY_INT
 import ru.chronicker.rsubd.database.base.*
 import ru.chronicker.rsubd.database.models.*
 import ru.chronicker.rsubd.database.utils.ScriptConstructor
+import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formAuthQuery
 import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formDelete
+import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formGetRoleQuery
 import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formInsert
 import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formQueryMaxId
 import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formSelect
@@ -20,6 +22,7 @@ import ru.chronicker.rsubd.database.utils.ScriptConstructor.Companion.formUpdate
 import ru.chronicker.rsubd.database.views.DiseaseView
 import ru.chronicker.rsubd.database.views.DoctorView
 import ru.chronicker.rsubd.database.views.PatientView
+import ru.chronicker.rsubd.interactor.UserRole
 import java.lang.Exception
 import kotlin.math.max
 
@@ -49,15 +52,19 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
         DiseaseView()
     )
 
-//    init {
+    init {
+//        Раскомментируй, когда нужно принудительно мигрировать БД
 //        dropDB(writableDatabase)
 //        onCreate(writableDatabase)
-//    }
+        dropViews(writableDatabase)
+        initializeViews(writableDatabase)
+    }
 
     override fun onCreate(db: SQLiteDatabase?) {
         db?.let { database ->
             initializeTables(database)
             initializeViews(database)
+            initializeAuth(database)
         }
     }
 
@@ -173,6 +180,12 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
         }
     }
 
+    private fun initializeAuth(database: SQLiteDatabase) {
+        ScriptConstructor.formAuthViewsQuery().forEach {
+            doRequest(it, {}, ::log)
+        }
+    }
+
     fun clear() {
         dropDB(writableDatabase)
         onCreate(writableDatabase)
@@ -181,6 +194,43 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
     fun reinitialize() {
         initializeTables(writableDatabase)
         initializeViews(writableDatabase)
+        initializeAuth(writableDatabase)
+    }
+
+    fun authenticate(login: String, password: String, onSuccess: ((UserRole, Int) -> Unit)?, onError: ((String) -> Unit)?) {
+        val query = formAuthQuery(login, password)
+        log(query)
+        val response = readableDatabase.rawQuery(query, null)
+        var id: Int? = null
+        if (response.moveToFirst()) {
+            do {
+                id = response.getInt(0)
+            } while (response.moveToNext())
+        }
+        if (id == null) {
+            onError?.invoke("Неверный логин и/или пароль")
+        } else {
+            onSuccess?.invoke(getRole(id.toString()), id)
+        }
+        response.close()
+    }
+
+    private fun getRole(id: String): UserRole {
+        val query = formGetRoleQuery(id)
+        log(query)
+        val response = readableDatabase.rawQuery(query, null)
+        var role: UserRole = UserRole.Undefined
+        val roles = listOf(UserRole.Admin, UserRole.Doctor, UserRole.Patient, UserRole.Undefined)
+        if (response.moveToFirst()) {
+            do {
+                val r = UserRole.getByTitle(response.getString(0))
+                if (roles.indexOf(r) < roles.indexOf(role)) {
+                    role = r
+                }
+            } while (response.moveToNext())
+        }
+        response.close()
+        return role
     }
 
     private fun doRequest(request: String, onSuccess: (() -> Unit)?, onError: ((String) -> Unit)?) {

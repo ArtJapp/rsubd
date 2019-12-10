@@ -197,7 +197,7 @@ class FormActivityView : AppCompatActivity() {
             .map { values ->
                 values.let {
                     dbHelper.getEntityByName(table)
-                        ?.convertToString(values)
+                        ?.deepConvertToString(values, dbHelper)
                         ?: EMPTY_STRING
                 }
             }
@@ -209,7 +209,7 @@ class FormActivityView : AppCompatActivity() {
                 dbHelper.select(model, mapOf(ID to value))
                     .map { it.fields }
                     .map { result ->
-                        model.convertToString(result)
+                        model.deepConvertToString(result, dbHelper)
                     }
                     .firstOrNull()
             }
@@ -279,6 +279,7 @@ class FormActivityView : AppCompatActivity() {
                     formBuilder.getElementAtIndex(index)
                         .value
                         .toString()
+                        .trim()
                         .takeIf { it.isNotBlank() || field.isRequired.not() }
                         ?.let { convertSelectedToForeignKeyId(it, field.foreignTable) }
                         ?.let { Value(it, FieldType.INTEGER) }
@@ -288,6 +289,7 @@ class FormActivityView : AppCompatActivity() {
                     formBuilder.getElementAtIndex(index)
                         .value
                         .toString()
+                        .trim()
                         .toLong()
                         .let { Value(it, FieldType.INTEGER) }
                 }
@@ -295,6 +297,7 @@ class FormActivityView : AppCompatActivity() {
                     formBuilder.getElementAtIndex(index)
                         .value
                         .toString()
+                        .trim()
                         .toDate()
                         .time
                         .let { Value(it, FieldType.INTEGER) }
@@ -303,6 +306,7 @@ class FormActivityView : AppCompatActivity() {
                     formBuilder.getElementAtIndex(index)
                         .value
                         .toString()
+                        .trim()
                         .toLong()
                         .let { Value(it, FieldType.INTEGER) }
                 }
@@ -310,6 +314,7 @@ class FormActivityView : AppCompatActivity() {
                     formBuilder.getElementAtIndex(index)
                         .value
                         .toString()
+                        .trim()
                         .takeIf { it.isNotBlank() || field.isRequired.not() }
                         ?.let { Value(it, FieldType.TEXT) }
                         ?: throw NotCompletedFieldsException()
@@ -325,7 +330,7 @@ class FormActivityView : AppCompatActivity() {
                 dbHelper.select(entityName)
                     .asSequence()
                     .map { it.fields }
-                    .map { it to entity.convertToString(it) }
+                    .map { it to entity.deepConvertToString(it, dbHelper) }
                     .filter { it.second == choice }
                     .map { it.first }
                     .firstOrNull()

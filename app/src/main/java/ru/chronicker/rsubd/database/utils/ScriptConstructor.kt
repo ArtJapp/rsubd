@@ -2,12 +2,14 @@ package ru.chronicker.rsubd.database.utils
 
 import ru.chronicker.rsubd.Constants.ID
 import ru.chronicker.rsubd.EMPTY_STRING
+import ru.chronicker.rsubd.Scripts.AUTH_QUERY
 import ru.chronicker.rsubd.Scripts.CREATE
 import ru.chronicker.rsubd.Scripts.CREATE_VIEW
 import ru.chronicker.rsubd.Scripts.DELETE
 import ru.chronicker.rsubd.Scripts.DROP
 import ru.chronicker.rsubd.Scripts.DROP_VIEW
 import ru.chronicker.rsubd.Scripts.GET_MAX_ID
+import ru.chronicker.rsubd.Scripts.GET_ROLE
 import ru.chronicker.rsubd.Scripts.INSERT
 import ru.chronicker.rsubd.Scripts.SELECT
 import ru.chronicker.rsubd.Scripts.SELECT_WITH_CONDITION
@@ -57,18 +59,18 @@ class ScriptConstructor {
                 .joinToString(separator = ", ") { field -> field.name }
                 .let { params ->
                     (SELECT.takeIf { conditions.isEmpty() } ?: SELECT_WITH_CONDITION)
-                    .format(
-                        params,
-                        "main." + entity.name,
-                        formConditions(conditions)
-                    )
+                        .format(
+                            params,
+                            "main." + entity.name,
+                            formConditions(conditions)
+                        )
                 }
         }
 
         fun formInsert(entity: Entity, values: List<Value>): String {
             return values
                 .joinToString(", ") { it.wrap() }
-                .let {  value ->
+                .let { value ->
                     entity.fields
                         .joinToString(", ") { it.name }
                         .let { parameters ->
@@ -116,6 +118,43 @@ class ScriptConstructor {
             return DROP_VIEW.format(name)
         }
 
+        fun formAuthQuery(login: String, password: String): String {
+            return AUTH_QUERY.format(login, password)
+        }
+
+        fun formGetRoleQuery(id: String): String {
+            return GET_ROLE.format(id, id, id)
+        }
+
+        fun formAuthViewsQuery(): List<String> {
+            return listOf(
+                formCurrentPatients(),
+                formCurrentDoctors(),
+                formCurrentAdmins()
+            )
+        }
+
+        private fun formCurrentPatients(): String {
+            return "CREATE VIEW CURRENT_PATIENTS AS\n" +
+                    "SELECT DISTINCT Patient.PERSON_ID\n" +
+                    "FROM Patient LEFT JOIN History H on Patient.ID = H.PATIENT_ID LEFT JOIN Diagnosis D on H.DIAGNOSIS_ID = D.ID LEFT JOIN Treatment T on D.TREATMENT = T.ID\n" +
+                    "WHERE date(TREATMENT_START, 'unixepoch') <= date('now') and date(TREATMENT_END, 'unixepoch') >= date('now');"
+        }
+
+        private fun formCurrentDoctors(): String {
+            return "CREATE VIEW CURRENT_DOCTORS AS\n" +
+                    "SELECT DISTINCT PERSON_ID\n" +
+                    "FROM Doctor\n" +
+                    "WHERE PERSON_ID not in CURRENT_PATIENTS;"
+        }
+
+        private fun formCurrentAdmins(): String {
+            return "CREATE VIEW CURRENT_HEADS AS\n" +
+                    "SELECT DISTINCT PERSON_ID\n" +
+                    "FROM Doctor LEFT JOIN Person P on Doctor.PERSON_ID = P.ID\n" +
+                    "WHERE Doctor.IS_HEAD = 1 AND Doctor.PERSON_ID in CURRENT_DOCTORS;"
+        }
+
         private fun sortFields(fields: List<Field>): List<Field> {
             return fields.sortedWith(Comparator<Field> { firstField, secondField ->
                 if (firstField is ForeignKeyField) {
@@ -132,7 +171,7 @@ class ScriptConstructor {
             return fields.filterIsInstance<ForeignKeyField>()
                 .joinToString(separator = ", ") {
                     it.getForeignKeyInstruction()
-                }.let {  instructions ->
+                }.let { instructions ->
                     // дополняем запятой в начале строки, если она непуста
                     ", ".takeIf { instructions.isNotBlank() }
                         ?.plus(instructions)

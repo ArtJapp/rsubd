@@ -13,6 +13,10 @@ class PatientFragmentView : PrimitiveDoubleFragmentView<Patient, PatientRoute>(
     route = PatientRoute()
 ) {
 
+    override fun shouldPlusBeEnabledForDoctor(): Boolean {
+        return true
+    }
+
     override fun convertToTitle(values: List<Pair<String, String>>): String {
         return values.find { it.first == "PERSON_ID" }?.second ?: EMPTY_STRING
     }

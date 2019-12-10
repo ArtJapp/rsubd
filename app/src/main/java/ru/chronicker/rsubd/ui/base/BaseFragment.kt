@@ -1,9 +1,11 @@
 package ru.chronicker.rsubd.ui.base
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +19,9 @@ import ru.chronicker.rsubd.database.base.Entity
 import ru.chronicker.rsubd.database.base.Field
 import ru.chronicker.rsubd.database.base.FieldType
 import ru.chronicker.rsubd.database.base.ForeignKeyField
+import ru.chronicker.rsubd.database.views.PatientView
+import ru.chronicker.rsubd.interactor.UserRole
+import ru.chronicker.rsubd.utils.storage.ConfigurationStorage
 
 abstract class BaseFragment<T : Entity, M : ItemModel> : Fragment() {
 
@@ -25,6 +30,8 @@ abstract class BaseFragment<T : Entity, M : ItemModel> : Fragment() {
 
     abstract fun initViews()
     abstract fun convertToItemModel(values: List<Pair<String, String>>): M
+
+    open fun shouldPlusBeEnabledForDoctor(): Boolean = false
 
     val layoutId: Int = R.layout.fragment_list_of_double_items
 
@@ -36,6 +43,12 @@ abstract class BaseFragment<T : Entity, M : ItemModel> : Fragment() {
         }
 
     protected lateinit var dbHelper: DBHelper
+    protected lateinit var configurationStorage: ConfigurationStorage
+    var plusEnabled: Boolean = false
+        set(value) {
+            field = value
+            fab.isGone = !value
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,6 +62,10 @@ abstract class BaseFragment<T : Entity, M : ItemModel> : Fragment() {
         super.onActivityCreated(savedInstanceState)
         context?.let {
             dbHelper = DBHelper(it)
+            configurationStorage =
+                ConfigurationStorage(it.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE))
+            plusEnabled =
+                configurationStorage.userRole == UserRole.Admin || (configurationStorage.userRole == UserRole.Doctor && shouldPlusBeEnabledForDoctor())
         }
         initViews()
     }
@@ -61,7 +78,18 @@ abstract class BaseFragment<T : Entity, M : ItemModel> : Fragment() {
     }
 
     fun loadData() {
-        dbHelper.select(entity)
+        (
+                if (entity is PatientView
+                    && configurationStorage.userRole in setOf(
+                        UserRole.Patient,
+                        UserRole.Undefined
+                    )
+                ) {
+                    dbHelper.select(entity, mapOf("ID" to configurationStorage.id))
+                } else {
+                    dbHelper.select(entity)
+                }
+                )
             .also {
                 currentId = it.size + 1
             }
@@ -82,14 +110,24 @@ abstract class BaseFragment<T : Entity, M : ItemModel> : Fragment() {
     private fun getValue(value: Any?, field: Field): String {
         if (field is ForeignKeyField) {
             val entity = dbHelper.getEntityByName(field.foreignTable)
-            return dbHelper.select(field.foreignTable)
-                .asSequence()
+            return (
+                    if (entity is PatientView
+                        && configurationStorage.userRole in setOf(
+                            UserRole.Patient,
+                            UserRole.Undefined
+                        )
+                    ) {
+                        dbHelper.select(field.foreignTable, mapOf("ID" to configurationStorage.id))
+                    } else {
+                        dbHelper.select(field.foreignTable)
+                    }
+                    ).asSequence()
                 .map { it.fields }
                 .filter { list ->
                     list.find { it.second == value } != null
                 }
                 .firstOrNull()
-                ?.let { entity?.convertToString(it) }
+                ?.let { entity?.deepConvertToString(it, dbHelper) }
                 ?: EMPTY_STRING
         }
         return when (field.type) {
@@ -124,6 +162,8 @@ abstract class BaseFragment<T : Entity, M : ItemModel> : Fragment() {
         }
 
         val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
-        itemTouchHelper.attachToRecyclerView(items_rv)
+        if (plusEnabled) {
+            itemTouchHelper.attachToRecyclerView(items_rv)
+        }
     }
 }
