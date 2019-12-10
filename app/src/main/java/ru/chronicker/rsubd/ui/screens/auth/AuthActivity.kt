@@ -26,9 +26,10 @@ class AuthActivity : BaseActivity() {
             dbHelper.authenticate(
                 login,
                 password,
-                {
+                { role, id ->
                     Log.d("auth", "auth succeed for role $it")
-                    configurationStorage.userRole = it
+                    configurationStorage.userRole = role
+                    configurationStorage.id = id.toString()
                     openMainScreen()
                 },
                 {

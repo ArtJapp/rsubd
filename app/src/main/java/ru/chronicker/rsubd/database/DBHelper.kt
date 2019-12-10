@@ -195,7 +195,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
         initializeViews(writableDatabase)
     }
 
-    fun authenticate(login: String, password: String, onSuccess: ((UserRole) -> Unit)?, onError: ((String) -> Unit)?) {
+    fun authenticate(login: String, password: String, onSuccess: ((UserRole, Int) -> Unit)?, onError: ((String) -> Unit)?) {
         val query = formAuthQuery(login, password)
         log(query)
         val response = readableDatabase.rawQuery(query, null)
@@ -208,7 +208,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
         if (id == null) {
             onError?.invoke("Неверный логин и/или пароль")
         } else {
-            onSuccess?.invoke(getRole(id.toString()))
+            onSuccess?.invoke(getRole(id.toString()), id)
         }
         response.close()
     }
