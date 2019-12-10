@@ -61,8 +61,10 @@ abstract class BaseFragment<T : Entity, M : ItemModel> : Fragment() {
         super.onActivityCreated(savedInstanceState)
         context?.let {
             dbHelper = DBHelper(it)
-            configurationStorage = ConfigurationStorage(it.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE))
-            plusEnabled = configurationStorage.userRole == UserRole.Admin || (configurationStorage.userRole == UserRole.Doctor && shouldPlusBeEnabledForDoctor())
+            configurationStorage =
+                ConfigurationStorage(it.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE))
+            plusEnabled =
+                configurationStorage.userRole == UserRole.Admin || (configurationStorage.userRole == UserRole.Doctor && shouldPlusBeEnabledForDoctor())
         }
         initViews()
     }
@@ -138,6 +140,8 @@ abstract class BaseFragment<T : Entity, M : ItemModel> : Fragment() {
         }
 
         val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
-        itemTouchHelper.attachToRecyclerView(items_rv)
+        if (plusEnabled) {
+            itemTouchHelper.attachToRecyclerView(items_rv)
+        }
     }
 }
