@@ -3,7 +3,6 @@ package ru.chronicker.rsubd.ui.screens.form.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.item_field_text.view.*
 import ru.chronicker.rsubd.database.base.Field
 import ru.chronicker.rsubd.ui.base.*
 import android.widget.ArrayAdapter
@@ -13,6 +12,7 @@ import ru.chronicker.rsubd.R
 import ru.chronicker.rsubd.database.base.FieldType
 import ru.chronicker.rsubd.database.base.ForeignKeyField
 import ru.chronicker.rsubd.database.base.Value
+import ru.chronicker.rsubd.databinding.ItemFieldTextBinding
 
 
 private const val SELECTABLE_FIELD = 1
@@ -61,44 +61,47 @@ class FormFieldsAdapter(
 
     inner class TextFieldHolder(itemView: View) : BaseFieldHolder(itemView) {
         private lateinit var field: Field
+        private val binding = ItemFieldTextBinding.bind(itemView)
 
         override fun bind(data: Field, value: Any) {
             field = data
-            with (itemView) {
-                text_field_til.visibility = View.VISIBLE
-                text_field_til.hint = field.title
-                field_et.setText(value.toString())
+            with (binding) {
+                textFieldTil.visibility = View.VISIBLE
+                textFieldTil.hint = field.title
+                fieldEt.setText(value.toString())
             }
         }
     }
 
     inner class SelectableFieldHolder(itemView: View): BaseFieldHolder(itemView) {
         private lateinit var field: Field
+        private val binding = ItemFieldTextBinding.bind(itemView)
 
         override fun bind(data: Field, value: Any) {
             field = data
-            with(itemView) {
-                this.spinner_field_til.visibility = View.VISIBLE
+            with(binding) {
+                spinnerFieldTil.visibility = View.VISIBLE
                 val adapter = ArrayAdapter(
                     itemView.context,
                     android.R.layout.simple_spinner_item,
                     value as List<String>
                 )
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                spinner_field_til.adapter = adapter
-                spinner_field_til.prompt = field.title
+                spinnerFieldTil.adapter = adapter
+                spinnerFieldTil.prompt = field.title
             }
         }
     }
 
     inner class OtherFieldHolder(itemView: View) : BaseFieldHolder(itemView) {
         private lateinit var field: Field
+        private val binding = ItemFieldTextBinding.bind(itemView)
 
         override fun bind(data: Field, value: Any) {
             field = data
-            with (itemView) {
-                text_field_til.visibility = View.VISIBLE
-                text_field_til.hint = field.title
+            with (binding) {
+                textFieldTil.visibility = View.VISIBLE
+                textFieldTil.hint = field.title
             }
         }
     }

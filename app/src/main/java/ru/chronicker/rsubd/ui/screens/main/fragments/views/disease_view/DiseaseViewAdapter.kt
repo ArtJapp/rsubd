@@ -1,8 +1,8 @@
 package ru.chronicker.rsubd.ui.screens.main.fragments.views.disease_view
 
 import android.view.View
-import kotlinx.android.synthetic.main.item_disease_view.view.*
 import ru.chronicker.rsubd.R
+import ru.chronicker.rsubd.databinding.ItemDiseaseViewBinding
 import ru.chronicker.rsubd.ui.base.BaseViewHolder
 import ru.chronicker.rsubd.ui.base.DiseaseViewItemModel
 import ru.chronicker.rsubd.ui.screens.main.fragments.primitive.PrimitiveAdapter
@@ -20,13 +20,14 @@ class DiseaseViewAdapter(
     }
 
     inner class DiseaseViewHolder(itemView: View) : BaseViewHolder<DiseaseViewItemModel>(itemView) {
+        private val binding = ItemDiseaseViewBinding.bind(itemView)
         override fun bind(data: DiseaseViewItemModel) {
-            itemView.disease_tv.text = data.disease
-            itemView.treatment_tv.text = "Лечение: ${data.treatment}"
+            binding.diseaseTv.text = data.disease
+            binding.treatmentTv.text = "Лечение: ${data.treatment}"
             data.efficiency
                 .roundToInt()
                 .let { efficiency ->
-                    itemView.efficiency_tv.text = "Эффективность лечения: $efficiency%"
+                    binding.efficiencyTv.text = "Эффективность лечения: $efficiency%"
                 }
         }
     }

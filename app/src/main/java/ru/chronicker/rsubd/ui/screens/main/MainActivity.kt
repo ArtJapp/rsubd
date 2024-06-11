@@ -3,11 +3,12 @@ package ru.chronicker.rsubd.ui.screens.main
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
+import androidx.viewpager.widget.ViewPager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_main.*
 import ru.chronicker.rsubd.R
 import ru.chronicker.rsubd.ui.base.BaseFragment
 import ru.chronicker.rsubd.ui.screens.form.DiseaseRoute
@@ -20,7 +21,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(findViewById<Toolbar>(R.id.toolbar))
         initViews()
     }
 
@@ -45,8 +46,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initNavigation() {
+        val content = findViewById<ViewPager>(R.id.content)
         content.adapter = viewPagerAdapter
-        bottom_navigation.setOnNavigationItemSelectedListener { item ->
+        findViewById<BottomNavigationView>(R.id.bottom_navigation).setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.action_patients -> 0
                 R.id.action_doctors -> 1
@@ -57,7 +59,7 @@ class MainActivity : AppCompatActivity() {
                     content.currentItem = it
                 }
                 .also {
-                    toolbar.title = viewPagerAdapter.getPageTitle(it)
+                    findViewById<Toolbar>(R.id.toolbar).title = viewPagerAdapter.getPageTitle(it)
                 }
             true
         }

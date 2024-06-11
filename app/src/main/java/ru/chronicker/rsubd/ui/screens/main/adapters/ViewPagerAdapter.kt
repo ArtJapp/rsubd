@@ -13,7 +13,7 @@ private const val COUNT = 3
 
 class ViewPagerAdapter internal constructor(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
-    override fun getItem(position: Int): BaseFragment<Entity, ItemModel>? {
+    override fun getItem(position: Int): BaseFragment<Entity, ItemModel> {
         return getFragment(position)
     }
 
@@ -27,12 +27,12 @@ class ViewPagerAdapter internal constructor(fm: FragmentManager) : FragmentPager
             ?: EMPTY_STRING
     }
 
-    private fun getFragment(position: Int): BaseFragment<Entity, ItemModel>? {
+    private fun getFragment(position: Int): BaseFragment<Entity, ItemModel> {
         return when (position) {
             0 -> PatientFragmentView() as BaseFragment<Entity, ItemModel>
             1 -> DiseaseFragmentView() as BaseFragment<Entity, ItemModel>
             2 -> DiseaseFragmentView() as BaseFragment<Entity, ItemModel>
-            else -> null
+            else -> throw IllegalArgumentException("Unknown position: $position")
         }
     }
 }

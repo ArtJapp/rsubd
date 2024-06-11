@@ -1,0 +1,30 @@
+# === idea ===
+.idea/
+**/*.iml
+!.idea/codeStyles/Project.xml
+!.idea/codeStyles/codeStyleConfig.xml
+!.idea/dictionaries/*
+!.idea/vcs.xml
+!.idea/inspectionProfiles/*
+
+# === gradle ===
+**/.gradle/
+**/local.properties
+
+# === native ===
+**/.cxx/
+**/captures/
+**/.externalNativeBuild/
+
+# === OS specific ===
+**/.DS_Store
+
+# === signing ===
+**/keystore/*release*
+**/keystore/*private*
+
+# === temp ===
+**/build/
+**/temp/
+**/bin/
+**/mapping.txt
