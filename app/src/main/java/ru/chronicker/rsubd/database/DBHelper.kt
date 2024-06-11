@@ -56,12 +56,14 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
 //        Раскомментируй, когда нужно принудительно мигрировать БД
 //        dropDB(writableDatabase)
 //        onCreate(writableDatabase)
-        dropViews(writableDatabase)
-        initializeViews(writableDatabase)
+//        dropViews(writableDatabase)
+//        initializeViews(writableDatabase)
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
         db?.let { database ->
+//            dropViews(writableDatabase)
+//            initializeViews(writableDatabase)
             initializeTables(database)
             initializeViews(database)
             initializeAuth(database)
@@ -170,7 +172,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
 
     private fun initializeViews(database: SQLiteDatabase) {
         views.forEach { view ->
-            doRequest(
+            database.doRequest(
                 ScriptConstructor.formCreateView((view as Entity).name, (view as View).getBaseScript()),
                 { },
                 {
@@ -182,7 +184,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
 
     private fun initializeAuth(database: SQLiteDatabase) {
         ScriptConstructor.formAuthViewsQuery().forEach {
-            doRequest(it, {}, ::log)
+            database.doRequest(it, {}, ::log)
         }
     }
 
@@ -231,6 +233,20 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_V
         }
         response.close()
         return role
+    }
+
+    private fun SQLiteDatabase.doRequest(request: String, onSuccess: (() -> Unit)?, onError: ((String) -> Unit)?) {
+        log(request)
+        try {
+            execSQL(request)
+            onSuccess?.invoke()
+//            close()
+        } catch (error: SQLException) {
+            error.message?.let {
+                log(it)
+                onError?.invoke(it)
+            }
+        }
     }
 
     private fun doRequest(request: String, onSuccess: (() -> Unit)?, onError: ((String) -> Unit)?) {
