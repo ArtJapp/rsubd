@@ -9,6 +9,11 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import ru.chronicker.rsubd.R
 import ru.chronicker.rsubd.database.DBHelper
+import ru.chronicker.rsubd.database.base.FieldType
+import ru.chronicker.rsubd.database.base.Value
+import ru.chronicker.rsubd.database.models.Doctor
+import ru.chronicker.rsubd.database.models.Person
+import ru.chronicker.rsubd.database.models.Qualification
 import ru.chronicker.rsubd.databinding.ActivityAuthBinding
 import ru.chronicker.rsubd.ui.base.BaseActivity
 import ru.chronicker.rsubd.ui.screens.main.Main2Activity
@@ -28,6 +33,7 @@ class AuthActivity : BaseActivity() {
     override fun initViews() {
         setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark))
         dbHelper = DBHelper(this)
+//        addSomeTestData()
         submit_auth_btn.setOnClickListener {
             val password = password_et.text.toString()
             val login = login_et.text.toString()
@@ -46,6 +52,36 @@ class AuthActivity : BaseActivity() {
                 }
             )
         }
+    }
+
+    private fun addSomeTestData() {
+        dbHelper.insert(
+            Person(),
+            values = listOf(
+                Value(0, FieldType.INTEGER),
+                Value("admin", FieldType.TEXT),
+                Value("admin", FieldType.TEXT),
+                Value("admin", FieldType.TEXT),
+                Value("admin", FieldType.TEXT),
+                Value("admin", FieldType.TEXT),
+            )
+        )
+        dbHelper.insert(
+            Qualification(),
+            values = listOf(
+                Value(0, FieldType.INTEGER),
+                Value("Верховный пидор", FieldType.TEXT),
+            )
+        )
+        dbHelper.insert(
+            Doctor(),
+            values = listOf(
+                Value(0, FieldType.INTEGER),
+                Value(0, FieldType.INTEGER),
+                Value(0, FieldType.INTEGER),
+                Value(1, FieldType.INTEGER),
+            )
+        )
     }
 
     private fun openMainScreen() {
