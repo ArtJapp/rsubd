@@ -37,8 +37,7 @@
                 android:inputType="text"
                 android:maxLines="1"
                 android:textColor="@color/primaryTextColor"
-                android:textColorHint="@color/controlNormal"
-                android:theme="@style/Base.Widget.MaterialComponents.TextInputEditText.Default" />
+                android:textColorHint="@color/controlNormal" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -60,8 +59,7 @@
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:textColor="@color/primaryTextColor"
-                android:textColorHint="@color/controlNormal"
-                android:theme="@style/Base.Widget.MaterialComponents.TextInputEditText.Default" />
+                android:textColorHint="@color/controlNormal" />
 
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
