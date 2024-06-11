@@ -4,8 +4,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item_double.view.*
 import ru.chronicker.rsubd.EMPTY_INT
+import ru.chronicker.rsubd.databinding.ItemAloneBinding
+import ru.chronicker.rsubd.databinding.ItemDoubleBinding
 
 abstract class BaseAdapter<T : ItemModel>(
     private val onDeleteAction: ((Int) -> Unit)? = null
@@ -61,18 +62,22 @@ abstract class BaseViewHolder<T : ItemModel>(itemView: View) : RecyclerView.View
 
 abstract class BindableViewHolder(itemView: View) : BaseViewHolder<AloneItemModel>(itemView) {
 
+    private val binding = ItemAloneBinding.bind(itemView)
+
     override fun bind(data: AloneItemModel) {
         id = data.id
-        itemView.title_tv.text = data.title
+        binding.titleTv.text = data.title
     }
 }
 
 abstract class DoubleBindableViewHolder(itemView: View) :
     BaseViewHolder<DoubleItemModel>(itemView) {
 
+    private val binding = ItemDoubleBinding.bind(itemView)
+
     override fun bind(data: DoubleItemModel) {
         id = data.id
-        itemView.title_tv.text = data.title
-        itemView.subtitle_tv.text = data.subtitle
+        binding.titleTv.text = data.title
+        binding.subtitleTv.text = data.subtitle
     }
 }

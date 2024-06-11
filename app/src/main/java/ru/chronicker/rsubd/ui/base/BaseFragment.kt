@@ -9,7 +9,6 @@ import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_list_of_double_items.*
 import ru.chronicker.rsubd.EMPTY_LONG
 import ru.chronicker.rsubd.EMPTY_REAL
 import ru.chronicker.rsubd.EMPTY_STRING
@@ -20,6 +19,7 @@ import ru.chronicker.rsubd.database.base.Field
 import ru.chronicker.rsubd.database.base.FieldType
 import ru.chronicker.rsubd.database.base.ForeignKeyField
 import ru.chronicker.rsubd.database.views.PatientView
+import ru.chronicker.rsubd.databinding.FragmentListOfDoubleItemsBinding
 import ru.chronicker.rsubd.interactor.UserRole
 import ru.chronicker.rsubd.utils.storage.ConfigurationStorage
 
@@ -34,12 +34,13 @@ abstract class BaseFragment<T : Entity, M : ItemModel> : Fragment() {
     open fun shouldPlusBeEnabledForDoctor(): Boolean = false
 
     val layoutId: Int = R.layout.fragment_list_of_double_items
+    private lateinit var binding : FragmentListOfDoubleItemsBinding
 
     private var currentId: Int = 0
     private var adapter: BaseAdapter<M>? = null
         set(value) {
             field = value
-            items_rv.adapter = value
+            binding.itemsRv.adapter = value
         }
 
     protected lateinit var dbHelper: DBHelper
@@ -47,7 +48,7 @@ abstract class BaseFragment<T : Entity, M : ItemModel> : Fragment() {
     var plusEnabled: Boolean = false
         set(value) {
             field = value
-            fab.isGone = !value
+            binding.fab.isGone = !value
         }
 
     override fun onCreateView(
@@ -55,7 +56,8 @@ abstract class BaseFragment<T : Entity, M : ItemModel> : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(layoutId, container, false)
+        binding = FragmentListOfDoubleItemsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -163,7 +165,7 @@ abstract class BaseFragment<T : Entity, M : ItemModel> : Fragment() {
 
         val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
         if (plusEnabled) {
-            itemTouchHelper.attachToRecyclerView(items_rv)
+            itemTouchHelper.attachToRecyclerView(binding.itemsRv)
         }
     }
 }

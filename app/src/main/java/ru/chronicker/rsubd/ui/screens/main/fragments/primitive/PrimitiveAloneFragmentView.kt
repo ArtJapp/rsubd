@@ -2,7 +2,7 @@ package ru.chronicker.rsubd.ui.screens.main.fragments.primitive
 
 import android.util.Log
 import androidx.core.view.isVisible
-import kotlinx.android.synthetic.main.fragment_list_of_double_items.*
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ru.chronicker.rsubd.EMPTY_INT
 import ru.chronicker.rsubd.EMPTY_STRING
 import ru.chronicker.rsubd.database.base.Entity
@@ -18,6 +18,7 @@ import ru.chronicker.rsubd.ui.base.BaseFragment
 import ru.chronicker.rsubd.ui.base.DoubleItemModel
 import ru.chronicker.rsubd.ui.base.ItemModel
 import ru.chronicker.rsubd.ui.screens.form.LazyRoute
+import ru.chronicker.rsubd.R as ScreenR
 
 abstract class PrimitiveFragmentView<M : Entity, IM: ItemModel, R : LazyRoute<M>>(
     override val screenName: String = EMPTY_STRING,
@@ -26,6 +27,7 @@ abstract class PrimitiveFragmentView<M : Entity, IM: ItemModel, R : LazyRoute<M>
 ) : BaseFragment<M, IM>() {
 
     override fun initViews() {
+        val fab = requireView().findViewById<FloatingActionButton>(ScreenR.id.fab)
         fab.setOnClickListener {
             openCreateForm()
         }
